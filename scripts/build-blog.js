@@ -8,7 +8,23 @@ const SITE = 'https://rudiparwanto.netlify.app';
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slugOK = s => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s);
-const fmtDate = s => new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(s+'T00:00:00Z'));
+const fmtDate = (s) => {
+  if (!s) return 'Tanggal tidak tersedia';
+
+  const d = new Date(s);
+
+  if (Number.isNaN(d.getTime())) {
+    console.warn(`Invalid blog date: "${s}"`);
+    return 'Tanggal tidak tersedia';
+  }
+
+  return new Intl.DateTimeFormat('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC'
+  }).format(d);
+};
 function inline(s){
   let x=esc(s);
   x=x.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>');
