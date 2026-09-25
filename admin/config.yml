@@ -12,7 +12,7 @@ public_folder: /assets/blog
 
 collections:
   - name: blog
-    label: Blog
+    label: Blog Posts
     label_singular: Artikel
     folder: content/blog
     create: true
@@ -37,7 +37,23 @@ collections:
         widget: list
         required: false
         default: [E-Commerce]
-        hint: "Contoh: Marketplace, Shopee, Product SEO. Bisa lebih dari satu."
-      - { label: Sematkan sebagai Featured Post, name: featured, widget: boolean, default: false, required: false, hint: "Jika beberapa artikel dicentang, artikel featured terbaru yang ditampilkan." }
+        hint: "Contoh: Marketplace, Shopee, Product SEO. Label yang dipakai otomatis muncul di menu Labels blog."
       - { label: Thumbnail, name: image, widget: image, required: false }
       - { label: Isi Artikel, name: body, widget: markdown }
+
+  - name: settings
+    label: Blog Settings
+    files:
+      - name: blog_settings
+        label: Featured Post
+        file: content/settings/blog.json
+        format: json
+        fields:
+          - label: Artikel yang Disematkan
+            name: featured_slug
+            widget: relation
+            collection: blog
+            search_fields: [title, slug]
+            value_field: slug
+            display_fields: [title]
+            hint: "Pilih satu artikel. Artikel lama otomatis tidak lagi menjadi Featured Post."

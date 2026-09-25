@@ -1,12 +1,26 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#111318">
   <title>Blog Admin — Rudi Parwanto</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0d0f13;--panel:#151820;--line:#2a2f3a;--text:#f2f4f8;--muted:#9ba3b4;--accent:#ff9d00}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .admin-brand{height:48px;position:fixed;z-index:99999;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:rgba(13,15,19,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(16px);color:var(--text)}
+    .brand-left,.brand-right{display:flex;align-items:center;gap:10px}.admin-brand img{width:26px;height:26px;border-radius:7px;object-fit:cover}.brand-title{font-size:13px;font-weight:750;letter-spacing:.04em}.brand-sub{font-size:11px;color:var(--muted)}
+    .admin-brand a{font-size:12px;color:var(--text);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 9px}.admin-brand a:hover{border-color:#626b7d}.admin-dot{width:7px;height:7px;border-radius:50%;background:#39d98a}
+    body{padding-top:48px}body>div:not(.admin-brand){min-height:calc(100vh - 48px)}
+    @media(max-width:600px){.brand-sub{display:none}.admin-brand{padding:0 10px}.brand-title{font-size:12px}}
+  </style>
 </head>
 <body>
+  <div class="admin-brand">
+    <div class="brand-left"><img src="/assets/foto-profil.webp" alt=""><div><div class="brand-title">RUDI PARWANTO</div><div class="brand-sub">Content Studio · Blog Admin</div></div></div>
+    <div class="brand-right"><span class="admin-dot" aria-hidden="true"></span><a href="/blog/">Lihat Blog ↗</a><a href="/">Portfolio ↗</a></div>
+  </div>
   <script src="https://unpkg.com/decap-cms@^3.8.0/dist/decap-cms.js"></script>
 </body>
 </html>
