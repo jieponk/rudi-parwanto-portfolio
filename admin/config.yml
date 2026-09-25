@@ -25,7 +25,7 @@ collections:
     fields:
       - { label: Judul, name: title, widget: string }
       - { label: Slug URL, name: slug, widget: string, hint: "Huruf kecil dan tanda minus. Contoh: optimasi-listing-shopee" }
-      - { label: Tanggal Publikasi, name: date, widget: datetime, time_format: false }
+      - { label: Tanggal Publikasi, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
       - { label: Deskripsi SEO, name: description, widget: text, hint: "Ideal sekitar 140–160 karakter." }
       - { label: Kategori, name: category, widget: string, default: "E-Commerce" }
       - { label: Thumbnail, name: image, widget: image, required: false }
