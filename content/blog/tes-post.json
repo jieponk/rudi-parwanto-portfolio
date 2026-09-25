@@ -5,5 +5,9 @@
   "date": "2026-09-25T00:00:00.000+07:00",
   "description": "Postingan pertama untuk menguji Blog CMS, integrasi GitHub, auto deploy Netlify, sitemap, RSS, dan halaman artikel di website Rudi Parwanto.",
   "body": "\\## Halo, ini postingan pertama!\n\n\n\nArtikel ini dibuat sebagai pengujian pertama sistem blog di website Rudi Parwanto.\n\n\n\nTujuannya sederhana: memastikan proses publikasi artikel dapat berjalan tanpa perlu mengedit HTML dan melakukan deploy website secara manual setiap kali membuat postingan baru.\n\n\n\n\\## Apa yang sedang diuji?\n\n\n\nPada postingan ini, saya ingin memastikan beberapa bagian utama sudah berjalan dengan benar:\n\n\n\n\\- Pembuatan artikel melalui CMS\n\n\\- Upload gambar thumbnail\n\n\\- Penyimpanan artikel ke GitHub\n\n\\- Auto deploy melalui Netlify\n\n\\- Pembuatan halaman artikel\n\n\\- Tampilan artikel di halaman Blog\n\n\\- Sitemap untuk mesin pencari\n\n\\- RSS feed\n\n\n\n\\## Kenapa Sistem Ini Dibuat?\n\n\n\nWebsite ini awalnya merupakan portfolio pribadi. Dengan adanya sistem blog, website juga dapat digunakan untuk berbagi pengalaman dan pengetahuan yang saya dapatkan selama bekerja di bidang e-commerce.\n\n\n\nKe depannya, topik yang dibahas akan lebih berfokus pada e-commerce, marketplace, optimasi listing produk, workflow, kamera, dan berbagai hal yang berkaitan dengan pekerjaan maupun project yang saya kerjakan.\n\n\n\n\\## Test Publish\n\n\n\nJika kamu sedang membaca halaman ini dari website, berarti proses CMS → GitHub → Netlify → Blog sudah berhasil berjalan.\n\n\n\nSelanjutnya, artikel test ini dapat diganti dengan konten yang sebenarnya.",
-  "image": "/assets/blog/ba7f3edce86dde33053336e17c031385-origin.jpg"
+  "image": "/assets/blog/ba7f3edce86dde33053336e17c031385-origin.jpg",
+  "featured": false,
+  "labels": [
+    "Test"
+  ]
 }

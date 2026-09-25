@@ -1,1 +1,4 @@
-const {authed,json}=require("./_auth");const categories=require("./data/shopee-fees.json");exports.handler=async(event)=>authed(event)?json(200,{categories}):json(401,{error:"Login diperlukan"});
+const {authed,json}=require("./_auth");
+const categories=require("./data/shopee-fees.json");
+const tiktokCategories=require("./data/tiktok-fees.json");
+exports.handler=async(event)=>authed(event)?json(200,{categories,tiktokCategories}):json(401,{error:"Login diperlukan"});
