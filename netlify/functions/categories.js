@@ -1,0 +1,1 @@
+const {authed,json}=require("./_auth");const categories=require("./data/shopee-fees.json");exports.handler=async(event)=>authed(event)?json(200,{categories}):json(401,{error:"Login diperlukan"});
