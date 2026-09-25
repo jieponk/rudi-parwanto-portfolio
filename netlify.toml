@@ -1,4 +1,5 @@
 [build]
+  command = "node scripts/build-blog.js"
   publish = "."
   functions = "netlify/functions"
 
@@ -7,3 +8,8 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
     Cache-Control = "no-store"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"

@@ -1,0 +1,32 @@
+backend:
+  name: github
+  repo: jieponk/rudi-parwanto-portfolio
+  branch: main
+
+site_url: https://rudiparwanto.netlify.app
+display_url: https://rudiparwanto.netlify.app
+logo_url: /assets/foto-profil.webp
+
+media_folder: assets/blog
+public_folder: /assets/blog
+
+collections:
+  - name: blog
+    label: Blog
+    label_singular: Artikel
+    folder: content/blog
+    create: true
+    extension: json
+    format: json
+    identifier_field: title
+    slug: "{{fields.slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: Judul, name: title, widget: string }
+      - { label: Slug URL, name: slug, widget: string, hint: "Huruf kecil dan tanda minus. Contoh: optimasi-listing-shopee" }
+      - { label: Tanggal Publikasi, name: date, widget: datetime, time_format: false }
+      - { label: Deskripsi SEO, name: description, widget: text, hint: "Ideal sekitar 140–160 karakter." }
+      - { label: Kategori, name: category, widget: string, default: "E-Commerce" }
+      - { label: Thumbnail, name: image, widget: image, required: false }
+      - { label: Isi Artikel, name: body, widget: markdown }

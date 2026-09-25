@@ -1,0 +1,39 @@
+BLOG + CMS SETUP — RUDI PARWANTO
+
+File website sudah siap. Setelah semua file ini di-copy ke repository dan di-Push:
+
+1. Netlify akan membaca netlify.toml dan menjalankan:
+   node scripts/build-blog.js
+
+2. Setup login Decap CMS dengan GitHub OAuth:
+   a. GitHub > Settings > Developer settings > OAuth Apps > New OAuth App
+   b. Application name: Rudi Portfolio CMS
+   c. Homepage URL: https://rudiparwanto.netlify.app
+   d. Authorization callback URL: https://api.netlify.com/auth/done
+   e. Register application
+   f. Generate Client Secret. Simpan Client ID + Client Secret.
+
+3. Netlify > project rudiparwanto > Project configuration > Security > OAuth
+   > Authentication providers > Install provider > GitHub
+   Masukkan Client ID dan Client Secret tadi.
+
+4. Buka:
+   https://rudiparwanto.netlify.app/admin/
+   Klik Login with GitHub dan izinkan akses.
+
+5. Posting artikel:
+   Blog > New Artikel > isi Judul, Slug, tanggal, SEO description, kategori,
+   thumbnail, isi artikel > Publish.
+   Decap akan commit ke GitHub. Netlify otomatis build ulang.
+
+6. Hasil:
+   /blog/                daftar artikel
+   /blog/slug-artikel/   artikel
+   /feed.xml             RSS
+   /sitemap.xml          sitemap Google
+   /robots.txt           crawler rules
+
+CATATAN:
+- Jangan masukkan Client Secret ke GitHub/repository.
+- Slug gunakan huruf kecil, angka, dan tanda minus saja.
+- Folder /master/ dan /admin/ disetel noindex.
