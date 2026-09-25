@@ -40,3 +40,13 @@ V3 - Koreksi TikTok
 - Komisi Platform: harga jual x persentase kategori Mall/Non-Mall, TANPA cap Rp60.000.
 - Komisi Dinamis / FeeMax: 3% dari harga jual, maksimal Rp60.000/item.
 - Rp60.000 hanya membatasi Komisi Dinamis / FeeMax, bukan Komisi Platform.
+
+
+V4 TikTok fee correction:
+- Platform Fee: category rate for Non-Mall/Mall, no cap.
+- Dynamic Commission / FeeMax: 3%, max Rp60,000/item.
+- Packing: Rp1,250/item.
+- GMV Extra: 2%, max Rp100,000/item; toggle in calculator, default ON.
+- Mall additional fee: 1.8%, max Rp50,000/item; automatic when Seller Type = Mall.
+- Campaign 1% remains optional and separate.
+- Supplier cashback remains added to final profit.

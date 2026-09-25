@@ -26,8 +26,14 @@ exports.handler=async(event)=>{
    categoryFee=price*rate;
    fees.push({label:`Komisi Platform ${b.tiktokSellerType==="mall"?"Mall":"Non-Mall"} — ${pctLabel(rate)}`,amount:categoryFee});
    const dynamicCommission=cap(price*0.03,60000);
+   const packing=1250;
+   const gmvExtra=b.gmvExtra?cap(price*0.02,100000):0;
+   const mallExtra=b.tiktokSellerType==="mall"?cap(price*0.018,50000):0;
    fees.push({label:"Komisi Dinamis / FeeMax 3% (maks Rp60.000/item)",amount:dynamicCommission});
-   normalExtra=dynamicCommission;
+   fees.push({label:"Biaya Packing",amount:packing});
+   fees.push({label:"GMV Extra 2% (maks Rp100.000)",amount:gmvExtra,off:!b.gmvExtra});
+   fees.push({label:"TikTok Mall 1,8% (maks Rp50.000)",amount:mallExtra,off:b.tiktokSellerType!=="mall"});
+   normalExtra=dynamicCommission+packing+gmvExtra+mallExtra;
    affiliate=b.campaign?price*0.01:0;fees.push({label:"Campaign 1%",amount:affiliate,off:!b.campaign});
  } else if(b.market==="blibli"){
    categoryFee=price*0.0575;fees.push({label:"Fee 5,75%",amount:categoryFee});
