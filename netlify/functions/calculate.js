@@ -23,8 +23,11 @@ exports.handler=async(event)=>{
  } else if(b.market==="tiktok"){
    const c=tiktokCats[Number(b.tiktokCategoryIndex)||0]; if(!c)return json(400,{error:"Kategori TikTok tidak valid."});
    const rate=b.tiktokSellerType==="mall"?c.mallFee:c.nonMallFee;
-   categoryFee=cap(price*rate,60000);
-   fees.push({label:`Komisi Platform ${b.tiktokSellerType==="mall"?"Mall":"Non-Mall"} — ${pctLabel(rate)} (maks Rp60.000/item)`,amount:categoryFee});
+   categoryFee=price*rate;
+   fees.push({label:`Komisi Platform ${b.tiktokSellerType==="mall"?"Mall":"Non-Mall"} — ${pctLabel(rate)}`,amount:categoryFee});
+   const dynamicCommission=cap(price*0.03,60000);
+   fees.push({label:"Komisi Dinamis / FeeMax 3% (maks Rp60.000/item)",amount:dynamicCommission});
+   normalExtra=dynamicCommission;
    affiliate=b.campaign?price*0.01:0;fees.push({label:"Campaign 1%",amount:affiliate,off:!b.campaign});
  } else if(b.market==="blibli"){
    categoryFee=price*0.0575;fees.push({label:"Fee 5,75%",amount:categoryFee});

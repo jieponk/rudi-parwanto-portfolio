@@ -34,3 +34,9 @@ MASTER TIKTOK
 
 CATATAN
 Data TikTok di tiktok-fees.json diturunkan dari tabel PDF yang diberikan pengguna. Jangan edit angka manual kecuali ada master TikTok yang lebih baru.
+
+
+V3 - Koreksi TikTok
+- Komisi Platform: harga jual x persentase kategori Mall/Non-Mall, TANPA cap Rp60.000.
+- Komisi Dinamis / FeeMax: 3% dari harga jual, maksimal Rp60.000/item.
+- Rp60.000 hanya membatasi Komisi Dinamis / FeeMax, bukan Komisi Platform.
