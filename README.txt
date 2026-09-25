@@ -1,0 +1,1 @@
+CV Studio — mobile search/language + global 404. Upload the contents of this folder to Netlify (index.html and 404.html must be at the deploy root). Existing public files in assets remain directly accessible. No redirects to index.html for unknown routes.

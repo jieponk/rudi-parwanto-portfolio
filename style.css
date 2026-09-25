@@ -1,0 +1,169 @@
+:root{--desktop:#1d2532;--panel:#252525;--border:#373737;--text:#d4d4d4;--muted:#a5a5a5;--green:#20d675;--cyan:#91d5d8;--blue:#2997ff;--pink:#d9b1cf;--orange:#dca58c;--card:#262626;--tab:#292929}*{box-sizing:border-box}html,body{margin:0;min-height:100%;font:14px/1.6 Consolas,Monaco,'Courier New',monospace;color:var(--text);background:var(--desktop)}button,a{font:inherit}.mac-menu{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:12px;font-weight:700;gap:14px;white-space:nowrap}.menu-left,.menu-right{display:flex;align-items:center;gap:23px}.apple{font-size:17px}.menu-right{gap:18px}.window{height:calc(100dvh - 60px);min-height:520px;margin:0 28px 30px;background:var(--panel);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}.titlebar{height:47px;flex-shrink:0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 16px}.lights{display:flex;gap:8px}.lights i{width:11px;height:11px;border-radius:50%;background:#ff605c}.lights i:nth-child(2){background:#ffbd44}.lights i:nth-child(3){background:#00ca4e}.title-right{margin-left:auto;display:flex;align-items:center;gap:16px;color:var(--green);font-size:12px}.title-right button{border:1px solid var(--border);border-radius:7px;background:transparent;color:var(--text);padding:4px 12px;cursor:pointer}.tabs{height:40px;flex-shrink:0;display:flex;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:thin}.tab{white-space:nowrap;border:0;border-bottom:2px solid transparent;padding:0 17px;background:transparent;color:var(--text);cursor:pointer}.tab.active{background:var(--tab);border-bottom-color:var(--blue)}.tab:hover,.file:hover{background:#383838}.work{display:flex;flex:1;min-height:0}.sidebar{width:255px;flex-shrink:0;border-right:1px solid var(--border);padding:15px 16px;overflow:auto}.explorer-title{font-size:12px;color:var(--green);margin-bottom:7px}.folder{color:#a4caff;margin-bottom:5px}.file{width:100%;display:flex;gap:10px;align-items:center;text-align:left;padding:6px 11px 6px 18px;border:0;border-left:3px solid transparent;border-radius:4px;background:transparent;color:var(--text);cursor:pointer}.file.active{background:#353535;border-left-color:var(--blue)}.file .icon,.tab .icon{width:16px;display:inline-block;text-align:center;color:var(--cyan)}.stats{margin-top:36px}.stats>div:not(.explorer-title){display:flex;justify-content:space-between;gap:8px;margin:4px 0;font-size:12px}.stats>div span:last-child{color:var(--cyan)}.editor{flex:1;min-width:0;overflow:auto;scrollbar-color:#777 transparent}.breadcrumb{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--border);padding:8px 24px;font-size:12px;color:var(--green)}.breadcrumb b{color:var(--text);font-weight:400}.editor-content{padding:22px 24px 35px}.code,.card{border:1px solid var(--border);border-radius:6px;background:var(--card)}.code{padding:22px 20px;margin-bottom:24px;overflow-x:auto}.line{display:flex;white-space:pre;min-height:23px}.ln{flex:0 0 44px;color:var(--green);user-select:none}.comment{color:var(--green)}.keyword{color:#c9a5e9}.string{color:var(--orange)}.bool{color:#a6c8ff}.prop{color:#d8a9cf}.cards{display:grid;grid-template-columns:minmax(0,2fr) minmax(240px,1fr);gap:24px}.card{padding:22px 24px;min-width:0}.card h2{margin:0 0 20px;color:#99c9ff;font-size:19px;font-weight:400}.card h3{color:var(--cyan);font-size:17px;margin:0 0 5px}.card p{margin:8px 0;color:var(--text)}.muted{color:var(--muted)!important}.profile{display:flex;align-items:center;gap:22px}.avatar{width:90px;height:90px;border:2px solid var(--cyan);border-radius:50%;display:grid;place-items:center;font-size:29px;color:var(--cyan);flex-shrink:0}.pill{display:inline-block;color:var(--green);border:1px solid #35664b;border-radius:30px;padding:3px 10px;margin-top:12px;font-size:12px}.facts{display:flex;justify-content:space-between;gap:12px;padding:6px 0}.facts span:first-child{color:var(--cyan)}.facts span:last-child{text-align:right}.stack{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.stack h3{font-size:15px;color:var(--pink)}.tags{display:flex;flex-wrap:wrap;gap:7px}.tag{border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:12px}.timeline{border-left:2px solid var(--pink);padding:0 0 0 16px;margin:0 0 22px}.timeline h3{color:var(--pink)}.timeline .period{float:right;color:var(--muted);font-size:12px}.timeline ul{padding-left:18px;margin:8px 0}.timeline li{margin:5px 0}.link{color:var(--orange);text-decoration:none;overflow-wrap:anywhere}.link:hover{text-decoration:underline}.contact-row{display:flex;gap:14px;align-items:flex-start;margin:0 0 18px}.contact-row .icon{color:var(--blue);font-size:18px}.contact-row b{display:block;overflow-wrap:anywhere}.contact-row small{display:block;color:var(--green)}.notice{border-left:2px solid var(--blue);padding:9px 14px;color:var(--muted);background:rgba(90,150,240,.06);margin-top:14px}.status{height:23px;flex-shrink:0;display:flex;justify-content:space-between;background:#1261a0;color:#fff;padding:1px 15px;font-size:12px}.light{--desktop:#dce3eb;--panel:#f7f7f7;--border:#dadada;--text:#333;--muted:#666;--green:#128d4c;--cyan:#147f88;--blue:#0878d1;--pink:#965c83;--orange:#a85c35;--card:#fff;--tab:#e8e8e8}.light .file.active{background:#e7e7e7}.light .tab:hover,.light .file:hover{background:#e9e9e9}@media(max-width:850px){.window{margin:0 10px 10px;height:calc(100dvh - 40px)}.sidebar{width:190px;padding:12px 8px}.editor-content{padding:14px}.breadcrumb{padding:8px 14px}.cards{grid-template-columns:1fr}.stack{grid-template-columns:repeat(2,minmax(0,1fr))}.menu-left{gap:12px}.menu-left span:nth-child(n+5){display:none}.menu-right span:not(:last-child){display:none}.title-right>span{display:none}}@media(max-width:540px){.mac-menu{padding:0 10px}.menu-left span:nth-child(n+3){display:none}.window{margin:0;height:calc(100dvh - 30px);border-radius:0}.titlebar{padding:0 10px;gap:8px;font-size:12px}.sidebar{width:43px;padding:10px 3px}.explorer-title,.folder,.stats,.file .filename{display:none}.file{padding:10px 5px;justify-content:center}.file .icon{font-size:16px}.tab{padding:0 12px}.editor-content{padding:12px 9px}.code{padding:13px 9px}.ln{flex-basis:29px}.card{padding:16px}.stack{grid-template-columns:1fr}.profile{align-items:flex-start;gap:12px}.avatar{width:60px;height:60px;font-size:19px}.status{font-size:10px;padding:3px 7px}.status span:last-child{display:none}}
+
+/* FOTO PROFIL: ganti assets/foto-profil.jpg dengan foto persegi 600 x 600 px. */
+.avatar{overflow:hidden;padding:0;background:#253344}
+.avatar img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+
+/* Consistent macOS-inspired icons: transparent WebP assets, not platform emoji. */
+.mac-menu .apple,.mac-menu .mac-icon{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.mac-menu img{display:block;width:16px;height:16px;object-fit:contain}
+.mac-menu .apple img{width:17px;height:17px}
+.menu-right{gap:18px}.folder-icon{vertical-align:middle;flex-shrink:0}
+#theme{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+#theme img{width:14px;height:14px}
+.nav-icon{display:inline-block;width:15px;height:15px;object-fit:contain;vertical-align:-2px;margin-right:6px}
+@media(max-width:540px){.nav-icon{margin-right:0}.mac-menu .menu-right .mac-icon{display:none}}
+
+/* Language switcher matches the macOS window controls. */
+#language{margin-right:8px;cursor:pointer;border:1px solid var(--border,#424242);border-radius:6px;background:transparent;color:inherit;font:inherit;padding:5px 9px;white-space:nowrap}
+#language:hover{background:rgba(125,125,125,.14)}
+@media(max-width:600px){#language{padding:4px 6px;margin-right:4px;font-size:11px}}
+
+/* Interactive macOS application menu */
+.app-menus{display:flex;align-items:center;gap:3px}.app-menu{position:relative}.menu-trigger{border:0;border-radius:5px;background:transparent;color:inherit;font:inherit;font-weight:700;padding:4px 8px;cursor:pointer}.menu-trigger:hover,.app-menu.open>.menu-trigger{background:#3c4350}.menu-dropdown{display:none;position:absolute;left:0;top:calc(100% + 2px);z-index:1000;min-width:210px;padding:5px;background:#303238;border:1px solid #555a65;border-radius:8px;box-shadow:0 12px 32px #0008;white-space:nowrap}.app-menu.open .menu-dropdown{display:block}.menu-dropdown button{display:block;width:100%;padding:8px 12px;border:0;border-radius:5px;text-align:left;background:transparent;color:#eee;cursor:pointer;font:12px/1.4 Consolas,monospace}.menu-dropdown button:hover,.menu-dropdown button:focus-visible{background:#277ce4;outline:none}.sidebar-hidden .sidebar{display:none}.window-minimized .window{height:47px;min-height:0}.window-minimized .window>*:not(.titlebar){display:none}.window-maximized .window{margin:0;height:calc(100dvh - 30px);border-radius:0}#menu-toast{position:fixed;right:20px;bottom:40px;background:#313942;color:#fff;padding:9px 14px;border:1px solid #687384;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:1200}#menu-toast.visible{opacity:1}.dialog-shade{position:fixed;inset:0;background:#0009;z-index:1300;display:grid;place-items:center;padding:16px}.cv-dialog{position:relative;max-width:460px;width:100%;background:#292b31;color:#eee;border:1px solid #575e69;border-radius:12px;padding:24px;box-shadow:0 15px 50px #0009;white-space:normal}.cv-dialog h2{margin:0 0 15px;color:#9bc8ff}.dialog-close{position:absolute;right:10px;top:8px;background:transparent;border:0;color:inherit;font-size:24px;cursor:pointer}.dialog-body{white-space:pre-line}body.light .menu-dropdown{background:#f5f5f5;border-color:#bbb}body.light .menu-dropdown button{color:#333}body.light .menu-dropdown button:hover{color:white}body.light .menu-trigger:hover,body.light .app-menu.open>.menu-trigger{background:#c8d0df}@media(max-width:720px){.mac-menu{padding:0 6px;gap:3px}.menu-left{gap:5px}.menu-trigger{font-size:10px;padding:4px 5px}.menu-right{display:none}.menu-dropdown{min-width:180px}.app-menu:nth-last-child(-n+2) .menu-dropdown{left:auto;right:0}}@media print{.mac-menu,.titlebar,.tabs,.sidebar,.status,.breadcrumb,.code{display:none!important}.window,.editor{height:auto!important;overflow:visible!important;margin:0!important}.card{break-inside:avoid}}
+
+/* macOS menu bar: language lives under Control Center, not in the window toolbar. */
+.control-wrap{position:relative;display:flex;align-items:center}
+.control-trigger{appearance:none;border:0;background:transparent;padding:5px;display:flex;align-items:center;justify-content:center;border-radius:5px;cursor:pointer;color:inherit}
+.control-trigger:hover,.control-trigger[aria-expanded="true"]{background:rgba(180,190,210,.17)}
+.control-dropdown{position:absolute;right:0;top:calc(100% + 7px);z-index:1000;width:210px;padding:9px;background:#303238;border:1px solid #53545a;border-radius:9px;box-shadow:0 12px 28px #0008;color:#ededf1;font-size:12px;font-weight:500;white-space:normal}
+.control-dropdown[hidden]{display:none!important}
+.control-heading{padding:5px 10px 9px;font-weight:700;color:#bfc5cf;border-bottom:1px solid #484a50;margin-bottom:5px}
+.control-option{display:flex;align-items:center;gap:9px;width:100%;border:0;background:transparent;color:inherit;text-align:left;border-radius:5px;padding:8px;cursor:pointer;font:inherit}
+.control-option:hover,.control-option:focus-visible{background:#3976bc;outline:none}
+.control-check{width:14px;flex-shrink:0;color:#72d5ff;font-weight:700}
+.control-option[aria-checked="true"] .control-check::after{content:"✓"}
+body.light .control-dropdown{background:#fafafa;border-color:#d4d4d4;color:#222;box-shadow:0 12px 28px #0003}
+body.light .control-heading{color:#555;border-color:#ddd}
+body.light .control-option:hover,body.light .control-option:focus-visible{background:#dcecff}
+@media(max-width:600px){.control-dropdown{right:-32px;width:195px}.control-trigger{padding:4px}}
+
+/* Functional macOS menu actions */
+.mac-action{appearance:none;background:transparent;border:0;padding:4px;cursor:pointer;border-radius:5px;color:inherit;display:inline-flex;align-items:center;justify-content:center}
+.mac-action:hover,.mac-action[aria-expanded="true"]{background:rgba(180,190,210,.17)}
+.search-overlay[hidden]{display:none!important}.search-overlay{position:fixed;inset:30px 0 0;background:rgba(0,0,0,.42);z-index:3000;display:flex;justify-content:center;align-items:flex-start;padding:12vh 14px 20px}.search-dialog{width:min(560px,100%);background:#292b31;border:1px solid #555963;border-radius:12px;box-shadow:0 22px 65px #0009;color:#e6e9f0;overflow:hidden}.search-header{display:flex;align-items:center;border-bottom:1px solid #484b53;padding:10px 14px;gap:8px}.search-header input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:inherit;font:inherit;font-size:15px}.search-header button{border:0;background:transparent;color:inherit;font-size:24px;cursor:pointer}.search-results{max-height:330px;overflow:auto;padding:8px}.search-result{width:100%;display:block;text-align:left;background:transparent;color:inherit;border:0;border-radius:6px;padding:10px 12px;font:inherit;cursor:pointer}.search-result:hover,.search-result:focus-visible{background:#365c83;outline:0}.search-result small{display:block;color:#b9c6d7}.search-empty{padding:14px;color:#aab0bd}body.light .search-dialog{background:#fff;color:#252525}body.light .search-header{border-color:#ddd}body.light .search-result:hover,body.light .search-result:focus-visible{background:#dcecff}
+@media(max-width:750px){.mac-menu .menu-right .mac-action{display:inline-flex!important}.mac-menu .menu-right .control-wrap{display:flex!important}}
+
+
+/* =========================================================
+   CV STUDIO — POLISHED DUAL THEME (2026)
+   Dark is the default. Light overrides every interface layer.
+   All UI WebP icons are white masters; invert in light theme.
+   ========================================================= */
+:root {
+  --desktop:#1d2532; --panel:#24262b; --border:#3a3f49;
+  --text:#e2e6ee; --muted:#a6afbd; --green:#60d394;
+  --cyan:#9bdbdf; --blue:#69adff; --pink:#d7a7d4;
+  --orange:#e5aa8b; --card:#292c32; --tab:#31343c;
+  --sidebar-bg:#23262c; --code-bg:#272a30; --hover:#353b46;
+  --active-bg:#343c4a; --heading:#9bc7ff; --folder:#9fc6ff;
+  --menu-bg:#30343d; --menu-text:#eef2f8; --menu-border:#505969;
+  --menu-hover:#385f98; --shadow:0 18px 48px rgba(0,0,0,.34);
+  --icon-filter:none; --line-number:#8796a9; --pill-border:#3d735b;
+  color-scheme:dark;
+}
+body.light {
+  --desktop:#dfe7f1; --panel:#ffffff; --border:#dce3ed;
+  --text:#243247; --muted:#627287; --green:#16774a;
+  --cyan:#096c78; --blue:#1666c1; --pink:#874b85;
+  --orange:#a34e2e; --card:#ffffff; --tab:#ffffff;
+  --sidebar-bg:#f3f6fa; --code-bg:#f8fafc; --hover:#e8eef7;
+  --active-bg:#e3edfa; --heading:#1557a0; --folder:#285f9f;
+  --menu-bg:#ffffff; --menu-text:#243247; --menu-border:#d6deea;
+  --menu-hover:#e2eeff; --shadow:0 18px 48px rgba(38,55,83,.18);
+  --icon-filter:brightness(0) saturate(100%) invert(17%) sepia(15%) saturate(1200%) hue-rotate(173deg);
+  --line-number:#8290a5; --pill-border:#a8d7bc;
+  color-scheme:light;
+}
+body {background:var(--desktop);color:var(--text);transition:background-color .18s,color .18s}
+.mac-menu{color:var(--text)}
+.window{background:var(--panel);box-shadow:var(--shadow)}
+.titlebar,.tabs,.sidebar,.breadcrumb{border-color:var(--border)}
+.sidebar{background:var(--sidebar-bg)}
+.editor,.editor-content{background:var(--panel)}
+.breadcrumb{background:var(--panel)}
+.code{background:var(--code-bg);border-color:var(--border)}
+.card{background:var(--card);border-color:var(--border);box-shadow:0 2px 10px rgba(0,0,0,.035)}
+.card h2{color:var(--heading)}
+.folder{color:var(--folder)}
+.tab.active{background:var(--tab);border-bottom-color:var(--blue);color:var(--text)}
+.file.active{background:var(--active-bg);border-left-color:var(--blue)}
+.tab:hover,.file:hover,.light .tab:hover,.light .file:hover{background:var(--hover)}
+.ln{color:var(--line-number)}
+.comment{color:var(--green)}.keyword{color:var(--pink)}.string{color:var(--orange)}
+.bool{color:var(--blue)}.prop{color:var(--cyan)}
+.pill{border-color:var(--pill-border)}
+.avatar{background:var(--sidebar-bg)}
+.tag{border-color:var(--border)}
+.notice{background:color-mix(in srgb,var(--blue) 7%,transparent)}
+#theme,#language{border-color:var(--border);color:var(--text)}
+#theme:hover,#language:hover{background:var(--hover)}
+/* WebP UI glyphs change from white to dark in Light Mode. Do not filter photos. */
+.mac-menu img,.folder-icon,.nav-icon,#theme img{filter:var(--icon-filter)}
+.menu-dropdown,.control-dropdown,.search-dialog,.cv-dialog{
+  background:var(--menu-bg)!important;color:var(--menu-text)!important;
+  border-color:var(--menu-border)!important;box-shadow:var(--shadow)!important
+}
+.menu-dropdown button,.control-option,.search-result{color:var(--menu-text)!important}
+.menu-dropdown button:hover,.menu-dropdown button:focus-visible,
+.control-option:hover,.control-option:focus-visible,
+.search-result:hover,.search-result:focus-visible{background:var(--menu-hover)!important;color:var(--menu-text)!important}
+.control-heading,.search-header{border-color:var(--menu-border)!important;color:var(--muted)!important}
+.control-check{color:var(--blue)}
+.menu-trigger:hover,.app-menu.open>.menu-trigger,body.light .menu-trigger:hover,body.light .app-menu.open>.menu-trigger{background:var(--hover)}
+.search-result small,.search-empty{color:var(--muted)}
+.search-header input{color:var(--text)}
+.search-header input::placeholder{color:var(--muted)}
+#menu-toast{background:var(--menu-bg);color:var(--menu-text);border-color:var(--menu-border)}
+.cv-dialog h2{color:var(--heading)}
+body.light .status{background:#1765b3;color:#fff}
+body.light .code .comment{color:#16814c}
+body.light .code .keyword{color:#8a3ca0}
+body.light .code .string{color:#a13e23}
+body.light .code .bool{color:#1457ad}
+body.light .code .prop{color:#79519b}
+body.light .card h3{color:#096c78}
+body.light .timeline h3{color:#874b85}
+body.light .link{color:#a34e2e}
+body.light .pill{color:#16774a}
+body.light .search-overlay{background:rgba(29,45,69,.30)}
+@media(prefers-reduced-motion:reduce){body{transition:none}}
+
+/* Mobile menu: keep search and language accessible at all viewport widths. */
+.mobile-language-label,.mobile-chevron{display:none}
+@media(max-width:750px){
+  .mac-menu{height:44px;padding:0 12px;gap:8px;position:relative;z-index:1100}
+  .menu-left{min-width:0;gap:8px}
+  .menu-left>b{font-size:12px;white-space:nowrap}
+  .app-menus{display:none!important}
+  .menu-right{display:flex!important;gap:9px;align-items:center;margin-left:auto}
+  .menu-right .desktop-status,#clock{display:none!important}
+  .menu-right #search-trigger,.menu-right #control-trigger{display:inline-flex!important;min-width:36px;min-height:36px;align-items:center;justify-content:center}
+  .menu-right #search-trigger img,.menu-right #control-trigger img{display:block!important;width:17px;height:17px}
+  .menu-right #control-trigger{gap:5px;padding:4px 7px;border:1px solid var(--border);border-radius:7px}
+  .mobile-language-label,.mobile-chevron{display:inline!important;font-size:12px;font-weight:700}
+  .control-dropdown{right:0!important;top:calc(100% + 5px);width:min(225px,calc(100vw - 24px))}
+  .search-overlay{inset:44px 0 0;padding:6vh 12px 20px}
+  .window{height:calc(100dvh - 44px)!important;margin:0!important;border-radius:0!important}
+  .window-maximized .window{height:calc(100dvh - 44px)!important}
+  .window-minimized .window{height:47px!important}
+}
+@media(max-width:360px){.mac-menu{padding:0 7px}.menu-left{gap:4px}.menu-right{gap:3px}.menu-left>b{font-size:11px}}
+
+/* Mobile application menu: all six desktop menus remain available. */
+.mobile-menu-trigger{display:none;border:0;background:transparent;color:inherit;cursor:pointer;font:20px/1 system-ui,sans-serif;min-width:36px;min-height:36px;align-items:center;justify-content:center;border-radius:7px}
+.mobile-menu-trigger:hover,.mobile-menu-trigger[aria-expanded="true"]{background:var(--hover)}
+@media(max-width:750px){
+ .mobile-menu-trigger{display:inline-flex;order:2;flex-shrink:0}
+ .menu-left{flex:1;min-width:0}
+ .menu-right{order:1;flex:0 0 auto;margin-left:auto!important}
+ .menu-left>b{overflow:hidden;text-overflow:ellipsis}
+ .mac-menu .app-menus{display:none!important;position:absolute;top:calc(100% + 4px);left:8px;right:8px;width:auto;max-height:calc(100dvh - 64px);overflow-y:auto;z-index:1500;background:var(--menu-bg);color:var(--menu-text);border:1px solid var(--menu-border);border-radius:10px;padding:6px;box-shadow:var(--shadow);flex-direction:column;align-items:stretch;gap:0}
+ .mac-menu .app-menus.mobile-open{display:flex!important}
+ .app-menu{width:100%}
+ .menu-trigger{display:block;width:100%;text-align:left;padding:11px 12px;font-size:13px;color:var(--menu-text)}
+ .app-menu.open>.menu-trigger{background:var(--menu-hover)}
+ .app-menu .menu-dropdown{position:static;left:auto;right:auto;top:auto;width:100%;min-width:0;box-shadow:none!important;margin:0 0 5px;padding:3px 4px 5px 12px;border:0!important;border-left:2px solid var(--blue)!important;border-radius:0;background:transparent!important;white-space:normal}
+ .menu-dropdown button{white-space:normal;font-size:12px;padding:10px 8px}
+}
+@media(max-width:380px){.mac-menu{padding:0 6px!important;gap:2px!important}.menu-left{gap:4px!important}.menu-left>b{font-size:11px}.menu-right{gap:2px!important}.menu-right #search-trigger,.menu-right #control-trigger{min-width:30px!important;padding:3px!important}.mobile-menu-trigger{min-width:30px;padding:0}.menu-right #control-trigger img{display:none!important}}
