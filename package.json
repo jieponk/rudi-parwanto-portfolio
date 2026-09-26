@@ -1,0 +1,9 @@
+{
+  "name": "rudi-parwanto-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static portfolio and blog build",
+  "dependencies": {
+    "sharp": "^0.34.4"
+  }
+}

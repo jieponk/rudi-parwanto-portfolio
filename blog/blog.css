@@ -13,3 +13,15 @@
 .tags a{display:inline-flex;align-items:center;text-decoration:none;color:inherit}
 .label-hero .back{display:inline-block;margin-top:10px}
 @media(max-width:640px){.label-cloud{grid-template-columns:1fr}}
+
+/* V6 — Mobile app-shell: menu + status selalu terlihat, hanya konten yang scroll */
+@media(max-width:720px){
+  html,body{height:100%;height:100dvh;overflow:hidden}
+  body{min-height:0}
+  .mac-menu{height:40px;position:relative;z-index:100;flex:0 0 auto}
+  .window{height:calc(100vh - 40px);height:calc(100dvh - 40px);min-height:0;margin:0;border:0;border-radius:0;overflow:hidden;display:flex;flex-direction:column}
+  .titlebar,.tabs{flex:0 0 auto}
+  .work{min-height:0;overflow:hidden;flex:1;display:grid;grid-template-columns:minmax(0,1fr)}
+  .editor{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .status{flex:0 0 auto;position:relative;z-index:20;padding-bottom:max(3px,env(safe-area-inset-bottom))}
+}

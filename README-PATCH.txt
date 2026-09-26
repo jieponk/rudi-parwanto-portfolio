@@ -16,3 +16,11 @@ BARU DI V5:
 
 DEPLOY:
 Extract > copy isi folder ke repo > Replace > GitHub Desktop > Commit main > Push origin > tunggu Netlify Published.
+
+V6:
+- Mobile blog memakai app-shell 100dvh: header/menu dan status/footer tetap terlihat; hanya konten tengah yang scroll.
+- Menambahkan /favicon.ico (RP) sehingga browser dapat menemukannya secara global tanpa perlu mengubah setiap halaman.
+- Upload JPG/JPEG/PNG di assets/blog otomatis dibuat versi WebP saat Netlify build menggunakan Sharp.
+- Halaman blog otomatis merujuk versi .webp; source JPG/PNG tetap disimpan sebagai file asli CMS.
+- WebP dibatasi maksimal 1800x1800 tanpa memperbesar gambar, quality 82.
+- package.json ditambahkan agar Netlify menginstal Sharp sebelum menjalankan scripts/build-blog.js.
