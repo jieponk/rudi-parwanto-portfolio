@@ -39,7 +39,12 @@ collections:
         default: [E-Commerce]
         hint: "Contoh: Marketplace, Shopee, Product SEO. Label yang dipakai otomatis muncul di menu Labels blog."
       - { label: Thumbnail, name: image, widget: image, required: false }
-      - { label: Isi Artikel, name: body, widget: markdown }
+      - label: Isi Artikel
+        name: body
+        widget: markdown
+        modes: [rich_text, raw]
+        sanitize_preview: true
+        hint: "Gunakan Rich Text untuk menulis biasa atau Markdown untuk mengetik Markdown. Jangan paste dokumen HTML lengkap seperti <article>...</article>."
 
   - name: settings
     label: Blog Settings

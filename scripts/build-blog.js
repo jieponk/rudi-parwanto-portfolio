@@ -27,11 +27,100 @@ async function convertBlogImages(){
   }
 }
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escAttr = s => esc(s).replace(/`/g,'&#96;');
 const slugOK = s => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s);
 function parseDate(value){if(typeof value!=='string'||!value.trim())return null;const m=value.trim().match(/^(\d{4})-(\d{2})-(\d{2})/);if(!m)return null;const iso=`${m[1]}-${m[2]}-${m[3]}`,date=new Date(`${iso}T00:00:00Z`);return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===iso?{iso,date}:null}
 const fmtDate=s=>{const p=parseDate(s);return p?new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(p.date):'Tanggal tidak tersedia'};
-function inline(s){let x=esc(s);x=x.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>');return x.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" rel="noopener noreferrer">$1</a>')}
-function markdown(md=''){const lines=String(md).replace(/\r/g,'').replace(/^\\(?=[#>*-]\s?)/gm,'').split('\n');let html='',para=[],list=false;const flush=()=>{if(para.length){html+=`<p>${inline(para.join(' '))}</p>`;para=[]}},endList=()=>{if(list){html+='</ul>';list=false}};for(const line of lines){if(!line.trim()){flush();endList();continue}const h=line.match(/^(#{1,3})\s+(.+)$/);if(h){flush();endList();html+=`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`;continue}const li=line.match(/^[-*]\s+(.+)$/);if(li){flush();if(!list){html+='<ul>';list=true}html+=`<li>${inline(li[1])}</li>`;continue}const q=line.match(/^>\s?(.+)$/);if(q){flush();endList();html+=`<blockquote>${inline(q[1])}</blockquote>`;continue}para.push(line.trim())}flush();endList();return html}
+function safeHref(value=''){
+  const v=String(value).trim();
+  return /^(https?:\/\/|mailto:|\/|#)/i.test(v) ? v : '#';
+}
+function inline(input=''){
+  let source=String(input);
+  const codes=[];
+  source=source.replace(/`([^`]+)`/g,(_,code)=>`\u0000CODE${codes.push(code)-1}\u0000`);
+  let x=esc(source);
+  x=x.replace(/!\[([^\]]*)\]\(([^\s)]+)(?:\s+["']([^"']*)["'])?\)/g,(_,alt,url,title)=>{
+    const href=safeHref(url);
+    return `<img src="${escAttr(href)}" alt="${escAttr(alt)}"${title?` title="${escAttr(title)}"`:''} loading="lazy">`;
+  });
+  x=x.replace(/\[([^\]]+)\]\(([^\s)]+)(?:\s+["']([^"']*)["'])?\)/g,(_,label,url,title)=>{
+    const href=safeHref(url), external=/^https?:\/\//i.test(href);
+    return `<a href="${escAttr(href)}"${title?` title="${escAttr(title)}"`:''}${external?' rel="noopener noreferrer" target="_blank"':''}>${label}</a>`;
+  });
+  x=x.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+     .replace(/__(.+?)__/g,'<strong>$1</strong>')
+     .replace(/~~(.+?)~~/g,'<del>$1</del>')
+     .replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>')
+     .replace(/(^|[^_])_([^_\n]+)_/g,'$1<em>$2</em>');
+  x=x.replace(/\u0000CODE(\d+)\u0000/g,(_,i)=>`<code>${esc(codes[Number(i)]||'')}</code>`);
+  return x;
+}
+function splitTableRow(line=''){
+  let s=String(line).trim();
+  if(s.startsWith('|')) s=s.slice(1);
+  if(s.endsWith('|')) s=s.slice(0,-1);
+  return s.split('|').map(x=>x.trim());
+}
+function markdown(md=''){
+  const source=String(md).replace(/\r/g,'').replace(/^\\(?=(?:#{1,6}\s|[-+*>]\s|\d+\.\s))/gm,'');
+  const lines=source.split('\n');
+  let html='';
+  const isBlank=i=>i>=lines.length||!lines[i].trim();
+  const tableSep=line=>/^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line||'');
+  const blockStart=i=>{
+    if(i>=lines.length) return true;
+    const t=lines[i].trim();
+    if(!t) return true;
+    return /^```/.test(t)||/^(#{1,6})\s+/.test(t)||/^(?:---+|___+|\*\*\*+)\s*$/.test(t)||/^>\s?/.test(t)||/^\s*(?:[-+*]|\d+\.)\s+/.test(lines[i])||(i+1<lines.length&&lines[i].includes('|')&&tableSep(lines[i+1]));
+  };
+  for(let i=0;i<lines.length;){
+    if(isBlank(i)){i++;continue}
+    const raw=lines[i], t=raw.trim();
+    const fence=t.match(/^```\s*([\w-]*)\s*$/);
+    if(fence){
+      const lang=fence[1]||'';i++;const buf=[];
+      while(i<lines.length&&!/^```\s*$/.test(lines[i].trim())){buf.push(lines[i]);i++}
+      if(i<lines.length)i++;
+      html+=`<pre><code${lang?` class="language-${escAttr(lang)}"`:''}>${esc(buf.join('\n'))}</code></pre>`;
+      continue;
+    }
+    const h=t.match(/^(#{1,6})\s+(.+)$/);
+    if(h){const n=h[1].length;html+=`<h${n}>${inline(h[2])}</h${n}>`;i++;continue}
+    if(/^(?:---+|___+|\*\*\*+)\s*$/.test(t)){html+='<hr>';i++;continue}
+    if(i+1<lines.length&&raw.includes('|')&&tableSep(lines[i+1])){
+      const head=splitTableRow(raw);i+=2;const rows=[];
+      while(i<lines.length&&lines[i].trim()&&lines[i].includes('|')){rows.push(splitTableRow(lines[i]));i++}
+      html+='<div class="table-wrap"><table><thead><tr>'+head.map(c=>`<th>${inline(c)}</th>`).join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+head.map((_,idx)=>`<td>${inline(r[idx]??'')}</td>`).join('')+'</tr>').join('')+'</tbody></table></div>';
+      continue;
+    }
+    if(/^>\s?/.test(t)){
+      const buf=[];
+      while(i<lines.length){const m=lines[i].trim().match(/^>\s?(.*)$/);if(!m)break;buf.push(m[1]);i++}
+      html+=`<blockquote><p>${inline(buf.join(' '))}</p></blockquote>`;
+      continue;
+    }
+    const listMatch=raw.match(/^\s*([-+*]|\d+\.)\s+(.+)$/);
+    if(listMatch){
+      const ordered=/\d+\./.test(listMatch[1]), tag=ordered?'ol':'ul', items=[];
+      while(i<lines.length){
+        if(!lines[i].trim()){i++;continue}
+        const m=lines[i].match(/^\s*([-+*]|\d+\.)\s+(.+)$/);
+        if(!m||(/\d+\./.test(m[1])!==ordered))break;
+        items.push(m[2].trim());i++;
+      }
+      html+=`<${tag}>${items.map(item=>`<li>${inline(item)}</li>`).join('')}</${tag}>`;
+      continue;
+    }
+    const para=[];
+    while(i<lines.length&&!isBlank(i)){
+      if(para.length&&blockStart(i))break;
+      para.push(lines[i].trim());i++;
+    }
+    if(para.length)html+=`<p>${inline(para.join(' '))}</p>`;
+  }
+  return html;
+}
 function shell({title,description,canonical,body,type='website',image=''}){const ogImage=image?(image.startsWith('http')?image:SITE+image):SITE+'/assets/foto-profil.webp';return `<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="${type}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${ogImage}"><meta property="og:site_name" content="Rudi Parwanto Portfolio"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${ogImage}"><link rel="alternate" type="application/rss+xml" title="Blog Rudi Parwanto" href="/feed.xml"><script>document.documentElement.dataset.theme=localStorage.getItem('cv-theme')||'dark'</script><link rel="stylesheet" href="/blog/blog.css"></head><body><header class="mac-menu"><div class="menu-left"><a class="apple" href="/" aria-label="Kembali ke portofolio"><img src="/assets/icon-apple.webp" alt="" width="17" height="17"></a><b>CV Studio</b><nav aria-label="Navigasi utama"><a href="/">Portfolio</a><a class="active" href="/blog/" aria-current="page">Blog</a></nav></div><div class="menu-right"><button class="theme-toggle" type="button" aria-label="Ganti tema" onclick="let t=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=t;localStorage.setItem('cv-theme',t);this.textContent=t==='light'?'☾':'☀'">☀</button><span class="menu-clock" id="clock"></span></div></header><div class="window"><div class="titlebar"><div class="lights" aria-hidden="true"><i></i><i></i><i></i></div><span>CV Studio — Rudi Parwanto</span><span class="title-right">HTML&nbsp; · &nbsp;BLOG</span></div><nav class="tabs" aria-label="Tab"><a href="/">portfolio.js <span aria-hidden="true">↗</span></a><a href="/blog/" class="selected">blog.md</a></nav><div class="work"><aside class="sidebar"><div class="explorer-title">EXPLORER</div><a class="folder" href="/"><img src="/assets/icon-folder.webp" alt="" width="15" height="15"> cv-portfolio</a><a class="file-link" href="/">⌘ &nbsp; portfolio.js</a><a class="file-link selected" href="/blog/">▤ &nbsp; blog.md</a><div class="sidebar-caption">RUDI PARWANTO<br>E-Commerce Specialist</div></aside><div class="editor"><div class="breadcrumb"><a href="/">cv-portfolio</a> <span>›</span> <a href="/blog/">blog.md</a></div>${body}</div></div><footer class="status"><span>Ready &nbsp; · &nbsp; Blog</span><span>UTF-8 &nbsp; · &nbsp; Markdown</span></footer></div><script>const c=document.getElementById('clock');function tick(){c.textContent=new Intl.DateTimeFormat('id-ID',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit'}).format(new Date())}tick();setInterval(tick,60000);document.querySelector('.theme-toggle').textContent=document.documentElement.dataset.theme==='light'?'☾':'☀'</script></body></html>`}
 function labelSlug(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 function tags(p){const arr=Array.isArray(p.labels)?p.labels.filter(Boolean):[];return arr.length?`<div class="tags">${arr.map(x=>`<a href="/blog/label/${labelSlug(x)}/"># ${esc(x)}</a>`).join('')}</div>`:''}
