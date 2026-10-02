@@ -38,7 +38,7 @@ collections:
         required: false
         default: [E-Commerce]
         hint: "Contoh: Marketplace, Shopee, Product SEO. Label yang dipakai otomatis muncul di menu Labels blog."
-      - { label: Thumbnail, name: image, widget: image, required: false }
+      - { label: Thumbnail, name: image, widget: image, required: false, hint: "Opsional. Jika dikosongkan, blog otomatis memakai /assets/blog/no-image.webp agar layout tetap rapi." }
       - label: Isi Artikel
         name: body
         widget: markdown

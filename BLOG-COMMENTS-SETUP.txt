@@ -1,0 +1,22 @@
+BLOG COMMENTS — ONE-TIME SETUP
+
+Sistem komentar menggunakan Utterances + GitHub Issues untuk repo:
+jieponk/rudi-parwanto-portfolio
+
+Kode komentar sudah aktif otomatis di setiap halaman artikel.
+Agar pengunjung dapat mengirim komentar, lakukan satu kali setup:
+
+1. Pastikan GitHub Issues aktif pada repo jieponk/rudi-parwanto-portfolio.
+2. Install/izinkan GitHub App "utterances" untuk repo tersebut:
+   https://github.com/apps/utterances
+3. Setelah diizinkan, buka salah satu artikel blog dan bagian Komentar akan membuat/menggunakan Issue berdasarkan pathname artikel.
+
+Catatan:
+- Komentar mengikuti dark/light theme blog.
+- User perlu login GitHub untuk mengirim komentar.
+- Tidak ada database tambahan di Netlify.
+
+DEFAULT IMAGE
+- Jika field Thumbnail di CMS dikosongkan, build otomatis memakai:
+  /assets/blog/no-image.webp
+- Fallback dipakai di listing Blog, Featured Post, halaman artikel, Open Graph, Twitter Card, dan structured data.
