@@ -1,7 +1,7 @@
 // ============================================================
 // RUDI PARWANTO — PORTFOLIO CONTENT
 // Edit text inside code: [...] and html: `...` for each tab.
-// Save the file, then redeploy this entire folder to Netlify.
+// Save the file, then push changes to GitHub; Cloudflare will deploy automatically.
 // ============================================================
 
 const pages = {

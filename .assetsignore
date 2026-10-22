@@ -1,0 +1,17 @@
+# Local/deployment tooling and source-only files (not public website assets)
+.git/
+node_modules/
+**/node_modules/**
+netlify/
+netlify.toml
+scripts/
+content/
+worker-data/
+worker.js
+wrangler.json
+package.json
+package-lock.json
+.assetsignore
+README*.txt
+BLOG-*.txt
+CLOUDFLARE-SETUP.txt

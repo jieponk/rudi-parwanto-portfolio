@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /master/
 
-Sitemap: https://rudiparwanto.netlify.app/sitemap.xml
+Sitemap: https://masrudi.site/sitemap.xml

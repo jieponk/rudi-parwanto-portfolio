@@ -1,39 +1,33 @@
-BLOG + CMS SETUP — RUDI PARWANTO
+BLOG + CMS SETUP — RUDI PARWANTO / CLOUDFLARE
 
-File website sudah siap. Setelah semua file ini di-copy ke repository dan di-Push:
+Build command Cloudflare Workers Builds:
+  npm run build
+Deploy command:
+  npx wrangler deploy
 
-1. Netlify akan membaca netlify.toml dan menjalankan:
-   node scripts/build-blog.js
+Decap CMS memakai GitHub OAuth proxy yang berada di worker.js.
+Buat GitHub OAuth App:
+- Homepage URL: https://masrudi.site
+- Authorization callback URL: https://masrudi.site/api/callback
 
-2. Setup login Decap CMS dengan GitHub OAuth:
-   a. GitHub > Settings > Developer settings > OAuth Apps > New OAuth App
-   b. Application name: Rudi Portfolio CMS
-   c. Homepage URL: https://rudiparwanto.netlify.app
-   d. Authorization callback URL: https://api.netlify.com/auth/done
-   e. Register application
-   f. Generate Client Secret. Simpan Client ID + Client Secret.
+Di Cloudflare Dashboard > Workers & Pages > rudi-parwanto-portfolio > Settings > Variables and Secrets, tambahkan sebagai Secret:
+- GITHUB_OAUTH_ID = Client ID dari GitHub OAuth App
+- GITHUB_OAUTH_SECRET = Client Secret dari GitHub OAuth App
 
-3. Netlify > project rudiparwanto > Project configuration > Security > OAuth
-   > Authentication providers > Install provider > GitHub
-   Masukkan Client ID dan Client Secret tadi.
+Tambahkan juga Secret untuk halaman /master/:
+- MASTER_USERNAME
+- MASTER_PASSWORD
+- MASTER_SECRET (string acak panjang minimal 32 karakter)
 
-4. Buka:
-   https://rudiparwanto.netlify.app/admin/
-   Klik Login with GitHub dan izinkan akses.
+Setelah deploy dan secrets tersimpan, buka https://masrudi.site/admin/ lalu login dengan GitHub.
+Decap CMS akan commit konten ke repository GitHub. Cloudflare akan build ulang blog, feed.xml, dan sitemap.xml setelah commit.
 
-5. Posting artikel:
-   Blog > New Artikel > isi Judul, Slug, tanggal, SEO description, kategori,
-   thumbnail, isi artikel > Publish.
-   Decap akan commit ke GitHub. Netlify otomatis build ulang.
+URL utama:
+- /admin/       CMS blog
+- /master/      kalkulator marketplace
+- /blog/        daftar artikel
+- /feed.xml     RSS
+- /sitemap.xml  sitemap mesin pencari
+- /robots.txt   aturan crawler
 
-6. Hasil:
-   /blog/                daftar artikel
-   /blog/slug-artikel/   artikel
-   /feed.xml             RSS
-   /sitemap.xml          sitemap Google
-   /robots.txt           crawler rules
-
-CATATAN:
-- Jangan masukkan Client Secret ke GitHub/repository.
-- Slug gunakan huruf kecil, angka, dan tanda minus saja.
-- Folder /master/ dan /admin/ disetel noindex.
+Jangan masukkan Client Secret, MASTER_PASSWORD, atau MASTER_SECRET ke repository.

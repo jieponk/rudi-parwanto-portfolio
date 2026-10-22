@@ -1,17 +1,11 @@
-SEO PATCH - Rudi Parwanto Portfolio
+RUDI PARWANTO PORTFOLIO — CLOUDFLARE WORKERS
 
-Replace/copy these files into the repository root while preserving folders:
-- index.html
-- scripts/build-blog.js
-- admin/config.yml
+Situs statis dan API dijalankan oleh Cloudflare Worker. Konten blog bersumber dari content/blog/*.json.
 
-Then commit and push. Netlify build will regenerate blog pages, feed.xml and sitemap.xml automatically.
+Build lokal: npm run build
+Deploy: npx wrangler deploy
+Konfigurasi deployment: wrangler.json + .assetsignore
+Worker API dan OAuth Decap CMS: worker.js
 
-Changes:
-- Homepage Person + WebSite structured data
-- Better homepage title and Twitter/Open Graph metadata
-- Blog article published-time/author metadata
-- Safer CMS date output (YYYY-MM-DD)
-- Build accepts existing ISO datetime values and normalizes them
-- Sitemap includes all valid posts + lastmod
-- Fix escaped Markdown headings/lists from existing CMS test post
+Setelah mengubah konten blog, build akan memperbarui halaman blog, feed.xml, dan sitemap.xml.
+Lihat CLOUDFLARE-SETUP.txt untuk konfigurasi dashboard dan secrets.

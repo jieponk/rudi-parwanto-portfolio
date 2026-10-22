@@ -2,9 +2,12 @@ backend:
   name: github
   repo: jieponk/rudi-parwanto-portfolio
   branch: main
+  base_url: https://masrudi.site
+  auth_endpoint: api/auth
+  site_domain: masrudi.site
 
-site_url: https://rudiparwanto.netlify.app
-display_url: https://rudiparwanto.netlify.app
+site_url: https://masrudi.site
+display_url: https://masrudi.site
 logo_url: /assets/foto-profil.webp
 
 media_folder: assets/blog

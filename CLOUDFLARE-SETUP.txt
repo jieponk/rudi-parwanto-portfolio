@@ -1,0 +1,35 @@
+CLOUDFLARE WORKERS — SETUP
+
+1. Cloudflare Workers Builds
+   Build command: npm run build
+   Deploy command: npx wrangler deploy
+   Root directory: /
+
+2. Worker secrets
+   Workers & Pages > rudi-parwanto-portfolio > Settings > Variables and Secrets
+   Tambahkan sebagai Secret:
+   - MASTER_USERNAME
+   - MASTER_PASSWORD
+   - MASTER_SECRET (string acak minimal 32 karakter)
+   - GITHUB_OAUTH_ID (Client ID GitHub OAuth App)
+   - GITHUB_OAUTH_SECRET (Client Secret GitHub OAuth App)
+
+3. GitHub OAuth App untuk /admin/
+   Homepage URL: https://masrudi.site
+   Authorization callback URL: https://masrudi.site/api/callback
+
+4. Domain
+   Setelah deployment sukses, tambahkan masrudi.site di Custom Domains pada Worker.
+   Pastikan DNS/domain sudah aktif di Cloudflare.
+
+5. Setelah deploy
+   - Website: https://masrudi.site/
+   - CMS blog: https://masrudi.site/admin/
+   - Kalkulator: https://masrudi.site/master/
+   - Sitemap: https://masrudi.site/sitemap.xml
+   - Robots: https://masrudi.site/robots.txt
+
+Catatan:
+- Jangan menyimpan secret di GitHub.
+- Jangan matikan deployment Netlify lama sampai situs Cloudflare, kalkulator /master/, dan login CMS /admin/ berhasil diuji.
+- .assetsignore mencegah node_modules, source konten, data internal, dan kode Worker diunggah sebagai aset publik.

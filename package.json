@@ -5,5 +5,9 @@
   "description": "Static portfolio and blog build",
   "dependencies": {
     "sharp": "^0.34.4"
+  },
+  "scripts": {
+    "build": "node scripts/build-blog.js",
+    "deploy": "npx wrangler deploy"
   }
 }
