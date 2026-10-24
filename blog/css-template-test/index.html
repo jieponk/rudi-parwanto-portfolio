@@ -25,4 +25,11 @@ function utterancesTheme(){return document.documentElement.dataset.theme==='ligh
 window.syncCommentsTheme=function(){const frame=document.querySelector('.utterances-frame');if(frame?.contentWindow)frame.contentWindow.postMessage({type:'set-theme',theme:utterancesTheme()},'https://utteranc.es')};
 (function(){const mount=document.getElementById('comments-mount');if(!mount)return;const script=document.createElement('script');script.src='https://utteranc.es/client.js';script.async=true;script.crossOrigin='anonymous';script.setAttribute('repo','jieponk/rudi-parwanto-portfolio');script.setAttribute('issue-term','pathname');script.setAttribute('theme',utterancesTheme());mount.appendChild(script)})();
 document.addEventListener('click',async e=>{const btn=e.target.closest('.copy-code');if(!btn)return;const code=btn.closest('.code-block')?.querySelector('code');if(!code)return;const value=code.textContent||'';try{await navigator.clipboard.writeText(value)}catch(_){const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}const original=btn.textContent;btn.textContent='Tersalin';btn.classList.add('copied');setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied')},1400)});
-</script></body></html>
+</script>
+<div class="dmca-badge-wrap" style="display:flex;justify-content:center;align-items:center;padding:16px 12px 20px;width:100%;box-sizing:border-box;">
+  <a href="https://www.dmca.com/Protection/Status.aspx?ID=23f2842f-3359-432b-a050-6cda864e3ce3" title="DMCA.com Protection Status" class="dmca-badge">
+    <img src="https://images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=23f2842f-3359-432b-a050-6cda864e3ce3" alt="DMCA.com Protection Status" loading="lazy" width="120" height="auto" />
+  </a>
+</div>
+<script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
+</body></html>

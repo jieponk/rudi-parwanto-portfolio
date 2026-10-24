@@ -71,4 +71,11 @@ marketUI();boot();
 <script>
 (function(){const b=document.body,t=document.getElementById('theme');if(localStorage.getItem('cvstudio-theme')==='light'){b.classList.add('light');t.textContent='☾ Dark'}t.addEventListener('click',()=>{b.classList.toggle('light');localStorage.setItem('cvstudio-theme',b.classList.contains('light')?'light':'dark');t.innerHTML=b.classList.contains('light')?'☾ Dark':'<img src="../assets/icon-sun.webp" alt="" width="14" height="14"> Light'});function c(){document.getElementById('clock').textContent=new Date().toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:true})}c();setInterval(c,30000)})();
 </script>
+
+<div class="dmca-badge-wrap" style="display:flex;justify-content:center;align-items:center;padding:16px 12px 20px;width:100%;box-sizing:border-box;">
+  <a href="https://www.dmca.com/Protection/Status.aspx?ID=23f2842f-3359-432b-a050-6cda864e3ce3" title="DMCA.com Protection Status" class="dmca-badge">
+    <img src="https://images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=23f2842f-3359-432b-a050-6cda864e3ce3" alt="DMCA.com Protection Status" loading="lazy" width="120" height="auto" />
+  </a>
+</div>
+<script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
 </body></html>
