@@ -3,4 +3,6 @@ Allow: /
 Disallow: /admin/
 Disallow: /master/
 
+User-agent: Yeti
+Allow:/
 Sitemap: https://masrudi.site/sitemap.xml
