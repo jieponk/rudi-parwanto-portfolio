@@ -34,22 +34,28 @@ function parseDate(value){if(typeof value!=='string'||!value.trim())return null;
 const fmtDate=s=>{const p=parseDate(s);return p?new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(p.date):'Tanggal tidak tersedia'};
 function safeHref(value=''){
   const v=String(value).trim();
-  return /^(https?:\/\/|mailto:|\/|#)/i.test(v) ? v : '#';
+  if(!v || /[\u0000-\u001f\u007f]/.test(v) || v.startsWith('//')) return '#';
+  // Reject entity-obfuscated schemes before the first path/query/fragment separator.
+  const firstPart=v.split(/[/?]/,1)[0];
+  if(firstPart.includes('&') && /(?:&(?:#\d+|#x[0-9a-f]+|colon);?)/i.test(firstPart)) return '#';
+  if(/^(https?:\/\/|mailto:|#|\/(?!\/)|\.{1,2}\/|\?)/i.test(v)) return v;
+  if(!/^[a-z][a-z0-9+.-]*:/i.test(v)) return v;
+  return '#';
 }
-const RAW_TAGS = new Set('a abbr b br button del details div em figcaption figure form hr i img ins kbd label li mark ol option p samp section small span strong sub summary sup table tbody td textarea tfoot th thead tr u ul var select input'.split(' '));
+const RAW_TAGS = new Set('a abbr article aside b br button code del details div dl dt dd em fieldset figcaption figure form hr i img ins kbd label legend li mark nav ol option output p pre progress samp section small span strong sub summary sup table tbody td textarea tfoot th thead tr u ul var select input'.split(' '));
 const RAW_VOID_TAGS = new Set(['br','hr','img','input']);
-const RAW_ATTRS = new Set('abbr aria-label aria-hidden checked class cols colspan disabled for height href id loading name open placeholder rel required role rows rowspan selected src target title type value width'.split(' '));
+const RAW_ATTRS = new Set('abbr accept alt aria-controls aria-current aria-describedby aria-expanded aria-hidden aria-label aria-labelledby aria-selected aria-valuemax aria-valuemin aria-valuenow autocomplete checked class cols colspan disabled download for height hidden href id inputmode loading max maxlength min minlength multiple name open pattern placeholder rel required role rows rowspan selected src step tabindex target title type value width'.split(' '));
 function safeRawTag(match){
   const closing=!!match[1], name=String(match[2]||'').toLowerCase();
   if(!RAW_TAGS.has(name)) return '';
   if(closing) return RAW_VOID_TAGS.has(name)?'':`</${name}>`;
   const rawAttrs=match[3]||''; let attrs='', attrRe=/([\w:-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g, a;
   while((a=attrRe.exec(rawAttrs))){
-    const key=a[1].toLowerCase(); if(!RAW_ATTRS.has(key)||key.startsWith('on')) continue;
+    const key=a[1].toLowerCase(); if((!RAW_ATTRS.has(key)&&!key.startsWith('data-'))||key.startsWith('on')) continue;
     let value=a[2]??a[3]??a[4]??'';
     if(['href','src'].includes(key)){ value=safeHref(value); if(value==='#' && !/^#/.test(a[2]??a[3]??a[4]??'')) continue; }
     if(key==='target' && value!=='_blank' && value!=='_self') continue;
-    if(key==='type' && !/^(text|email|url|search|number|checkbox|radio|button|submit|reset)$/i.test(value)) continue;
+    if(key==='type' && !/^(text|email|url|search|number|range|checkbox|radio|button|submit|reset)$/i.test(value)) continue;
     attrs+=` ${key}="${escAttr(value)}"`;
   }
   if(name==='a' && /\starget="_blank"/.test(attrs) && !/\srel=/.test(attrs)) attrs+=' rel="noopener noreferrer"';
@@ -97,91 +103,52 @@ function splitTableRow(line=''){
   return s.split('|').map(x=>x.trim());
 }
 function markdown(md=''){
-  const source=String(md).replace(/\r/g,'').replace(/^\\(?=(?:#{1,6}\s|[-+*>]\s|\d+\.\s))/gm,'');
-  const lines=source.split('\n');
-  let html='';
+  let source=String(md).replace(/\r/g,'').replace(/^\\(?=(?:#{1,6}\s|[-+*>]\s|\d+\.\s))/gm,'');
+  const footnoteDefs=new Map(), footnoteOrder=[], footnoteRefCounts=new Map();
+  source=source.split('\n').filter(line=>{const m=line.match(/^\s*\[\^([\w-]+)\]:\s*(.*)$/);if(!m)return true;footnoteDefs.set(m[1],m[2]);return false}).join('\n');
+  const lines=source.split('\n'); let html=''; const headingIds=new Map();
   const isBlank=i=>i>=lines.length||!lines[i].trim();
   const tableSep=line=>/^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line||'');
-  const blockStart=i=>{
-    if(i>=lines.length) return true;
-    const t=lines[i].trim();
-    if(!t) return true;
-    return /^```/.test(t)||/^(#{1,6})\s+/.test(t)||/^(?:---+|___+|\*\*\*+)\s*$/.test(t)||/^>\s?/.test(t)||/^\s*(?:[-+*]|\d+\.)\s+/.test(lines[i])||(i+1<lines.length&&lines[i].includes('|')&&tableSep(lines[i+1]));
-  };
+  const slugText=s=>String(s).replace(/<[^>]*>/g,'').replace(/&amp;/g,'and').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'section';
+  const uniqueId=s=>{const base=slugText(s),n=(headingIds.get(base)||0)+1;headingIds.set(base,n);return n===1?base:`${base}-${n}`};
+  function renderInline(text){
+    const tokens=[]; const prepared=String(text).replace(/\[\^([\w-]+)\]/g,(_,id)=>{let n=footnoteOrder.indexOf(id);if(n<0){footnoteOrder.push(id);n=footnoteOrder.length-1}const count=(footnoteRefCounts.get(id)||0)+1;footnoteRefCounts.set(id,count);tokens.push({id,n,refId:`fnref-${id}${count>1?'-'+count:''}`});return `\u0000FN${tokens.length-1}\u0000`});
+    let out=inline(prepared);
+    out=out.replace(/\u0000FN(\d+)\u0000/g,(_,i)=>{const f=tokens[Number(i)];return `<sup class="footnote-ref" id="${escAttr(f.refId)}"><a href="#fn-${escAttr(f.id)}" aria-label="Catatan kaki ${f.n+1}">${f.n+1}</a></sup>`});
+    return out;
+  }
+  const blockStart=i=>{if(i>=lines.length)return true;const t=lines[i].trim();if(!t)return true;return /^```/.test(t)||/^(#{1,6})\s+/.test(t)||/^(?:---+|___+|\*\*\*+)\s*$/.test(t)||/^>\s?/.test(t)||/^\s*(?:[-+*]|\d+\.)\s+/.test(lines[i])||(i+1<lines.length&&lines[i].includes('|')&&tableSep(lines[i+1]))};
   function parseListAt(start){
-    const first=lines[start].match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);
-    if(!first) return {html:'',next:start};
-    const indent=first[1].replace(/\t/g,'  ').length, ordered=/\d+\./.test(first[2]), tag=ordered?'ol':'ul';
-    const items=[]; let current='', i=start;
+    const first=lines[start].match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);if(!first)return {html:'',next:start};
+    const indent=first[1].replace(/\t/g,'  ').length,ordered=/\d+\./.test(first[2]),tag=ordered?'ol':'ul';const items=[];let current='',i=start;
     while(i<lines.length){
-      if(!lines[i].trim()){
-        if(i+1<lines.length && /^\s+(?:[-+*]|\d+\.)\s+/.test(lines[i+1])){i++;continue;}
-        break;
-      }
-      const m=lines[i].match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);
-      if(!m) break;
-      const level=m[1].replace(/\t/g,'  ').length;
-      if(level<indent) break;
-      if(level>indent){
-        if(!current) break;
-        const nested=parseListAt(i); if(!nested.html || nested.next<=i) break;
-        current+=nested.html; i=nested.next; continue;
-      }
-      if((/\d+\./.test(m[2]))!==ordered) break;
-      if(current) items.push(`<li>${current}</li>`);
-      current=inline(m[3].trim()); i++;
+      if(!lines[i].trim()){if(i+1<lines.length&&/^\s+(?:[-+*]|\d+\.)\s+/.test(lines[i+1])){i++;continue}break}
+      const m=lines[i].match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);if(!m)break;const level=m[1].replace(/\t/g,'  ').length;if(level<indent)break;
+      if(level>indent){if(!current)break;const nested=parseListAt(i);if(!nested.html||nested.next<=i)break;current+=nested.html;i=nested.next;continue}
+      if((/\d+\./.test(m[2]))!==ordered)break;if(current)items.push(`<li>${current}</li>`);current=renderInline(m[3].trim());i++;
     }
-    if(current) items.push(`<li>${current}</li>`);
-    return {html:`<${tag}>${items.join('')}</${tag}>`,next:i};
+    if(current)items.push(`<li>${current}</li>`);return {html:`<${tag}>${items.join('')}</${tag}>`,next:i};
   }
   for(let i=0;i<lines.length;){
-    if(isBlank(i)){i++;continue}
-    const raw=lines[i], t=raw.trim();
-    // Keep supported multi-line HTML components intact (e.g. details, figure, form).
-    const rawBlock=t.match(/^<(details|figure|form|div|section|table|ul|ol|blockquote)\b[^>]*>/i);
-    if(rawBlock){
-      const tag=rawBlock[1].toLowerCase(), buf=[raw]; i++;
-      const closeRe=new RegExp(`<\\/${tag}\\s*>`,'i');
-      while(i<lines.length){buf.push(lines[i]);const done=closeRe.test(lines[i]);i++;if(done)break;}
-      html+=sanitizeRawHtml(buf.join('\n'));
-      continue;
-    }
+    if(isBlank(i)){i++;continue}const raw=lines[i],t=raw.trim();
+    // Preserve allow-listed multi-line HTML components, including custom data-* hooks.
+    const rawBlock=t.match(/^<(details|figure|form|div|section|article|aside|nav|table|ul|ol|blockquote|fieldset)\b[^>]*>/i);
+    if(rawBlock){const tag=rawBlock[1].toLowerCase(),buf=[raw];i++;let depth=(raw.match(new RegExp(`<${tag}\\b`,'ig'))||[]).length-(raw.match(new RegExp(`</${tag}\\s*>`,'ig'))||[]).length;while(i<lines.length&&depth>0){buf.push(lines[i]);depth+=(lines[i].match(new RegExp(`<${tag}\\b`,'ig'))||[]).length-(lines[i].match(new RegExp(`</${tag}\\s*>`,'ig'))||[]).length;i++}html+=sanitizeRawHtml(buf.join('\n'));continue}
     const fence=t.match(/^```\s*([\w-]*)\s*$/);
-    if(fence){
-      const lang=fence[1]||'';i++;const buf=[];
-      while(i<lines.length&&!/^```\s*$/.test(lines[i].trim())){buf.push(lines[i]);i++}
-      if(i<lines.length)i++;
-      const langLabel=(lang||'text').toUpperCase();
-      html+=`<div class="code-block"><div class="code-toolbar"><span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="code-lang">${esc(langLabel)}</span><button class="copy-code" type="button" aria-label="Salin kode">Salin</button></div><pre><code${lang?` class="language-${escAttr(lang)}"`:''}>${esc(buf.join('\n'))}</code></pre></div>`;
-      continue;
-    }
-    const h=t.match(/^(#{1,6})\s+(.+)$/);
-    if(h){const n=h[1].length;html+=`<h${n}>${inline(h[2])}</h${n}>`;i++;continue}
+    if(fence){const lang=(fence[1]||'').toLowerCase();i++;const buf=[];while(i<lines.length&&!/^```\s*$/.test(lines[i].trim())){buf.push(lines[i]);i++}if(i<lines.length)i++;const code=esc(buf.join('\n'));if(lang==='mermaid'){html+=`<div class="mermaid-block"><pre class="mermaid" role="img" aria-label="Diagram alur">${code}</pre><details class="diagram-source"><summary>Lihat kode diagram</summary><pre><code>${code}</code></pre></details></div>`}else{const langLabel=(lang||'text').toUpperCase();html+=`<div class="code-block"><div class="code-toolbar"><span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="code-lang">${esc(langLabel)}</span><button class="copy-code" type="button" aria-label="Salin kode" aria-live="polite">Salin</button></div><pre><code${lang?` class="language-${escAttr(lang)}"`:''}>${code}</code></pre></div>`}continue}
+    const h=t.match(/^(#{1,6})\s+(.+)$/);if(h){const n=h[1].length,txt=h[2].replace(/[`*_~]/g,''),id=uniqueId(txt);html+=`<h${n} id="${escAttr(id)}">${renderInline(h[2])}</h${n}>`;i++;continue}
     if(/^(?:---+|___+|\*\*\*+)\s*$/.test(t)){html+='<hr>';i++;continue}
-    if(i+1<lines.length&&raw.includes('|')&&tableSep(lines[i+1])){
-      const head=splitTableRow(raw);i+=2;const rows=[];
-      while(i<lines.length&&lines[i].trim()&&lines[i].includes('|')){rows.push(splitTableRow(lines[i]));i++}
-      html+='<div class="table-wrap"><table><thead><tr>'+head.map(c=>`<th>${inline(c)}</th>`).join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+head.map((_,idx)=>`<td>${inline(r[idx]??'')}</td>`).join('')+'</tr>').join('')+'</tbody></table></div>';
-      continue;
-    }
-    if(/^>\s?/.test(t)){
-      const buf=[];
-      while(i<lines.length){const m=lines[i].trim().match(/^>\s?(.*)$/);if(!m)break;buf.push(m[1]);i++}
-      html+=`<blockquote><p>${inline(buf.join(' '))}</p></blockquote>`;
-      continue;
-    }
-    const listMatch=raw.match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);
-    if(listMatch){const parsed=parseListAt(i);html+=parsed.html;i=parsed.next;continue}
-    const para=[];
-    while(i<lines.length&&!isBlank(i)){
-      if(para.length&&blockStart(i))break;
-      para.push(lines[i].trim());i++;
-    }
-    if(para.length)html+=`<p>${inline(para.join(' '))}</p>`;
+    if(i+1<lines.length&&raw.includes('|')&&tableSep(lines[i+1])){const head=splitTableRow(raw);i+=2;const rows=[];while(i<lines.length&&lines[i].trim()&&lines[i].includes('|')){rows.push(splitTableRow(lines[i]));i++}html+='<div class="table-wrap" role="region" aria-label="Tabel artikel" tabindex="0"><table><thead><tr>'+head.map(c=>`<th scope="col">${renderInline(c)}</th>`).join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+head.map((_,idx)=>`<td>${renderInline(r[idx]??'')}</td>`).join('')+'</tr>').join('')+'</tbody></table></div>';continue}
+    if(/^>\s?/.test(t)){const buf=[];while(i<lines.length&&/^>\s?/.test(lines[i].trim())){buf.push(lines[i].trim().replace(/^>\s?/,''));i++}const first=buf[0]||'',call=first.match(/^\[!(INFO|SUCCESS|WARNING|DANGER|TIP|NOTE)\]\s*(.*)$/i);if(call){const kind=call[1].toLowerCase(),title=call[2]||({info:'Informasi',success:'Berhasil',warning:'Perhatian',danger:'Peringatan',tip:'Tips',note:'Catatan'}[kind]);const body=buf.slice(1).join('\n').trim(),paragraphs=body.split(/\n\s*\n/).filter(Boolean);html+=`<aside class="callout callout-${kind}" role="${kind==='danger'?'alert':'note'}"><strong class="callout-title">${renderInline(title)}</strong>${paragraphs.map(paragraph=>`<p>${renderInline(paragraph.trim())}</p>`).join('')}</aside>`}else{const chunks=buf.join('\n').split(/\n\s*\n/).filter(Boolean);html+=`<blockquote>${chunks.map(chunk=>`<p>${renderInline(chunk.trim())}</p>`).join('')}</blockquote>`}continue}
+    const listMatch=raw.match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);if(listMatch){const parsed=parseListAt(i);html+=parsed.html;i=parsed.next;continue}
+    const para=[];while(i<lines.length&&!isBlank(i)){if(para.length&&blockStart(i))break;para.push(lines[i].trim());i++}if(para.length)html+=`<p>${renderInline(para.join(' '))}</p>`;
   }
+  if(footnoteOrder.length){const items=footnoteOrder.map((id,index)=>{const note=footnoteDefs.get(id)||'Catatan tidak ditemukan.';return `<li id="fn-${escAttr(id)}"><span>${renderInline(note)}</span> <a class="footnote-backref" href="#fnref-${escAttr(id)}" aria-label="Kembali ke referensi catatan ${index+1}">↩</a></li>`}).join('');html+=`<section class="footnotes" aria-label="Catatan kaki"><h2>Catatan kaki</h2><ol>${items}</ol></section>`}
+  const headingMatches=[...html.matchAll(/<h([2-3]) id="([^"]+)">([\s\S]*?)<\/h\1>/g)];
+  if(headingMatches.length>=3){const toc=`<nav class="article-toc" aria-label="Daftar isi"><details open><summary>Daftar isi</summary><ol>${headingMatches.map(m=>`<li class="toc-level-${m[1]}"><a href="#${escAttr(m[2])}">${m[3].replace(/<[^>]+>/g,'')}</a></li>`).join('')}</ol></details></nav>`;html=toc+html}
   return html;
 }
-function shell({title,description,canonical,body,type='website',image=''}){const chosenImage=image||DEFAULT_IMAGE;const ogImage=chosenImage.startsWith('http')?chosenImage:SITE+chosenImage;return `<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="${type}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${ogImage}"><meta property="og:site_name" content="Rudi Parwanto Portfolio"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${ogImage}"><link rel="alternate" type="application/rss+xml" title="Blog Rudi Parwanto" href="/feed.xml"><script>document.documentElement.dataset.theme=localStorage.getItem('cv-theme')||'dark'</script><link rel="stylesheet" href="/blog/blog.css"></head><body><header class="mac-menu"><div class="menu-left"><a class="apple" href="/" aria-label="Kembali ke portofolio"><img src="/assets/icon-apple.webp" alt="" width="17" height="17"></a><b>CV Studio</b><nav aria-label="Navigasi utama"><a href="/">Portfolio</a><a class="active" href="/blog/" aria-current="page">Blog</a></nav></div><div class="menu-right"><button class="theme-toggle" type="button" aria-label="Ganti tema" onclick="let t=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=t;localStorage.setItem('cv-theme',t);this.textContent=t==='light'?'☾':'☀';window.syncCommentsTheme?.()">☀</button><span class="menu-clock" id="clock"></span></div></header><div class="window"><div class="titlebar"><div class="lights" aria-hidden="true"><i></i><i></i><i></i></div><span>CV Studio — Rudi Parwanto</span><span class="title-right">HTML&nbsp; · &nbsp;BLOG</span></div><nav class="tabs" aria-label="Tab"><a href="/">portfolio.js <span aria-hidden="true">↗</span></a><a href="/blog/" class="selected">blog.md</a></nav><div class="work"><aside class="sidebar"><div class="explorer-title">EXPLORER</div><a class="folder" href="/"><img src="/assets/icon-folder.webp" alt="" width="15" height="15"> cv-portfolio</a><a class="file-link" href="/">⌘ &nbsp; portfolio.js</a><a class="file-link selected" href="/blog/">▤ &nbsp; blog.md</a><div class="sidebar-caption">RUDI PARWANTO<br>E-Commerce Specialist</div></aside><div class="editor"><div class="breadcrumb"><a href="/">cv-portfolio</a> <span>›</span> <a href="/blog/">blog.md</a></div>${body}</div></div><footer class="status"><span>Ready &nbsp; · &nbsp; Blog</span><span>UTF-8 &nbsp; · &nbsp; Markdown</span></footer></div><script>
+function shell({title,description,canonical,body,type='website',image=''}){const chosenImage=image||DEFAULT_IMAGE;const ogImage=chosenImage.startsWith('http')?chosenImage:SITE+chosenImage;const mermaidScript=body.includes('class="mermaid-block"')?'<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>':'';return `<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="${type}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${ogImage}"><meta property="og:site_name" content="Rudi Parwanto Portfolio"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${ogImage}"><link rel="alternate" type="application/rss+xml" title="Blog Rudi Parwanto" href="/feed.xml"><script>document.documentElement.dataset.theme=localStorage.getItem('cv-theme')||'dark'</script><link rel="stylesheet" href="/blog/blog.css">${mermaidScript}</head><body><header class="mac-menu"><div class="menu-left"><a class="apple" href="/" aria-label="Kembali ke portofolio"><img src="/assets/icon-apple.webp" alt="" width="17" height="17"></a><b>CV Studio</b><nav aria-label="Navigasi utama"><a href="/">Portfolio</a><a class="active" href="/blog/" aria-current="page">Blog</a></nav></div><div class="menu-right"><button class="theme-toggle" type="button" aria-label="Ganti tema" onclick="let t=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=t;localStorage.setItem('cv-theme',t);this.textContent=t==='light'?'☾':'☀';window.syncCommentsTheme?.()">☀</button><span class="menu-clock" id="clock"></span></div></header><div class="window"><div class="titlebar"><div class="lights" aria-hidden="true"><i></i><i></i><i></i></div><span>CV Studio — Rudi Parwanto</span><span class="title-right">HTML&nbsp; · &nbsp;BLOG</span></div><nav class="tabs" aria-label="Tab"><a href="/">portfolio.js <span aria-hidden="true">↗</span></a><a href="/blog/" class="selected">blog.md</a></nav><div class="work"><aside class="sidebar"><div class="explorer-title">EXPLORER</div><a class="folder" href="/"><img src="/assets/icon-folder.webp" alt="" width="15" height="15"> cv-portfolio</a><a class="file-link" href="/">⌘ &nbsp; portfolio.js</a><a class="file-link selected" href="/blog/">▤ &nbsp; blog.md</a><div class="sidebar-caption">RUDI PARWANTO<br>E-Commerce Specialist</div></aside><div class="editor"><div class="breadcrumb"><a href="/">cv-portfolio</a> <span>›</span> <a href="/blog/">blog.md</a></div>${body}</div></div><footer class="status"><span>Ready &nbsp; · &nbsp; Blog</span><span>UTF-8 &nbsp; · &nbsp; Markdown</span></footer></div><script>
 const c=document.getElementById('clock');
 function tick(){c.textContent=new Intl.DateTimeFormat('id-ID',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit'}).format(new Date())}
 tick();setInterval(tick,60000);
@@ -189,7 +156,12 @@ document.querySelector('.theme-toggle').textContent=document.documentElement.dat
 function utterancesTheme(){return document.documentElement.dataset.theme==='light'?'github-light':'github-dark'}
 window.syncCommentsTheme=function(){const frame=document.querySelector('.utterances-frame');if(frame?.contentWindow)frame.contentWindow.postMessage({type:'set-theme',theme:utterancesTheme()},'https://utteranc.es')};
 (function(){const mount=document.getElementById('comments-mount');if(!mount)return;const script=document.createElement('script');script.src='https://utteranc.es/client.js';script.async=true;script.crossOrigin='anonymous';script.setAttribute('repo','jieponk/rudi-parwanto-portfolio');script.setAttribute('issue-term','pathname');script.setAttribute('theme',utterancesTheme());mount.appendChild(script)})();
-document.addEventListener('click',async e=>{const btn=e.target.closest('.copy-code');if(!btn)return;const code=btn.closest('.code-block')?.querySelector('code');if(!code)return;const value=code.textContent||'';try{await navigator.clipboard.writeText(value)}catch(_){const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}const original=btn.textContent;btn.textContent='Tersalin';btn.classList.add('copied');setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied')},1400)});
+document.addEventListener('click',async e=>{const btn=e.target.closest('.copy-code,[data-copy-target]');if(!btn)return;let code;if(btn.matches('[data-copy-target]')){const target=document.getElementById(btn.getAttribute('data-copy-target'));code=target?.textContent}else{code=btn.closest('.code-block')?.querySelector('code')?.textContent}if(code==null)return;const original=btn.textContent;let ok=false;try{await navigator.clipboard.writeText(code);ok=true}catch(_){const area=document.createElement('textarea');area.value=code;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();try{ok=document.execCommand('copy')}catch(__){}area.remove()}btn.textContent=ok?'Tersalin':'Gagal menyalin';btn.classList.toggle('copied',ok);btn.setAttribute('aria-label',ok?'Teks berhasil disalin':'Gagal menyalin teks');window.setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied');btn.setAttribute('aria-label','Salin kode')},1800)});
+document.addEventListener('click',e=>{const trigger=e.target.closest('[data-tab-trigger]');if(!trigger)return;const group=trigger.closest('[data-tabs]');if(!group)return;const key=trigger.getAttribute('data-tab-trigger');group.querySelectorAll('[data-tab-trigger]').forEach(el=>{const active=el===trigger;el.setAttribute('aria-selected',String(active));el.tabIndex=active?0:-1});group.querySelectorAll('[data-tab-panel]').forEach(panel=>{const active=panel.getAttribute('data-tab-panel')===key;panel.hidden=!active;panel.setAttribute('aria-hidden',String(!active))})});
+document.addEventListener('keydown',e=>{const trigger=e.target.closest('[data-tab-trigger]');if(!trigger||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;const group=trigger.closest('[data-tabs]');const tabs=[...group.querySelectorAll('[data-tab-trigger]')];let i=tabs.indexOf(trigger);if(e.key==='ArrowRight')i=(i+1)%tabs.length;else if(e.key==='ArrowLeft')i=(i-1+tabs.length)%tabs.length;else if(e.key==='Home')i=0;else i=tabs.length-1;e.preventDefault();tabs[i].focus();tabs[i].click()});
+(function(){const links=[...document.querySelectorAll('.article-toc a[href^="#"]')];if(!links.length||!('IntersectionObserver'in window))return;const headings=links.map(a=>document.getElementById(decodeURIComponent(a.hash.slice(1)))).filter(Boolean);const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){links.forEach(a=>{const active=a.hash==='#'+entry.target.id;if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')})}})},{rootMargin:'-12% 0px -72% 0px'});headings.forEach(h=>observer.observe(h))})();
+(function(){const diagrams=[...document.querySelectorAll('.mermaid-block pre.mermaid')];if(!diagrams.length)return;const render=()=>{if(!window.mermaid)return;try{window.mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:document.documentElement.dataset.theme==='light'?'default':'dark'});window.mermaid.run({nodes:diagrams})}catch(e){console.warn('Diagram Mermaid tidak dapat dirender; kode sumber tetap tersedia.',e)}};if(window.mermaid)render();else{const script=document.querySelector('script[src*="mermaid.min.js"]');script?.addEventListener('load',render,{once:true})}})();
+document.querySelectorAll('.image-comparison').forEach(box=>{const range=box.querySelector('input[type="range"]'),after=box.querySelector('.comparison-after');if(!range||!after)return;const update=()=>{const value=Math.max(0,Math.min(100,Number(range.value)||50));after.style.clipPath='inset(0 '+(100-value)+'% 0 0)';box.style.setProperty('--comparison-position',value+'%');range.setAttribute('aria-valuenow',String(value))};range.addEventListener('input',update);update()});
 </script></body></html>`}
 function labelSlug(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 function tags(p){const arr=Array.isArray(p.labels)?p.labels.filter(Boolean):[];return arr.length?`<div class="tags">${arr.map(x=>`<a href="/blog/label/${labelSlug(x)}/"># ${esc(x)}</a>`).join('')}</div>`:''}
@@ -219,4 +191,5 @@ const rss=posts.map(p=>`<item><title>${esc(p.title)}</title><link>${SITE}/blog/$
 const today=new Date().toISOString().slice(0,10),urls=[{loc:SITE+'/',lastmod:today},{loc:SITE+'/blog/',lastmod:posts[0]?.date||today},...Array.from({length:Math.max(0,totalPages-1)},(_,i)=>({loc:`${SITE}/blog/page/${i+2}/`,lastmod:posts[0]?.date||today})),...posts.map(p=>({loc:SITE+'/blog/'+p.slug+'/',lastmod:p.date})),...allLabels.map(l=>({loc:SITE+'/blog/label/'+labelSlug(l.name)+'/',lastmod:l.posts[0]?.date||today}))];fs.writeFileSync(path.join(ROOT,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(u=>`<url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('')}</urlset>`);console.log(`Built ${posts.length} blog post(s), ${totalPages} listing page(s).`);
 
 }
-main().catch(e=>{console.error(e);process.exit(1)});
+if(require.main===module) main().catch(e=>{console.error(e);process.exit(1)});
+module.exports={markdown,inline,sanitizeRawHtml,safeHref,parseDate};
