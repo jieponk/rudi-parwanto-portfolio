@@ -36,10 +36,37 @@ function safeHref(value=''){
   const v=String(value).trim();
   return /^(https?:\/\/|mailto:|\/|#)/i.test(v) ? v : '#';
 }
+const RAW_TAGS = new Set('a abbr b br button del details div em figcaption figure form hr i img ins kbd label li mark ol option p samp section small span strong sub summary sup table tbody td textarea tfoot th thead tr u ul var select input'.split(' '));
+const RAW_VOID_TAGS = new Set(['br','hr','img','input']);
+const RAW_ATTRS = new Set('abbr aria-label aria-hidden checked class cols colspan disabled for height href id loading name open placeholder rel required role rows rowspan selected src target title type value width'.split(' '));
+function safeRawTag(match){
+  const closing=!!match[1], name=String(match[2]||'').toLowerCase();
+  if(!RAW_TAGS.has(name)) return '';
+  if(closing) return RAW_VOID_TAGS.has(name)?'':`</${name}>`;
+  const rawAttrs=match[3]||''; let attrs='', attrRe=/([\w:-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g, a;
+  while((a=attrRe.exec(rawAttrs))){
+    const key=a[1].toLowerCase(); if(!RAW_ATTRS.has(key)||key.startsWith('on')) continue;
+    let value=a[2]??a[3]??a[4]??'';
+    if(['href','src'].includes(key)){ value=safeHref(value); if(value==='#' && !/^#/.test(a[2]??a[3]??a[4]??'')) continue; }
+    if(key==='target' && value!=='_blank' && value!=='_self') continue;
+    if(key==='type' && !/^(text|email|url|search|number|checkbox|radio|button|submit|reset)$/i.test(value)) continue;
+    attrs+=` ${key}="${escAttr(value)}"`;
+  }
+  if(name==='a' && /\starget="_blank"/.test(attrs) && !/\srel=/.test(attrs)) attrs+=' rel="noopener noreferrer"';
+  return `<${name}${attrs}${RAW_VOID_TAGS.has(name)?' />':'>'}`;
+}
+function sanitizeRawHtml(html=''){
+  return String(html).replace(/<!--[\s\S]*?-->/g,'').replace(/<\s*(\/?)\s*([a-zA-Z][\w:-]*)\b([^<>]*?)\s*(\/?)>/g,(whole,slash,name,attrs,selfClose)=>safeRawTag([whole,slash,name,attrs,selfClose]));
+}
 function inline(input=''){
   let source=String(input);
-  const codes=[];
+  const codes=[], rawTags=[];
   source=source.replace(/`([^`]+)`/g,(_,code)=>`\u0000CODE${codes.push(code)-1}\u0000`);
+  source=source.replace(/<\s*(\/?)\s*([a-zA-Z][\w:-]*)\b([^<>]*?)\s*(\/?)>/g,(tag,slash,name,attrs,selfClose)=>{
+    const safe=safeRawTag([tag,slash,name,attrs,selfClose]);
+    if(!safe) return '';
+    return `\u0000HTML${rawTags.push(safe)-1}\u0000`;
+  });
   let x=esc(source);
   x=x.replace(/!\[([^\]]*)\]\(([^\s)]+)(?:\s+["']([^"']*)["'])?\)/g,(_,alt,url,title)=>{
     const href=safeHref(url);
@@ -49,12 +76,18 @@ function inline(input=''){
     const href=safeHref(url), external=/^https?:\/\//i.test(href);
     return `<a href="${escAttr(href)}"${title?` title="${escAttr(title)}"`:''}${external?' rel="noopener noreferrer" target="_blank"':''}>${label}</a>`;
   });
+  // Bare URLs become clickable links, without swallowing common trailing punctuation.
+  x=x.replace(/(^|[\s(])((?:https?:\/\/)[^\s<>]+)/g,(_,prefix,url)=>{
+    const trailing=(url.match(/[.,!?;:)]+$/)||[''])[0], href=url.slice(0,url.length-trailing.length);
+    return `${prefix}<a href="${escAttr(href)}" target="_blank" rel="noopener noreferrer">${href}</a>${trailing}`;
+  });
   x=x.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
      .replace(/__(.+?)__/g,'<strong>$1</strong>')
      .replace(/~~(.+?)~~/g,'<del>$1</del>')
      .replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>')
      .replace(/(^|[^_])_([^_\n]+)_/g,'$1<em>$2</em>');
   x=x.replace(/\u0000CODE(\d+)\u0000/g,(_,i)=>`<code>${esc(codes[Number(i)]||'')}</code>`);
+  x=x.replace(/\u0000HTML(\d+)\u0000/g,(_,i)=>rawTags[Number(i)]||'');
   return x;
 }
 function splitTableRow(line=''){
@@ -75,9 +108,44 @@ function markdown(md=''){
     if(!t) return true;
     return /^```/.test(t)||/^(#{1,6})\s+/.test(t)||/^(?:---+|___+|\*\*\*+)\s*$/.test(t)||/^>\s?/.test(t)||/^\s*(?:[-+*]|\d+\.)\s+/.test(lines[i])||(i+1<lines.length&&lines[i].includes('|')&&tableSep(lines[i+1]));
   };
+  function parseListAt(start){
+    const first=lines[start].match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);
+    if(!first) return {html:'',next:start};
+    const indent=first[1].replace(/\t/g,'  ').length, ordered=/\d+\./.test(first[2]), tag=ordered?'ol':'ul';
+    const items=[]; let current='', i=start;
+    while(i<lines.length){
+      if(!lines[i].trim()){
+        if(i+1<lines.length && /^\s+(?:[-+*]|\d+\.)\s+/.test(lines[i+1])){i++;continue;}
+        break;
+      }
+      const m=lines[i].match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);
+      if(!m) break;
+      const level=m[1].replace(/\t/g,'  ').length;
+      if(level<indent) break;
+      if(level>indent){
+        if(!current) break;
+        const nested=parseListAt(i); if(!nested.html || nested.next<=i) break;
+        current+=nested.html; i=nested.next; continue;
+      }
+      if((/\d+\./.test(m[2]))!==ordered) break;
+      if(current) items.push(`<li>${current}</li>`);
+      current=inline(m[3].trim()); i++;
+    }
+    if(current) items.push(`<li>${current}</li>`);
+    return {html:`<${tag}>${items.join('')}</${tag}>`,next:i};
+  }
   for(let i=0;i<lines.length;){
     if(isBlank(i)){i++;continue}
     const raw=lines[i], t=raw.trim();
+    // Keep supported multi-line HTML components intact (e.g. details, figure, form).
+    const rawBlock=t.match(/^<(details|figure|form|div|section|table|ul|ol|blockquote)\b[^>]*>/i);
+    if(rawBlock){
+      const tag=rawBlock[1].toLowerCase(), buf=[raw]; i++;
+      const closeRe=new RegExp(`<\\/${tag}\\s*>`,'i');
+      while(i<lines.length){buf.push(lines[i]);const done=closeRe.test(lines[i]);i++;if(done)break;}
+      html+=sanitizeRawHtml(buf.join('\n'));
+      continue;
+    }
     const fence=t.match(/^```\s*([\w-]*)\s*$/);
     if(fence){
       const lang=fence[1]||'';i++;const buf=[];
@@ -102,18 +170,8 @@ function markdown(md=''){
       html+=`<blockquote><p>${inline(buf.join(' '))}</p></blockquote>`;
       continue;
     }
-    const listMatch=raw.match(/^\s*([-+*]|\d+\.)\s+(.+)$/);
-    if(listMatch){
-      const ordered=/\d+\./.test(listMatch[1]), tag=ordered?'ol':'ul', items=[];
-      while(i<lines.length){
-        if(!lines[i].trim()){i++;continue}
-        const m=lines[i].match(/^\s*([-+*]|\d+\.)\s+(.+)$/);
-        if(!m||(/\d+\./.test(m[1])!==ordered))break;
-        items.push(m[2].trim());i++;
-      }
-      html+=`<${tag}>${items.map(item=>`<li>${inline(item)}</li>`).join('')}</${tag}>`;
-      continue;
-    }
+    const listMatch=raw.match(/^(\s*)([-+*]|\d+\.)\s+(.+)$/);
+    if(listMatch){const parsed=parseListAt(i);html+=parsed.html;i=parsed.next;continue}
     const para=[];
     while(i<lines.length&&!isBlank(i)){
       if(para.length&&blockStart(i))break;
