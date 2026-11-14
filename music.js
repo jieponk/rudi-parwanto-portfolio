@@ -8,8 +8,8 @@
 (()=>{
 'use strict';
 const TRACK = {
-  src: null,            // e.g. '/assets/music/track.mp3'
-  title: '',            // shown in the status bar tooltip
+  src: '/assets/music/background.mp3',
+  title: 'Background music',  // shown in the status bar tooltip
   artist: '',
   credit: ''            // licence / attribution text if the licence requires it
 };
