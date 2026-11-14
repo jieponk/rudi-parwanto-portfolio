@@ -27,7 +27,7 @@ body.vsc .link-card b{display:block;color:var(--strong);font-weight:600;font-siz
 body.vsc .link-card small{display:block;color:var(--muted);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 body.vsc .link-card .arrow{color:var(--muted);transition:transform .15s,color .15s}
 body.vsc .link-card .arrow .ic{width:16px;height:16px}
-body.vsc .link-card:hover .arrow{color:var(--accent);transform:translate(2px,-2px)}
+body.vsc .link-card:hover .arrow{color:var(--accent);transform:translateX(3px)}
 
 body.vsc .shop-card{margin-top:28px;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:22px;border-radius:16px;
   border:1px solid color-mix(in srgb,var(--green) 35%,var(--border));background:color-mix(in srgb,var(--green) 7%,var(--card))}

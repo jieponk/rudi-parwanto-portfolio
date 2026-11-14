@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { chrome, themeBoot, bodyOpen, headIcons, OG_IMAGE, svg } = require('./chrome');
 const ROOT = path.resolve(__dirname, '..');
-const V = '20261114c';
+const V = '20261114i';
 
 const I = {
   home: '<path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/>',
@@ -17,7 +17,7 @@ const I = {
   people: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14a6.5 6.5 0 0 1 3.5 6"/>',
   bag: '<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
   branch: '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="6" r="2"/><path d="M6 7v10M18 8c0 5-5 5-10.5 9"/>',
-  arrow: '<path d="M7 17 17 7M8 7h9v9"/>',
+  arrow: '<path d="m9 6 6 6-6 6"/>',
   back: '<path d="M19 12H5m0 0 6-6m-6 6 6 6"/>'
 };
 const ic = k => svg(I[k]);
@@ -38,7 +38,7 @@ const links = [
   ['https://www.instagram.com/rudi_parwanto/', 'camera', 'Instagram', '@rudi_parwanto', true],
   ['https://wa.me/6285799776565', 'phone', 'WhatsApp', '+62 857 9977 6565', true],
   ['mailto:jieponk@gmail.com', 'mail', 'Email', 'jieponk@gmail.com', false],
-  ['https://id.linkedin.com/in/rudi-parwanto-a0723b163', 'brief', 'LinkedIn', 'Rudi Parwanto', true],
+  ['https://www.linkedin.com/in/rudiparwanto/', 'brief', 'LinkedIn', 'Rudi Parwanto', true],
   ['https://github.com/jieponk', 'branch', 'GitHub', '@jieponk · code & projects', true],
   ['https://www.facebook.com/rudi.parwanto.2025', 'people', 'Facebook', 'Rudi Parwanto', true]
 ];
@@ -57,7 +57,7 @@ const linksBody = `<div class="links-content">
 </section>
 <section class="shop-card" aria-labelledby="shop-title">
   <div class="shop-copy"><p class="eyebrow">// camera &amp; gear</p><h2 id="shop-title">Cari Kamera &amp; Gear?</h2><p>Temukan kamera, lensa, dan perlengkapan pilihan di Aneka Foto.</p></div>
-  <a class="btn btn-primary" href="https://shopee.co.id/anekafoto" target="_blank" rel="noopener noreferrer">${ic('bag')}<span>Belanja di Aneka Foto</span>${ic('arrow')}</a>
+  <a class="btn btn-primary" href="https://shopee.co.id/anekafoto" target="_blank" rel="noopener noreferrer">${ic('bag')}<span>Belanja di Aneka Foto</span></a>
 </section>
 </div>`;
 
