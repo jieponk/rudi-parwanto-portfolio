@@ -16,11 +16,20 @@
     document.getElementById('control-heading').textContent=current==='id'?'Bahasa':'Language';
     trigger.setAttribute('aria-label',current==='id'?'Pengaturan bahasa':'Language settings');
     const mobileLabel=document.getElementById('mobile-language-label');
-    if(mobileLabel)mobileLabel.textContent=current==='id'?'ID':'EN';
+    if(mobileLabel)mobileLabel.innerHTML='<b'+(current==='en'?' class="on"':'')+'>EN</b><b'+(current==='id'?' class="on"':'')+'>ID</b>';
   }
   function close(){dropdown.hidden=true;trigger.setAttribute('aria-expanded','false')}
   function open(){sync();dropdown.hidden=false;trigger.setAttribute('aria-expanded','true')}
-  trigger.addEventListener('click',()=>dropdown.hidden?open():close());
+  const mobile=window.matchMedia('(max-width: 750px)');
+  trigger.addEventListener('click',()=>{
+    // Mobile: the trigger is an EN | ID switch — one tap flips the language.
+    if(mobile.matches){
+      const next=document.documentElement.lang==='id'?'en':'id';
+      if(typeof setPortfolioLanguage==='function')setPortfolioLanguage(next);
+      sync();close();return;
+    }
+    dropdown.hidden?open():close();
+  });
   options.forEach(option=>option.addEventListener('click',()=>{
     if(typeof setPortfolioLanguage==='function')setPortfolioLanguage(option.dataset.language);
     sync();close();trigger.focus();
