@@ -34,13 +34,13 @@ Focus areas:
 | **Portfolio** (`/`) | VS Code × macOS interface: About, Experience, Projects, Skills, Education, Contact. EN/ID, dark/light theme, ⌘K search, boot animation. |
 | **Blog** (`/blog/`) | Posts from JSON, labels, featured post, RSS, comments (Utterances), copyable code blocks. |
 | **Links** (`/links/`) | Personal link hub. |
-| **CMS** (`/admin/`) | Decap CMS with GitHub login. |
+| **CMS** (`/admin/`) | Sveltia CMS (Decap-compatible) with GitHub login. |
 | **Calculator** (`/master/`) | Private marketplace fee & profit calculator (login required). |
 | **SEO** | Prerendered homepage content, JSON-LD (`Person`, `ProfilePage`), sitemap, robots, Open Graph. |
 
 ## Tech stack
 
-HTML · CSS · vanilla JavaScript · Node.js build scripts · Cloudflare Workers (+ Wrangler) · Decap CMS · Utterances
+HTML · CSS · vanilla JavaScript · Node.js build scripts · Cloudflare Workers (+ Wrangler) · Sveltia CMS · Utterances
 
 ## Project structure
 
@@ -59,7 +59,7 @@ HTML · CSS · vanilla JavaScript · Node.js build scripts · Cloudflare Workers
 ├── links/                  # ⚙️ Generated links page (+ links.css)
 ├── 404.html                # ⚙️ Generated not-found page
 ├── master/                 # Marketplace calculator UI
-├── admin/                  # Decap CMS config
+├── admin/                  # Sveltia CMS page + config.yml
 ├── assets/                 # Profile photo and blog media
 ├── content/
 │   ├── blog/               # ✏️ Published posts (JSON)

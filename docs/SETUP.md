@@ -34,7 +34,9 @@ Jangan pernah menyimpan nilai secret di repository.
 
 ## 3. CMS blog (`/admin/`)
 
-Decap CMS memakai GitHub OAuth proxy di `worker.js`. Buat **GitHub OAuth App**:
+`/admin/` memakai **Sveltia CMS** (pengganti langsung Decap CMS; config `admin/config.yml` sama).
+Untuk kembali ke Decap, lihat komentar di `admin/index.html`.
+CMS memakai GitHub OAuth proxy di `worker.js`. Buat **GitHub OAuth App**:
 
 - Homepage URL: `https://masrudi.site`
 - Authorization callback URL: `https://masrudi.site/api/callback`

@@ -6,6 +6,8 @@
 - Tab **Projects** (urbanix.id, kalkulator marketplace) dan grup skill **Web Development**.
 - SEO: isi About di-prerender ke `index.html`, schema `Person` + `ProfilePage` lebih lengkap.
 - Template chrome bersama (`scripts/chrome.js`); `/links` dan `404` dibangun oleh `scripts/build-pages.js`.
+- `/admin/` beralih dari Decap CMS ke Sveltia CMS (tampilan modern, config sama).
+- `wrangler.json`: `keep_vars: true` agar variabel dashboard tidak terhapus saat deploy.
 - Artikel tes dipindah ke `content/drafts/`; catatan setup lama dirangkum ke `docs/SETUP.md`.
 
 ## V8 — Links
