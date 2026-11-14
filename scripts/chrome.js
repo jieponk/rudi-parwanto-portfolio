@@ -92,4 +92,8 @@ function chrome(o) {
 const themeBoot = `<script>(function(){try{var t=localStorage.getItem('cvstudio-theme')||localStorage.getItem('cv-theme')||localStorage.getItem('rudi-theme');if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}})()</script>`;
 const bodyOpen = `<body class="vsc boot-skip"><script>if(document.documentElement.dataset.theme==='light')document.body.classList.add('light')</script>`;
 
-module.exports = { chrome, themeBoot, bodyOpen, svg, P };
+// Favicon set + manifest, shared by every generated page.
+const headIcons = '<link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3"><link rel="manifest" href="/site.webmanifest">';
+const OG_IMAGE = 'https://masrudi.site/assets/og-image.jpg';
+
+module.exports = { chrome, themeBoot, bodyOpen, headIcons, OG_IMAGE, svg, P };

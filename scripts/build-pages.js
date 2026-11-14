@@ -3,7 +3,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const { chrome, themeBoot, bodyOpen, svg } = require('./chrome');
+const { chrome, themeBoot, bodyOpen, headIcons, OG_IMAGE, svg } = require('./chrome');
 const ROOT = path.resolve(__dirname, '..');
 const V = '20261114c';
 
@@ -22,10 +22,11 @@ const I = {
 };
 const ic = k => svg(I[k]);
 
-function page({ title, description, canonical, robots, frame, body, extraCss = '' }) {
+function page({ title, description, canonical, robots, frame, body, extraCss = '', social = false }) {
+  const og = social ? `<meta property="og:type" content="profile"><meta property="og:site_name" content="Rudi Parwanto Portfolio"><meta property="og:title" content="${title}"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${OG_IMAGE}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="id_ID"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${title}"><meta name="twitter:description" content="${description}"><meta name="twitter:image" content="${OG_IMAGE}">` : '';
   return `<!doctype html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">`
     + `<title>${title}</title><meta name="description" content="${description}">${canonical ? `<link rel="canonical" href="${canonical}">` : ''}${robots ? `<meta name="robots" content="${robots}">` : ''}`
-    + `<meta name="theme-color" content="#1f1f1f"><link rel="icon" href="/favicon.ico?v=2" sizes="any">${themeBoot}`
+    + `<meta name="theme-color" content="#1f1f1f">${headIcons}${og || ''}${themeBoot}`
     + `<link rel="stylesheet" href="/vscode.css?v=${V}">${extraCss}</head>${bodyOpen}${frame.head}${body}${frame.foot}`
     + `<script src="/site-chrome.js?v=${V}"></script></body></html>\n`;
 }
@@ -62,7 +63,8 @@ const linksBody = `<div class="links-content">
 
 fs.writeFileSync(path.join(ROOT, 'links', 'index.html'), page({
   title: 'Links — Rudi Parwanto',
-  description: 'Link resmi Rudi Parwanto — portfolio, blog, kontak, dan Aneka Foto.',
+  description: 'Semua link resmi Rudi Parwanto — portfolio, blog, GitHub, LinkedIn, WhatsApp, email, dan toko Aneka Foto.',
+  social: true,
   canonical: 'https://masrudi.site/links/',
   frame: chrome({ section: 'links', app: 'Links Studio', crumbs: ['cv-portfolio', 'links'] }),
   body: linksBody,
