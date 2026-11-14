@@ -147,6 +147,8 @@ const pages = {
 
 // ====================== PROJECTS (shared builder) =========
 // Edit project facts here; both languages use this function.
+// Screenshots for urbanix.id: set to {dark:'assets/projects/urbanix-dark.webp', light:'assets/projects/urbanix-light.webp', w:1600, h:1000}
+var URBANIX_SHOTS = null; // var (not const): projectsHtml runs before this line
 function projectsHtml(lang){
   const id = lang === 'id';
   const t = (en, idn) => id ? idn : en;
@@ -156,12 +158,23 @@ function projectsHtml(lang){
   const lock = svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>');
   const list = (title, items) => '<div><h4>' + title + '</h4><ul>' + items.map(x => '<li>' + x + '</li>').join('') + '</ul></div>';
   const tags = arr => '<div class="tags">' + arr.map(x => '<span class="tag">' + x + '</span>').join('') + '</div>';
+  // Browser-window preview. imgs = {dark, light, w, h} or null for a placeholder card.
+  const shot = (url, imgs, alt, href) => {
+    const bar = '<div class="shot-bar"><span class="shot-lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="shot-url">' + svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>') + url + '</span></div>';
+    const body = imgs
+      ? '<img class="shot-img shot-dark" src="' + imgs.dark + '" alt="' + alt + '" width="' + imgs.w + '" height="' + imgs.h + '" loading="lazy" decoding="async">'
+        + '<img class="shot-img shot-light" src="' + imgs.light + '" alt="" aria-hidden="true" width="' + imgs.w + '" height="' + imgs.h + '" loading="lazy" decoding="async">'
+      : '<div class="shot-placeholder"><b>' + url + '</b><span>' + t('Open the live site', 'Buka website live') + ' ↗</span></div>';
+    const inner = bar + '<div class="shot-view">' + body + '</div>';
+    return href ? '<a class="shot" href="' + href + '" target="_blank" rel="noopener noreferrer" aria-label="' + alt + '">' + inner + '</a>' : '<figure class="shot">' + inner + '</figure>';
+  };
   const kpis = arr => '<div class="kpis">' + arr.map(([v, l]) => '<div><b>' + v + '</b><span>' + l + '</span></div>').join('') + '</div>';
   return '<div class="projects">'
   + '<section class="card project">'
   +   '<div class="project-head"><div><h2>// 01 · ' + t('E-commerce website', 'Website e-commerce') + '</h2><h3>urbanix.id</h3>'
   +   '<p class="muted">' + t('Online store for creator gear (cameras, lenses, drones, audio) — built solo from scratch for PT Koolsnap Multi Retailindo.', 'Toko online perlengkapan kreator (kamera, lensa, drone, audio) — dibangun sendiri dari nol untuk PT Koolsnap Multi Retailindo.') + '</p></div>'
   +   '<span class="pill">● ' + t('Live since 10 Nov 2026', 'Live sejak 10 Nov 2026') + '</span></div>'
+  +   shot('urbanix.id', URBANIX_SHOTS, t('urbanix.id storefront preview', 'Pratinjau toko urbanix.id'), 'https://urbanix.id')
   +   kpis([['±211', t('active products, synced', 'produk aktif & tersinkron')], ['3', t('shipping options', 'opsi pengiriman')], [t('Daily', 'Harian'), t('auto backup to Google Drive', 'backup otomatis ke Google Drive')], ['24/7', t('uptime monitoring & alerts', 'monitoring & notifikasi')]])
   +   '<div class="feature-grid">'
   +     list(t('For shoppers', 'Untuk pembeli'), [
@@ -195,6 +208,8 @@ function projectsHtml(lang){
   +   '<div class="project-head"><div><h2>// 02 · ' + t('Internal tool', 'Alat internal') + '</h2><h3>' + t('Marketplace Pricing & Fee Calculator', 'Kalkulator Harga & Fee Marketplace') + '</h3>'
   +   '<p class="muted">' + t('Pricing tool used by the Aneka Foto team to check net income and margin per marketplace before setting a selling price.', 'Alat hitung yang dipakai tim Aneka Foto untuk mengecek pendapatan bersih dan margin per marketplace sebelum menentukan harga jual.') + '</p></div>'
   +   '<span class="pill">● ' + t('Used by the team', 'Dipakai tim') + '</span></div>'
+  +   shot('masrudi.site/master', {dark:'assets/projects/calculator-dark.webp', light:'assets/projects/calculator-light.webp', w:1600, h:1241}, t('Marketplace calculator with example data', 'Kalkulator marketplace dengan data contoh'))
+  +   '<p class="shot-caption">' + t('Screenshot uses example numbers, not real store data.', 'Screenshot memakai angka contoh, bukan data toko asli.') + '</p>'
   +   kpis([['4', t('stores / marketplaces', 'toko / marketplace')], ['270+', t('Shopee fee categories', 'kategori fee Shopee')], [t('Normal + promo', 'Normal + promo'), t('profit in one view', 'laba dalam satu tampilan')], [t('Login', 'Login'), t('private, session-based', 'akses privat berbasis sesi')]])
   +   '<div class="feature-grid">'
   +     list(t('What it does', 'Fungsi'), [
