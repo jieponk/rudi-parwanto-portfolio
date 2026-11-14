@@ -678,3 +678,5 @@ body.vsc .sb-music.playing .eq i:nth-child(3){animation-delay:-.6s}
   body.vsc.light .menu-right #control-trigger{border-color:rgba(0,0,0,.12)!important;background:rgba(255,255,255,.55)!important}
   body.vsc.light .mobile-language-label b.on{background:var(--accent);color:#fff}
 }
+body.vsc .file .filename{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.vsc .file{min-width:0}
