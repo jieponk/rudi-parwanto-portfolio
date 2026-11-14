@@ -76,6 +76,7 @@ function chrome(o) {
     + `<div class="work"><nav class="activitybar" aria-label="Activity bar"><button type="button" class="act active" id="act-explorer" aria-label="Toggle explorer" aria-pressed="true" title="Explorer">${ic('files')}</button>`
     + act('/', 'home', 'Portfolio', false) + act('/blog/', 'book', 'Blog', section === 'blog') + act('/links/', 'link', 'Links', section === 'links')
     + `<a class="act" href="/Rudi-Parwanto-CV.pdf" download aria-label="Download CV" title="Download CV">${ic('download')}</a><span class="act-spacer"></span>`
+    + `<a class="act" href="https://github.com/jieponk" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" title="GitHub">${ic('branch')}</a>`
     + `<a class="act" href="https://id.linkedin.com/in/rudi-parwanto-a0723b163" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" title="LinkedIn">${ic('account')}</a><button type="button" class="act" id="act-theme" aria-label="Switch color theme" title="Color theme">${ic('contrast')}</button></nav>`
     + `<aside class="sidebar"><div class="side-head"><span class="explorer-title">EXPLORER</span></div><div class="tree"><div class="side-section">${ic('down')}<span>CV-PORTFOLIO</span></div>${tree}</div>`
     + `<div class="stats"><div class="side-section">${ic('down')}<span>PROFILE</span></div><div><span>Name</span><span>Rudi Parwanto</span></div><div><span>Role</span><span>E-Commerce</span></div><div><span>Base</span><span>Jakarta</span></div></div></aside>`

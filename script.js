@@ -24,8 +24,8 @@ const pages = {
     ],
     html: `<div class="cards">
       <section class="card"><h2>// Profile</h2>
-        <div class="profile"><div class="avatar"><img src="assets/foto-profil.webp" alt="Foto profil Rudi Parwanto" width="600" height="600"></div><div><h3>Rudi Parwanto</h3><p class="muted">E-Commerce Specialist · Jakarta Pusat</p><span class="pill">● Marketplace Growth & Digital Commerce</span></div></div>
-        <p>Spesialis e-commerce dengan pengalaman lebih dari 5 tahun dalam operasional marketplace, optimasi katalog, campaign, dan analisis penjualan di bidang elektronik serta perlengkapan kreator.</p>
+        <div class="profile"><div class="avatar"><img src="assets/foto-profil.webp" alt="Foto profil Rudi Parwanto" width="600" height="600"></div><div><h3>Rudi Parwanto</h3><p class="muted">E-Commerce Specialist · Jakarta Pusat</p><span class="pill">● E-Commerce Systems & Automation</span></div></div>
+        <p>Spesialis e-commerce dengan pengalaman lebih dari 5 tahun dalam operasional marketplace, optimasi katalog, campaign, dan analisis penjualan di bidang elektronik serta perlengkapan kreator. Saya juga membangun sistem dan tool praktis untuk pekerjaan marketplace yang berulang.</p>
         <div class="notice">Saat ini bekerja di PT KOOLSNAP MULTI RETAILINDO dan menangani tiga toko: Aneka Foto, Urbanix, dan GearNest.</div>
       <div class="cta-row"><a class="btn btn-primary" href="Rudi-Parwanto-CV.pdf" download><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg><span>Unduh CV</span></a><a class="btn" href="#contact"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 10 14"/><path d="M21 3 14.5 21l-4.5-7-7-4.5z"/></svg><span>Hubungi Saya</span></a><a class="btn btn-ghost" href="https://id.linkedin.com/in/rudi-parwanto-a0723b163" target="_blank" rel="noopener noreferrer"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg><span>LinkedIn</span></a></div></section>
       <section class="card"><h2>// Quick Facts</h2>
@@ -37,7 +37,7 @@ const pages = {
         <div class="facts"><span>Stores:</span><span>Aneka Foto · Urbanix · GearNest</span></div>
         <div class="facts"><span>Platforms:</span><span>Shopee · TikTok Shop · Lazada</span></div>
       </section>
-    </div>`
+    </div>${terminalHtml('id')}`
   },
 
   // ==================== WORK EXPERIENCE =====================
@@ -91,7 +91,7 @@ const pages = {
       '  platforms: ["Shopee", "TikTok Shop", "Lazada"],',
       '  commerce: ["Product SEO", "Campaign", "Live Selling"],',
       '  analytics: ["Microsoft Excel", "Sales Reporting"],',
-      '  web: ["Next.js", "Django", "Cloudflare"],',
+      '  tech: ["TypeScript", "Python", "Next.js", "Django", "..."],',
       '  people: ["Communication", "Negotiation", "Teamwork"]',
       '};'
     ],
@@ -100,9 +100,8 @@ const pages = {
       <div><h3>E-Commerce Operations</h3><div class="tags"><span class="tag">Marketplace Management</span><span class="tag">Product Listing</span><span class="tag">Product SEO</span><span class="tag">Catalog Management</span><span class="tag">Customer Service</span></div></div>
       <div><h3>Marketing & Sales</h3><div class="tags"><span class="tag">Campaign Management</span><span class="tag">Live Streaming</span><span class="tag">Digital Marketing</span><span class="tag">Sales Strategy</span></div></div>
       <div><h3>Analytics & Office</h3><div class="tags"><span class="tag">Microsoft Excel</span><span class="tag">Microsoft Word</span><span class="tag">Microsoft Office</span><span class="tag">Sales Analysis</span><span class="tag">Administration</span></div></div>
-      <div><h3>Web Development</h3><div class="tags"><span class="tag">HTML / CSS / JavaScript</span><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">Django</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">Cloudflare</span><span class="tag">Technical SEO</span></div></div>
       <div><h3>Communication & Collaboration</h3><div class="tags"><span class="tag">Communication</span><span class="tag">Negotiation</span><span class="tag">Teamwork</span><span class="tag">Public Speaking</span></div></div>
-      </div></section>`
+      </div></section>${techStackHtml('id')}`
   },
 
   // ====================== EDUCATION =========================
@@ -131,7 +130,7 @@ const pages = {
       'const contact = {',
       '  email: "jieponk@gmail.com",',
       '  phone: "+62 857 9977 6565",',
-      '  instagram: "@rudi_parwanto",',
+      '  github: "@jieponk",', '  instagram: "@rudi_parwanto",',
       '  location: "Jakarta Pusat, Indonesia"',
       '};'
     ],
@@ -140,6 +139,7 @@ const pages = {
       <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><b>Telepon / WhatsApp</b><small><a href="https://wa.me/6285799776565" target="_blank" rel="noopener noreferrer">0857 9977 6565</a></small></div></div>
       <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div><b>Jakarta Pusat, Indonesia</b><small>Location</small></div></div>
       </section><section class="card"><h2>// Social Links</h2>
+      <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="6" r="2"/><path d="M6 7v10M18 8c0 5-5 5-10.5 9"/></svg></span><div><b>GitHub</b><small><a href="https://github.com/jieponk" target="_blank" rel="noopener noreferrer">@jieponk</a></small></div></div>
       <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg></span><div><b>LinkedIn</b><small><a href="https://id.linkedin.com/in/rudi-parwanto-a0723b163" target="_blank" rel="noopener noreferrer">Rudi Parwanto</a></small></div></div>
       <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".9" fill="currentColor" stroke="none"/></svg></span><div><b>Instagram</b><small><a href="https://www.instagram.com/rudi_parwanto/" target="_blank" rel="noopener noreferrer">@rudi_parwanto</a></small></div></div>
       <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14a6.5 6.5 0 0 1 3.5 6"/></svg></span><div><b>Facebook</b><small><a href="https://www.facebook.com/rudi.parwanto.2025" target="_blank" rel="noopener noreferrer">Rudi Parwanto</a></small></div></div>
@@ -147,6 +147,35 @@ const pages = {
   }
 };
 
+
+// ====================== TECH STACK & TERMINAL ==============
+function techStackHtml(lang){
+  const id = lang === 'id';
+  const groups = [
+    ['Languages', ['HTML5','CSS3','JavaScript','TypeScript','Python','Java','Kotlin','PHP','Go','C#','PowerShell','Bash']],
+    ['Frontend', ['React','Next.js','React Router','Redux','Tailwind CSS','Bootstrap','Vite']],
+    ['Backend & API', ['Node.js','Express.js','Django','Django REST Framework','REST API','GraphQL','Socket.IO','JWT','Postman']],
+    ['Database', ['PostgreSQL','MySQL','MongoDB','Redis','Firebase','Supabase','Oracle']],
+    ['Cloud & DevOps', ['Cloudflare Workers','Docker','Caddy','AWS','Vercel','Netlify','Render','Git','GitHub','GitHub Actions','Linux']],
+    [id ? 'Tools & Sistem' : 'Tools & Systems', ['VS Code','Figma','Canva','Excel','Markdown','JSON','Pricing Systems','Automation','Internal Tools']]
+  ];
+  return '<section class="card tech-card"><h2>// Tech Stack</h2><div class="stack">'
+    + groups.map(([g, items]) => '<div><h3>' + g + '</h3><div class="tags">' + items.map(x => '<span class="tag">' + x + '</span>').join('') + '</div></div>').join('')
+    + '</div></section>';
+}
+function terminalHtml(lang){
+  const id = lang === 'id';
+  const p = '<span class="t-prompt">jieponk@masrudi</span><span class="t-path">:~$</span> ';
+  const ok = x => '<div><span class="t-ok">[✓]</span> ' + x + '</div>';
+  return '<section class="terminal" aria-label="Terminal">'
+    + '<div class="terminal-tabs"><span>PROBLEMS</span><span>OUTPUT</span><span class="active">TERMINAL</span><span class="terminal-shell">zsh</span></div>'
+    + '<div class="terminal-body">'
+    + '<div>' + p + 'whoami</div><div class="t-out">Rudi Parwanto — E-Commerce Specialist · ' + (id ? 'membangun sistem praktis untuk pekerjaan berulang.' : 'building practical systems for repetitive workflows.') + '</div>'
+    + '<div>' + p + 'ls currently_building/</div><div class="t-out t-dirs"><span>marketplace-pricing-center/</span><span>ecommerce-automation/</span><span>personal-portfolio/</span><span>blog-cms/</span><span>experiments/</span></div>'
+    + '<div>' + p + './status</div>'
+    + '<div class="t-out">' + ok('building systems') + ok('automating workflows') + ok('shipping projects') + ok('breaking things') + ok('fixing them again') + '<div><span class="t-run">[→]</span> keep building...<span class="t-caret" aria-hidden="true"></span></div></div>'
+    + '</div></section>';
+}
 
 // ====================== PROJECTS (shared builder) =========
 // Edit project facts here; both languages use this function.
@@ -245,8 +274,8 @@ englishPages.about.code = [
 ];
 englishPages.about.html = `<div class="cards">
   <section class="card"><h2>// Profile</h2>
-    <div class="profile"><div class="avatar"><img src="assets/foto-profil.webp" alt="Rudi Parwanto profile photo" width="600" height="600"></div><div><h3>Rudi Parwanto</h3><p class="muted">E-Commerce Specialist · Central Jakarta</p><span class="pill">● Marketplace Growth & Digital Commerce</span></div></div>
-    <p>E-Commerce Specialist with 5+ years of combined experience in marketplace operations, product optimization, promotional campaigns, and sales performance analysis across consumer electronics and photography retail.</p>
+    <div class="profile"><div class="avatar"><img src="assets/foto-profil.webp" alt="Rudi Parwanto profile photo" width="600" height="600"></div><div><h3>Rudi Parwanto</h3><p class="muted">E-Commerce Specialist · Central Jakarta</p><span class="pill">● E-Commerce Systems & Automation</span></div></div>
+    <p>E-Commerce Specialist with 5+ years of combined experience in marketplace operations, product optimization, promotional campaigns, and sales performance analysis across consumer electronics and photography retail. I also build practical systems and tools for repetitive marketplace workflows.</p>
     <p class="muted">Currently managing Aneka Foto, Urbanix, and GearNest under PT KOOLSNAP MULTI RETAILINDO.</p>
   <div class="cta-row"><a class="btn btn-primary" href="Rudi-Parwanto-CV.pdf" download><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg><span>Download CV</span></a><a class="btn" href="#contact"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 10 14"/><path d="M21 3 14.5 21l-4.5-7-7-4.5z"/></svg><span>Contact Me</span></a><a class="btn btn-ghost" href="https://id.linkedin.com/in/rudi-parwanto-a0723b163" target="_blank" rel="noopener noreferrer"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg><span>LinkedIn</span></a></div></section>
   <section class="card"><h2>// Quick Facts</h2>
@@ -256,7 +285,7 @@ englishPages.about.html = `<div class="cards">
     <div class="facts"><span>Company:</span><span>PT KOOLSNAP MULTI RETAILINDO</span></div>
     <div class="facts"><span>Stores:</span><span>Aneka Foto · Urbanix · GearNest</span></div>
     <div class="facts"><span>Platforms:</span><span>Shopee · TikTok Shop · Lazada</span></div>
-  </section></div>`;
+  </section></div>${terminalHtml('en')}`;
 englishPages.experience.code = [
  '# Professional Experience', '', 'const currentRole = {',
  '  company: "PT KOOLSNAP MULTI RETAILINDO",',
@@ -279,20 +308,20 @@ englishPages.skills.html = `<section class="card"><h2>// Skill Overview</h2><div
  <div><h3>E-Commerce Operations</h3><div class="tags"><span class="tag">Marketplace Management</span><span class="tag">Product Listing</span><span class="tag">Product SEO</span><span class="tag">Catalog Management</span><span class="tag">Customer Service</span></div></div>
  <div><h3>Marketing & Sales</h3><div class="tags"><span class="tag">Campaign Management</span><span class="tag">Live Selling</span><span class="tag">Digital Marketing</span><span class="tag">Sales Strategy</span></div></div>
  <div><h3>Analytics & Office</h3><div class="tags"><span class="tag">Microsoft Excel</span><span class="tag">Microsoft Word</span><span class="tag">Microsoft Office</span><span class="tag">Sales Analysis</span><span class="tag">Administration</span></div></div>
- <div><h3>Web Development</h3><div class="tags"><span class="tag">HTML / CSS / JavaScript</span><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">Django</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">Cloudflare</span><span class="tag">Technical SEO</span></div></div>
-      <div><h3>Communication & Collaboration</h3><div class="tags"><span class="tag">Communication</span><span class="tag">Negotiation</span><span class="tag">Teamwork</span><span class="tag">Public Speaking</span></div></div>
- </div></section>`;
+ <div><h3>Communication & Collaboration</h3><div class="tags"><span class="tag">Communication</span><span class="tag">Negotiation</span><span class="tag">Teamwork</span><span class="tag">Public Speaking</span></div></div>
+ </div></section>${techStackHtml('en')}`;
 englishPages.education.html = `<div class="cards"><section class="card"><h2>// Formal Education</h2>
  <div class="timeline"><span class="period">Jun 2014 – Jun 2017</span><h3>SMK Bina Karya 1 Karanganyar</h3><p class="muted">Multimedia</p><p>Participated in student council and scouting activities.</p></div>
  <h2>// Training</h2><div class="timeline"><span class="period">Jun 2023 – Jul 2023</span><h3>Gada Pratama</h3><p class="muted">PT Produktif Citra Sukses</p><p>Basic security training covering safety procedures, patrols, emergency response, and professional discipline.</p></div></section>
  <section class="card"><h2>// Certifications & Recognition</h2><div class="timeline"><h3>Gada Pratama Certificate</h3><p class="muted">PT Produktif Citra Sukses · 2023</p></div><div class="timeline"><h3>Shopee Award 2024</h3><p class="muted">Home Electronic — Best Seller · Jan 2024</p><p>Sales achievement recognition in the Home Electronic category, as stated on the CV.</p></div><div class="timeline"><h3>Employment Reference Letter</h3><p class="muted">PT SINAR AGUNG INDOTAMA · Mar 2026</p></div></section></div>`;
-englishPages.contact.code = ['# Contact Information','','const contact = {','  email: "jieponk@gmail.com",','  phone: "+62 857 9977 6565",','  instagram: "@rudi_parwanto",','  location: "Central Jakarta, Indonesia"','};'];
+englishPages.contact.code = ['# Contact Information','','const contact = {','  email: "jieponk@gmail.com",','  phone: "+62 857 9977 6565",','  github: "@jieponk",', '  instagram: "@rudi_parwanto",','  location: "Central Jakarta, Indonesia"','};'];
 englishPages.contact.html = `<div class="cards"><section class="card"><h2>// Get In Touch</h2>
  <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></span><div><b>Email</b><small><a href="mailto:jieponk@gmail.com">jieponk@gmail.com</a></small></div></div>
  <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><b>Phone / WhatsApp</b><small><a href="https://wa.me/6285799776565" target="_blank" rel="noopener noreferrer">+62 857 9977 6565</a></small></div></div>
  <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div><b>Central Jakarta, Indonesia</b><small>Location</small></div></div>
  </section><section class="card"><h2>// Social Links</h2>
- <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg></span><div><b>LinkedIn</b><small><a href="https://id.linkedin.com/in/rudi-parwanto-a0723b163" target="_blank" rel="noopener noreferrer">Rudi Parwanto</a></small></div></div>
+ <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="6" r="2"/><path d="M6 7v10M18 8c0 5-5 5-10.5 9"/></svg></span><div><b>GitHub</b><small><a href="https://github.com/jieponk" target="_blank" rel="noopener noreferrer">@jieponk</a></small></div></div>
+      <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></svg></span><div><b>LinkedIn</b><small><a href="https://id.linkedin.com/in/rudi-parwanto-a0723b163" target="_blank" rel="noopener noreferrer">Rudi Parwanto</a></small></div></div>
  <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".9" fill="currentColor" stroke="none"/></svg></span><div><b>Instagram</b><small><a href="https://www.instagram.com/rudi_parwanto/" target="_blank" rel="noopener noreferrer">@rudi_parwanto</a></small></div></div>
  <div class="contact-row"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14a6.5 6.5 0 0 1 3.5 6"/></svg></span><div><b>Facebook</b><small><a href="https://www.facebook.com/rudi.parwanto.2025" target="_blank" rel="noopener noreferrer">Rudi Parwanto</a></small></div></div>
  </section></div>`;
