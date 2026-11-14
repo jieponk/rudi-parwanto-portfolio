@@ -66,6 +66,19 @@ const pages = {
       <h2>// Recognition</h2><p><b>Shopee Award 2024 — Home Electronic Best Seller</b></p><p class="muted">Jan 2024 · Penghargaan tercantum pada CV.</p></section></div>`
   },
 
+  // ======================= PROJECTS =========================
+  projects: {
+    icon: '◆', label: 'projects.js', heading: 'Projects',
+    code: [
+      '# Selected Projects', '',
+      'const projects = [',
+      '  { name: "urbanix.id", type: "E-commerce store", status: "live" },',
+      '  { name: "Marketplace Calculator", type: "Pricing tool", status: "in use" }',
+      '];'
+    ],
+    html: projectsHtml('id')
+  },
+
   // ======================== SKILLS ==========================
   skills: {
     icon: '⌘', label: 'skills.js', heading: 'Skills & Expertise',
@@ -75,6 +88,7 @@ const pages = {
       '  platforms: ["Shopee", "TikTok Shop", "Lazada"],',
       '  commerce: ["Product SEO", "Campaign", "Live Selling"],',
       '  analytics: ["Microsoft Excel", "Sales Reporting"],',
+      '  web: ["Next.js", "Django", "Cloudflare"],',
       '  people: ["Communication", "Negotiation", "Teamwork"]',
       '};'
     ],
@@ -83,6 +97,7 @@ const pages = {
       <div><h3>E-Commerce Operations</h3><div class="tags"><span class="tag">Marketplace Management</span><span class="tag">Product Listing</span><span class="tag">Product SEO</span><span class="tag">Catalog Management</span><span class="tag">Customer Service</span></div></div>
       <div><h3>Marketing & Sales</h3><div class="tags"><span class="tag">Campaign Management</span><span class="tag">Live Streaming</span><span class="tag">Digital Marketing</span><span class="tag">Sales Strategy</span></div></div>
       <div><h3>Analytics & Office</h3><div class="tags"><span class="tag">Microsoft Excel</span><span class="tag">Microsoft Word</span><span class="tag">Microsoft Office</span><span class="tag">Sales Analysis</span><span class="tag">Administration</span></div></div>
+      <div><h3>Web Development</h3><div class="tags"><span class="tag">HTML / CSS / JavaScript</span><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">Django</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">Cloudflare</span><span class="tag">Technical SEO</span></div></div>
       <div><h3>Communication & Collaboration</h3><div class="tags"><span class="tag">Communication</span><span class="tag">Negotiation</span><span class="tag">Teamwork</span><span class="tag">Public Speaking</span></div></div>
       </div></section>`
   },
@@ -130,12 +145,81 @@ const pages = {
 };
 
 
+// ====================== PROJECTS (shared builder) =========
+// Edit project facts here; both languages use this function.
+function projectsHtml(lang){
+  const id = lang === 'id';
+  const t = (en, idn) => id ? idn : en;
+  const svg = d => '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
+  const ext = svg('<path d="M7 17 17 7M8 7h9v9"/>');
+  const git = svg('<path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>');
+  const lock = svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>');
+  const list = (title, items) => '<div><h4>' + title + '</h4><ul>' + items.map(x => '<li>' + x + '</li>').join('') + '</ul></div>';
+  const tags = arr => '<div class="tags">' + arr.map(x => '<span class="tag">' + x + '</span>').join('') + '</div>';
+  const kpis = arr => '<div class="kpis">' + arr.map(([v, l]) => '<div><b>' + v + '</b><span>' + l + '</span></div>').join('') + '</div>';
+  return '<div class="projects">'
+  + '<section class="card project">'
+  +   '<div class="project-head"><div><h2>// 01 · ' + t('E-commerce website', 'Website e-commerce') + '</h2><h3>urbanix.id</h3>'
+  +   '<p class="muted">' + t('Online store for creator gear (cameras, lenses, drones, audio) — built solo from scratch for PT Koolsnap Multi Retailindo.', 'Toko online perlengkapan kreator (kamera, lensa, drone, audio) — dibangun sendiri dari nol untuk PT Koolsnap Multi Retailindo.') + '</p></div>'
+  +   '<span class="pill">● ' + t('Live since 10 Nov 2026', 'Live sejak 10 Nov 2026') + '</span></div>'
+  +   kpis([['±211', t('active products, synced', 'produk aktif & tersinkron')], ['3', t('shipping options', 'opsi pengiriman')], [t('Daily', 'Harian'), t('auto backup to Google Drive', 'backup otomatis ke Google Drive')], ['24/7', t('uptime monitoring & alerts', 'monitoring & notifikasi')]])
+  +   '<div class="feature-grid">'
+  +     list(t('For shoppers', 'Untuk pembeli'), [
+          t('Catalog with variants, search, categories, promos and vouchers', 'Katalog dengan varian, pencarian, kategori, promo, dan voucher'),
+          t('Checkout via WhatsApp admin or Shopee — no account needed', 'Checkout via WhatsApp admin atau Shopee — tanpa daftar akun'),
+          t('Regular (JNE/J&T), cargo and same-day (GoSend/Grab) shipping', 'Pengiriman Reguler (JNE/J&T), Kargo, dan Same Day (GoSend/Grab)'),
+          t('Order tracking and printable invoices', 'Cek status pesanan dan invoice siap cetak'),
+          t('Automated emails: confirmation, payment reminder, shipped, review request', 'Email otomatis: konfirmasi, pengingat bayar, paket dikirim, minta ulasan'),
+          t('Verified-buyer reviews with stars, text and photos', 'Ulasan pembeli terverifikasi (bintang, teks, foto)')])
+  +     list('Seller Center', [
+          t('Products, stock, prices, promos, vouchers and banners', 'Kelola produk, stok, harga, promo, voucher, dan banner'),
+          t('Orders: status, tracking numbers, buyer chat, review requests via WA', 'Pesanan: status, resi, chat pembeli, minta ulasan via WA'),
+          t('Bulk product updates via Excel', 'Mass update produk lewat Excel'),
+          t('Articles, comments, reviews and news sources', 'Artikel, komentar, ulasan, dan sumber berita')])
+  +     list(t('Google & marketing', 'Google & pemasaran'), [
+          t('Indexed in Google Search Console; full SEO (sitemap, JSON-LD, Open Graph)', 'Terindeks di Google Search Console; SEO lengkap (sitemap, JSON-LD, Open Graph)'),
+          t('Google Merchant Center feed: 211 products sent daily (awaiting review)', 'Feed Google Merchant Center: 211 produk terkirim harian (menunggu peninjauan)'),
+          t('Google Customer Reviews survey to build store rating', 'Survei Google Customer Reviews untuk rating toko'),
+          t('“Inspirasi”: articles plus auto-translated camera news', 'Menu Inspirasi: artikel + berita kamera otomatis')])
+  +     list(t('Reliability & data', 'Keamanan & operasional'), [
+          t('24/7 monitoring with automatic alerts', 'Pemantauan 24 jam dengan notifikasi otomatis'),
+          t('Daily database and photo backups copied to Google Drive', 'Backup database & foto harian, disalin ke Google Drive'),
+          t('Zero-disruption deploys for shoppers', 'Update website tanpa mengganggu pembeli'),
+          t('Privacy policy aligned with Indonesia’s PDP Law', 'Kebijakan privasi mengacu UU PDP')])
+  +   '</div>'
+  +   tags(['Next.js 14', 'React', 'Django 5.2', 'Django REST Framework', 'PostgreSQL', 'Redis', 'Docker', 'Caddy', 'Cloudflare', 'VPS'])
+  +   '<div class="cta-row"><a class="btn btn-primary" href="https://urbanix.id" target="_blank" rel="noopener noreferrer">' + ext + '<span>' + t('Visit urbanix.id', 'Kunjungi urbanix.id') + '</span></a>'
+  +   '<a class="btn" href="https://github.com/jieponk/urbanix-store" target="_blank" rel="noopener noreferrer">' + git + '<span>' + t('Source on GitHub', 'Kode di GitHub') + '</span></a></div>'
+  + '</section>'
+  + '<section class="card project">'
+  +   '<div class="project-head"><div><h2>// 02 · ' + t('Internal tool', 'Alat internal') + '</h2><h3>' + t('Marketplace Pricing & Fee Calculator', 'Kalkulator Harga & Fee Marketplace') + '</h3>'
+  +   '<p class="muted">' + t('Pricing tool used by the Aneka Foto team to check net income and margin per marketplace before setting a selling price.', 'Alat hitung yang dipakai tim Aneka Foto untuk mengecek pendapatan bersih dan margin per marketplace sebelum menentukan harga jual.') + '</p></div>'
+  +   '<span class="pill">● ' + t('Used by the team', 'Dipakai tim') + '</span></div>'
+  +   kpis([['4', t('stores / marketplaces', 'toko / marketplace')], ['270+', t('Shopee fee categories', 'kategori fee Shopee')], [t('Normal + promo', 'Normal + promo'), t('profit in one view', 'laba dalam satu tampilan')], [t('Login', 'Login'), t('private, session-based', 'akses privat berbasis sesi')]])
+  +   '<div class="feature-grid">'
+  +     list(t('What it does', 'Fungsi'), [
+          t('Inputs: SKU, cost, selling price and supplier cashback', 'Input: SKU, modal, harga jual, dan cashback supplier'),
+          t('Shopee, GearNest, TikTok Shop (Mall / Non-Mall) and Blibli', 'Shopee, GearNest, TikTok Shop (Mall / Non-Mall), dan Blibli'),
+          t('Searchable fee categories with the matching percentage', 'Pencarian kategori fee lengkap dengan persentasenya'),
+          t('Campaign and extra-program toggles', 'Opsi ikut campaign dan program tambahan')])
+  +     list(t('Output', 'Hasil'), [
+          t('Net income after marketplace fees', 'Pendapatan bersih setelah potongan marketplace'),
+          t('Final profit at normal and promo price, colour-coded', 'Laba akhir harga normal dan promo, dengan warna untung/rugi'),
+          t('Line-by-line fee breakdown and summary', 'Rincian potongan per komponen dan ringkasan')])
+  +   '</div>'
+  +   tags(['JavaScript', 'Cloudflare Workers', 'REST API', 'JSON fee tables', t('Session auth', 'Autentikasi sesi')])
+  +   '<p class="notice">' + lock + ' ' + t('Internal tool — access is limited to the team, so no public demo.', 'Alat internal — akses khusus tim, jadi tidak ada demo publik.') + '</p>'
+  + '</section>'
+  + '</div>';
+}
+
 // ============================================================
 // LANGUAGE SETTINGS — English is the default; Indonesian is optional.
 // 5+ years reflects combined e-commerce roles (2017–2019, 2023–present),
 // not continuous employment. Update this label as your career progresses.
 // ============================================================
 const englishPages = structuredClone(pages);
+englishPages.projects.html = projectsHtml('en');
 englishPages.about.code = [
   '# About Rudi Parwanto', '', 'const specialist = {',
   '  name: "Rudi Parwanto",', '  role: "E-Commerce Specialist",',
@@ -179,7 +263,8 @@ englishPages.skills.html = `<section class="card"><h2>// Skill Overview</h2><div
  <div><h3>E-Commerce Operations</h3><div class="tags"><span class="tag">Marketplace Management</span><span class="tag">Product Listing</span><span class="tag">Product SEO</span><span class="tag">Catalog Management</span><span class="tag">Customer Service</span></div></div>
  <div><h3>Marketing & Sales</h3><div class="tags"><span class="tag">Campaign Management</span><span class="tag">Live Selling</span><span class="tag">Digital Marketing</span><span class="tag">Sales Strategy</span></div></div>
  <div><h3>Analytics & Office</h3><div class="tags"><span class="tag">Microsoft Excel</span><span class="tag">Microsoft Word</span><span class="tag">Microsoft Office</span><span class="tag">Sales Analysis</span><span class="tag">Administration</span></div></div>
- <div><h3>Communication & Collaboration</h3><div class="tags"><span class="tag">Communication</span><span class="tag">Negotiation</span><span class="tag">Teamwork</span><span class="tag">Public Speaking</span></div></div>
+ <div><h3>Web Development</h3><div class="tags"><span class="tag">HTML / CSS / JavaScript</span><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">Django</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">Cloudflare</span><span class="tag">Technical SEO</span></div></div>
+      <div><h3>Communication & Collaboration</h3><div class="tags"><span class="tag">Communication</span><span class="tag">Negotiation</span><span class="tag">Teamwork</span><span class="tag">Public Speaking</span></div></div>
  </div></section>`;
 englishPages.education.html = `<div class="cards"><section class="card"><h2>// Formal Education</h2>
  <div class="timeline"><span class="period">Jun 2014 – Jun 2017</span><h3>SMK Bina Karya 1 Karanganyar</h3><p class="muted">Multimedia</p><p>Participated in student council and scouting activities.</p></div>
