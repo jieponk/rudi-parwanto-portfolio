@@ -414,3 +414,38 @@ button:disabled, input:disabled, select:disabled, textarea:disabled { cursor: no
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* =========================================================
+   VS Code × macOS chrome (2026): window frame comes from /vscode.css.
+   These tokens re-tint the blog content to match the editor.
+   ========================================================= */
+body.vsc{
+  --window:#1f1f1f; --editor:#1f1f1f; --side:#181818; --tab:#2a2d2e; --line:#2f2f2f;
+  --surface:#252527; --surface-raised:#2d2d30; --code-bg:#181818; --code-text:#d4d4d4;
+  --success:#4ec9b0; --warning:#dcdcaa; --danger:#f48771; --info:#4fc1ff; --purple:#c586c0;
+  --font-ui:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI",system-ui,sans-serif;
+  --font-mono:"SF Mono",ui-monospace,Menlo,"JetBrains Mono",Consolas,monospace;
+  --radius-md:12px; --radius-lg:14px;
+}
+html[data-theme="light"] body.vsc{
+  --window:#ffffff; --editor:#ffffff; --side:#f8f8f8; --tab:#ececec; --line:#e5e5e5;
+  --surface:#f6f6f7; --surface-raised:#eeeeef; --code-bg:#f6f8fa; --code-text:#24292f;
+  --success:#16825d; --warning:#795e26; --danger:#c72e0f; --info:#005fb8; --purple:#af00db;
+}
+body.vsc .editor{background:var(--panel)}
+body.vsc .editor>.breadcrumb{border-bottom:1px solid var(--border)}
+body.vsc .wrap,body.vsc .article{animation:vsc-fade .35s ease both}
+body.vsc .hero h1,body.vsc .article h1{color:var(--strong)}
+body.vsc .eyebrow,body.vsc .category{font-family:var(--font-mono);letter-spacing:.08em;color:var(--accent)}
+body.vsc .featured,body.vsc .card,body.vsc .labels-panel{border-color:var(--border);background:var(--card)}
+body.vsc .card:hover{border-color:color-mix(in srgb,var(--accent) 55%,var(--border));background:var(--card);transform:translateY(-1px)}
+body.vsc .card{transition:border-color .18s,transform .18s}
+body.vsc .card img,body.vsc .featured-image img{border-radius:10px}
+body.vsc .featured-meta a,body.vsc .back{color:var(--accent)}
+body.vsc .back{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid var(--border-strong);border-radius:9px;background:var(--hover);font-size:13px}
+body.vsc .back:hover{text-decoration:none;border-color:var(--accent);color:var(--accent)}
+body.vsc .tags a{border-radius:6px;background:var(--hover);border-color:var(--border-strong)}
+body.vsc .pagination a,body.vsc .pagination span{border-radius:8px;border-color:var(--border-strong);background:var(--hover)}
+body.vsc .label-cloud a{border-radius:8px}
+@media(max-width:750px){body.vsc .wrap,body.vsc .article{padding:28px 16px 56px}}
+@media(prefers-reduced-motion:reduce){body.vsc .wrap,body.vsc .article{animation:none}}

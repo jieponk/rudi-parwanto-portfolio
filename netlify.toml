@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/build-blog.js"
+  command = "node scripts/build-blog.js && node scripts/build-pages.js"
   publish = "."
   functions = "netlify/functions"
 
