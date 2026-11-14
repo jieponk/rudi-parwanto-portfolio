@@ -7,7 +7,7 @@
     "sharp": "^0.34.4"
   },
   "scripts": {
-    "build": "node scripts/build-blog.js && node scripts/build-pages.js",
+    "build": "node scripts/build-blog.js && node scripts/build-pages.js && node scripts/prerender-home.js",
     "deploy": "npx wrangler deploy"
   }
 }
