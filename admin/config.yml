@@ -32,15 +32,25 @@ collections:
       - { label: Deskripsi SEO, name: description, widget: text, hint: "Ideal sekitar 140–160 karakter." }
       - label: Kategori
         name: category
-        widget: select
+        widget: relation
+        collection: settings
+        file: taxonomy
+        search_fields: ["categories.*.name"]
+        display_fields: ["categories.*.name"]
+        value_field: "categories.*.name"
         default: E-Commerce
-        options: [E-Commerce, Marketplace, Product SEO, Campaign, Workflow, Camera & Gear, Case Study, Tips]
+        hint: "Kelola daftar kategori di menu Pengaturan → Kategori & Label."
       - label: Label / Tags
         name: labels
-        widget: list
+        widget: relation
+        collection: settings
+        file: taxonomy
+        search_fields: ["labels.*.name"]
+        display_fields: ["labels.*.name"]
+        value_field: "labels.*.name"
+        multiple: true
         required: false
-        default: [E-Commerce]
-        hint: "Contoh: Marketplace, Shopee, Product SEO. Label yang dipakai otomatis muncul di menu Labels blog."
+        hint: "Pilih satu atau beberapa label. Tambah label baru di menu Pengaturan → Kategori & Label."
       - { label: Thumbnail, name: image, widget: image, required: false, hint: "Opsional. Jika dikosongkan, blog otomatis memakai /assets/blog/no-image.webp agar layout tetap rapi." }
       - label: Isi Artikel
         name: body
@@ -50,7 +60,7 @@ collections:
         hint: "Gunakan Rich Text untuk menulis biasa atau Markdown untuk mengetik Markdown. Jangan paste dokumen HTML lengkap seperti <article>...</article>."
 
   - name: settings
-    label: Blog Settings
+    label: Pengaturan
     files:
       - name: blog_settings
         label: Featured Post
@@ -65,3 +75,44 @@ collections:
             value_field: slug
             display_fields: [title]
             hint: "Pilih satu artikel. Artikel lama otomatis tidak lagi menjadi Featured Post."
+      - name: taxonomy
+        label: Kategori & Label
+        file: content/settings/taxonomy.json
+        format: json
+        fields:
+          - label: Kategori
+            name: categories
+            widget: list
+            summary: "{{fields.name}}"
+            hint: "Satu artikel punya satu kategori. Mengganti nama kategori tidak mengubah artikel lama secara otomatis."
+            fields:
+              - { label: Nama, name: name, widget: string }
+              - { label: Deskripsi, name: description, widget: text, required: false }
+          - label: Label
+            name: labels
+            widget: list
+            summary: "{{fields.name}}"
+            hint: "Label muncul di menu Labels blog dan punya halaman sendiri (/blog/label/nama-label/). Deskripsi tampil di halaman label."
+            fields:
+              - { label: Nama, name: name, widget: string }
+              - { label: Deskripsi, name: description, widget: text, required: false }
+      - name: site
+        label: Musik Latar
+        file: content/settings/site.json
+        format: json
+        fields:
+          - label: Musik
+            name: music
+            widget: object
+            fields:
+              - { label: Aktifkan musik, name: enabled, widget: boolean, default: true, hint: "Jika dimatikan, layar pembuka kembali otomatis dan tombol musik disembunyikan." }
+              - label: File musik (MP3)
+                name: file
+                widget: file
+                media_folder: /assets/music
+                public_folder: /assets/music
+                hint: "Upload MP3 maksimal ±5 MB. Gunakan musik yang boleh dipakai (buatan sendiri atau bebas royalti). Beri nama file baru agar pengunjung langsung mendapat lagu terbaru."
+              - { label: Judul lagu, name: title, widget: string, required: false }
+              - { label: Artis, name: artist, widget: string, required: false }
+              - { label: Kredit / lisensi, name: credit, widget: string, required: false, hint: "Isi jika lisensi musik mewajibkan kredit." }
+              - { label: Volume (0–100), name: volume, widget: number, value_type: int, min: 0, max: 100, default: 35 }

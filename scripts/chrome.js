@@ -1,6 +1,9 @@
 // Shared VS Code × macOS window chrome for /blog, /links and 404.
 // The homepage (index.html) has its own richer chrome; keep both visually in sync.
 'use strict';
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
 
 const svg = (d, sw = 1.6) => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const P = {
@@ -96,4 +99,13 @@ const bodyOpen = `<body class="vsc boot-skip"><script>if(document.documentElemen
 const headIcons = '<link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3"><link rel="manifest" href="/site.webmanifest">';
 const OG_IMAGE = 'https://masrudi.site/assets/og-image.jpg';
 
-module.exports = { chrome, themeBoot, bodyOpen, headIcons, OG_IMAGE, svg, P };
+// Public runtime config generated from content/settings/site.json (CMS → website).
+const SITE_JSON = path.resolve(__dirname, '..', 'content', 'settings', 'site.json');
+function readSiteSettings() { try { return JSON.parse(fs.readFileSync(SITE_JSON, 'utf8')); } catch (e) { return {}; } }
+function siteConfigSource() { return 'window.SITE_CONFIG=' + JSON.stringify(readSiteSettings()) + ';\n'; }
+function siteConfigTag() {
+  const v = crypto.createHash('sha1').update(siteConfigSource()).digest('hex').slice(0, 10);
+  return `<script src="/site-config.js?v=${v}"></script>`;
+}
+
+module.exports = { siteConfigSource, siteConfigTag, readSiteSettings, chrome, themeBoot, bodyOpen, headIcons, OG_IMAGE, svg, P };

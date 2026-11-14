@@ -1,0 +1,25 @@
+{
+  "categories": [
+    { "name": "E-Commerce", "description": "Operasional toko online dan marketplace." },
+    { "name": "Marketplace", "description": "Shopee, TikTok Shop, Lazada, Blibli dan platform lainnya." },
+    { "name": "Product SEO", "description": "Optimasi judul, deskripsi dan listing produk." },
+    { "name": "Campaign", "description": "Promo, flash sale dan event marketplace." },
+    { "name": "Workflow", "description": "Cara kerja, SOP dan alur kerja harian." },
+    { "name": "Camera & Gear", "description": "Kamera, lensa dan perlengkapan kreator." },
+    { "name": "Case Study", "description": "Studi kasus dan hasil nyata." },
+    { "name": "Tips", "description": "Tips singkat dan praktis." }
+  ],
+  "labels": [
+    { "name": "E-Commerce", "description": "" },
+    { "name": "Workflow", "description": "" },
+    { "name": "Marketplace", "description": "" },
+    { "name": "Shopee", "description": "" },
+    { "name": "TikTok Shop", "description": "" },
+    { "name": "Product SEO", "description": "" },
+    { "name": "Campaign", "description": "" },
+    { "name": "Automation", "description": "" },
+    { "name": "Tools", "description": "" },
+    { "name": "CSS", "description": "" },
+    { "name": "Development", "description": "" }
+  ]
+}

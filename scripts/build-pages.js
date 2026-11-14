@@ -3,7 +3,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const { chrome, themeBoot, bodyOpen, headIcons, OG_IMAGE, svg } = require('./chrome');
+const { chrome, themeBoot, bodyOpen, headIcons, OG_IMAGE, svg, siteConfigSource, siteConfigTag } = require('./chrome');
 const ROOT = path.resolve(__dirname, '..');
 const V = '20261114i';
 
@@ -28,7 +28,7 @@ function page({ title, description, canonical, robots, frame, body, extraCss = '
     + `<title>${title}</title><meta name="description" content="${description}">${canonical ? `<link rel="canonical" href="${canonical}">` : ''}${robots ? `<meta name="robots" content="${robots}">` : ''}`
     + `<meta name="theme-color" content="#1f1f1f">${headIcons}${og || ''}${themeBoot}`
     + `<link rel="stylesheet" href="/vscode.css?v=${V}">${extraCss}</head>${bodyOpen}${frame.head}${body}${frame.foot}`
-    + `<script src="/site-chrome.js?v=${V}"></script><script src="/music.js?v=${V}"></script></body></html>\n`;
+    + `<script src="/site-chrome.js?v=${V}"></script>${siteConfigTag()}<script src="/music.js?v=${V}"></script></body></html>\n`;
 }
 
 // ---------- /links ----------
@@ -89,4 +89,14 @@ fs.writeFileSync(path.join(ROOT, '404.html'), page({
   body: notFoundBody,
   extraCss: `<link rel="stylesheet" href="/links/links.css?v=${V}">`
 }));
-console.log('Built links/index.html and 404.html');
+// ---------- site-config.js (music settings from the CMS) ----------
+fs.writeFileSync(path.join(ROOT, 'site-config.js'), siteConfigSource());
+for (const rel of ['index.html', 'master/index.html']) {
+  const f = path.join(ROOT, rel);
+  let h = fs.readFileSync(f, 'utf8');
+  const tag = siteConfigTag();
+  if (/<script src="\/site-config\.js\?v=[a-f0-9]+"><\/script>/.test(h)) h = h.replace(/<script src="\/site-config\.js\?v=[a-f0-9]+"><\/script>/, tag);
+  else h = h.replace(/(<script src="\/?music\.js)/, tag + '$1');
+  fs.writeFileSync(f, h);
+}
+console.log('Built links/index.html, 404.html and site-config.js');

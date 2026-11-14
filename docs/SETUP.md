@@ -44,6 +44,12 @@ CMS memakai GitHub OAuth proxy di `worker.js`. Buat **GitHub OAuth App**:
 Login di `/admin/` dengan GitHub. CMS akan commit ke `content/blog/`, lalu Cloudflare membangun ulang blog, `feed.xml`, dan `sitemap.xml`.
 Artikel yang belum siap tayang disimpan di `content/drafts/` (tidak dibaca oleh build).
 
+Menu **Pengaturan** di `/admin/`:
+- **Featured Post** — artikel yang disematkan di halaman blog.
+- **Kategori & Label** — daftar pilihan kategori dan label untuk artikel (+ deskripsi label).
+- **Musik Latar** — upload MP3 baru, judul/artis/kredit, volume, atau matikan musik.
+  Setelah disimpan, Cloudflare membangun ulang situs dan `site-config.js` ikut diperbarui.
+
 ## 4. Komentar blog (Utterances)
 
 1. Pastikan **Issues** aktif di repo `jieponk/rudi-parwanto-portfolio`.

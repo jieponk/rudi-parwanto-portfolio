@@ -13,6 +13,15 @@ const TRACK = {
   artist: '',
   credit: ''            // licence / attribution text if the licence requires it
 };
+// Settings from the CMS (Pengaturan → Musik Latar) override the defaults above.
+const CMS = (window.SITE_CONFIG && window.SITE_CONFIG.music) || null;
+if (CMS) {
+  TRACK.src = CMS.enabled === false ? null : (CMS.file || TRACK.src);
+  TRACK.title = CMS.title || TRACK.title;
+  TRACK.artist = CMS.artist || '';
+  TRACK.credit = CMS.credit || '';
+}
+const VOLUME = CMS && Number.isFinite(+CMS.volume) ? Math.min(100, Math.max(0, +CMS.volume)) / 100 : 0.35;
 const KEY = 'cvstudio-music';
 const enabled = !!TRACK.src;
 const store = {
@@ -24,12 +33,12 @@ let audio = null, btn = null, wantPlaying = false;
 function ensureAudio(){
   if (audio || !enabled) return audio;
   audio = new Audio(TRACK.src);
-  audio.loop = true; audio.preload = 'auto'; audio.volume = 0.35;
+  audio.loop = true; audio.preload = 'auto'; audio.volume = VOLUME;
   audio.addEventListener('play', sync); audio.addEventListener('pause', sync);
   audio.addEventListener('timeupdate', () => { if (Math.floor(audio.currentTime) % 3 === 0) save(); });
   return audio;
 }
-function save(){ if (audio) store.set({ playing: wantPlaying, t: audio.currentTime }); }
+function save(){ if (audio) store.set({ playing: wantPlaying, t: audio.currentTime, src: TRACK.src }); }
 async function play(){
   if (!ensureAudio()) return false;
   wantPlaying = true;
@@ -67,6 +76,7 @@ addEventListener('pagehide', save);
 
 // Resume on later pages / reloads within the same visit.
 const saved = store.get();
+if (saved && saved.src && saved.src !== TRACK.src) saved.playing = false;
 if (saved && saved.playing) {
   ensureAudio();
   wantPlaying = true;

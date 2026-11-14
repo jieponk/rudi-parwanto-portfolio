@@ -53,6 +53,8 @@ HTML · CSS · vanilla JavaScript · Node.js build scripts · Cloudflare Workers
 ├── vscode-ui.js            # Homepage chrome: activity bar, minimap, boot animation
 ├── site-chrome.js          # Theme, explorer, clock for /blog, /links, /master, 404
 ├── menu.js / search.js     # macOS menu bar actions and ⌘K search
+├── music.js                # Background music (settings from site-config.js)
+├── site-config.js          # ⚙️ Generated from content/settings/site.json
 ├── control-language.js     # EN / ID switcher
 ├── mobile-menu.js          # Mobile menu drawer
 ├── blog/                   # ⚙️ Generated blog pages (+ blog.css)
@@ -64,7 +66,7 @@ HTML · CSS · vanilla JavaScript · Node.js build scripts · Cloudflare Workers
 ├── content/
 │   ├── blog/               # ✏️ Published posts (JSON)
 │   ├── drafts/             # ✏️ Unpublished posts (ignored by the build)
-│   └── settings/           # Featured post
+│   └── settings/           # Featured post, categories & labels, music
 ├── scripts/
 │   ├── build-blog.js       # Blog pages, feed.xml, sitemap.xml
 │   ├── build-pages.js      # /links and 404
@@ -85,6 +87,8 @@ HTML · CSS · vanilla JavaScript · Node.js build scripts · Cloudflare Workers
 | About, experience, projects, skills, education, contact | `script.js` (both `pages` = ID and `englishPages` = EN; projects use `projectsHtml()`) | `npm run build` |
 | A blog post | `/admin/` or `content/blog/*.json` | CMS builds automatically / `npm run build` |
 | Hide a post | Move its JSON to `content/drafts/` | `npm run build` |
+| Categories & labels | `/admin/` → Pengaturan → Kategori & Label (`content/settings/taxonomy.json`) | CMS builds automatically |
+| Background music (file, title, volume, on/off) | `/admin/` → Pengaturan → Musik Latar (`content/settings/site.json`) | CMS builds automatically |
 | Links page or 404 | `scripts/build-pages.js` | `npm run build` |
 | Menu bar / explorer / tabs on blog, links, 404 | `scripts/chrome.js` | `npm run build` |
 | Colours, spacing, theme | `vscode.css` | — |
