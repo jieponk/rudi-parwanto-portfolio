@@ -8,7 +8,7 @@
 (()=>{
 'use strict';
 const TRACK = {
-  src: '/assets/music/background.mp3',
+  src: '/assets/music/background.mp3?v=2',
   title: 'Background music',  // shown in the status bar tooltip
   artist: '',
   credit: ''            // licence / attribution text if the licence requires it
