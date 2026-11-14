@@ -4,6 +4,9 @@
 // Save the file, then push changes to GitHub; Cloudflare will deploy automatically.
 // ============================================================
 
+// Project screenshots (urbanix.id). Defined first because the pages object below uses it.
+const URBANIX_SHOTS = {dark:'assets/projects/urbanix-dark.webp', light:'assets/projects/urbanix-light.webp', w:791, h:500};
+
 const pages = {
   // ====================== ABOUT ME ==========================
   about: {
@@ -147,8 +150,6 @@ const pages = {
 
 // ====================== PROJECTS (shared builder) =========
 // Edit project facts here; both languages use this function.
-// Screenshots for urbanix.id: set to {dark:'assets/projects/urbanix-dark.webp', light:'assets/projects/urbanix-light.webp', w:1600, h:1000}
-var URBANIX_SHOTS = null; // var (not const): projectsHtml runs before this line
 function projectsHtml(lang){
   const id = lang === 'id';
   const t = (en, idn) => id ? idn : en;
