@@ -45,6 +45,25 @@ function syncEditor(){
   if(label&&active)label.textContent='cv-portfolio — '+active.textContent;
   document.querySelector('#tabs .tab.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
 }
-if(content)new MutationObserver(syncEditor).observe(content,{childList:true});
-syncEditor();
+let first=true;
+function swap(){
+  syncEditor();
+  if(first){first=false;return}
+  [code,content].forEach(el=>{if(!el)return;el.classList.remove('swap-in');void el.offsetWidth;el.classList.add('swap-in')});
+}
+if(content)new MutationObserver(swap).observe(content,{childList:true});
+swap();
+
+/* Boot splash: full on first visit per session, skipped afterwards. */
+const boot=$('boot');
+const start=performance.now();
+function finishBoot(){
+  const wait=body.classList.contains('boot-skip')?0:Math.max(0,750-(performance.now()-start));
+  setTimeout(()=>{
+    body.classList.add('booted');
+    try{sessionStorage.setItem('cvstudio-booted','1')}catch(e){}
+    setTimeout(()=>boot?.remove(),600);
+  },wait);
+}
+if(document.readyState==='complete')finishBoot();else window.addEventListener('load',finishBoot,{once:true});
 })();
