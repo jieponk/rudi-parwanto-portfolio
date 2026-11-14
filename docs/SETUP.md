@@ -28,6 +28,10 @@ Setelah deploy pertama, tambahkan `masrudi.site` di **Custom Domains** pada Work
 
 Jangan pernah menyimpan nilai secret di repository.
 
+> **Penting:** isi semua nilai di atas dengan tipe **Secret**, bukan Text. `wrangler.json` memakai
+> `"keep_vars": true` agar variabel dashboard tidak terhapus saat deploy otomatis, tetapi tipe Secret tetap
+> paling aman karena tidak pernah ikut terhapus.
+
 ## 3. CMS blog (`/admin/`)
 
 Decap CMS memakai GitHub OAuth proxy di `worker.js`. Buat **GitHub OAuth App**:
