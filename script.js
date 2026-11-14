@@ -151,16 +151,29 @@ const pages = {
 // ====================== TECH STACK & TERMINAL ==============
 function techStackHtml(lang){
   const id = lang === 'id';
+  const svg = d => '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
+  const G = {
+    lang: svg('<path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>'),
+    front: svg('<rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 13h5M8 16h8"/>'),
+    back: svg('<rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><path d="M8 7h.01M8 17h.01"/>'),
+    db: svg('<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>'),
+    cloud: svg('<path d="M7 18a4.5 4.5 0 0 1-.6-9 6 6 0 0 1 11.4 1.5A3.75 3.75 0 0 1 17.5 18z"/>'),
+    tools: svg('<path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5a4 4 0 0 1-2-2z"/><path d="m5 5 4 4"/>')
+  };
+  // [name, monogram, colour] — monogram badges styled like VS Code file icons (no brand logos).
   const groups = [
-    ['Languages', ['HTML5','CSS3','JavaScript','TypeScript','Python','Java','Kotlin','PHP','Go','C#','PowerShell','Bash']],
-    ['Frontend', ['React','Next.js','React Router','Redux','Tailwind CSS','Bootstrap','Vite']],
-    ['Backend & API', ['Node.js','Express.js','Django','Django REST Framework','REST API','GraphQL','Socket.IO','JWT','Postman']],
-    ['Database', ['PostgreSQL','MySQL','MongoDB','Redis','Firebase','Supabase','Oracle']],
-    ['Cloud & DevOps', ['Cloudflare Workers','Docker','Caddy','AWS','Vercel','Netlify','Render','Git','GitHub','GitHub Actions','Linux']],
-    [id ? 'Tools & Sistem' : 'Tools & Systems', ['VS Code','Figma','Canva','Excel','Markdown','JSON','Pricing Systems','Automation','Internal Tools']]
+    ['lang', 'Languages', [['HTML5','<>','#e44d26'],['CSS3','#','#2965f1'],['JavaScript','JS','#f7df1e'],['TypeScript','TS','#3178c6'],['Python','Py','#3776ab'],['Java','Jv','#ed8b00'],['Kotlin','Kt','#7f52ff'],['PHP','php','#777bb4'],['Go','Go','#00add8'],['C#','C#','#512bd4'],['PowerShell','PS','#5391fe'],['Bash','$_','#4eaa25']]],
+    ['front', 'Frontend', [['React','Re','#61dafb'],['Next.js','N','#a3a3a3'],['React Router','RR','#ca4245'],['Redux','Rx','#764abc'],['Tailwind CSS','Tw','#06b6d4'],['Bootstrap','B','#7952b3'],['Vite','V','#646cff']]],
+    ['back', 'Backend & API', [['Node.js','Nd','#5fa04e'],['Express.js','Ex','#a3a3a3'],['Django','Dj','#44b78b'],['Django REST Framework','DRF','#a30000'],['REST API','{}','#0a84ff'],['GraphQL','GQ','#e10098'],['Socket.IO','IO','#a3a3a3'],['JWT','JWT','#d63aff'],['Postman','Pm','#ff6c37']]],
+    ['db', 'Database', [['PostgreSQL','Pg','#4169e1'],['MySQL','My','#4479a1'],['MongoDB','Mg','#47a248'],['Redis','Rd','#dc382d'],['Firebase','Fb','#ffca28'],['Supabase','Sb','#3fcf8e'],['Oracle','Or','#f80000']]],
+    ['cloud', 'Cloud & DevOps', [['Cloudflare Workers','CF','#f38020'],['Docker','Dk','#2496ed'],['Caddy','Cd','#1f88c0'],['AWS','AWS','#ff9900'],['Vercel','▲','#a3a3a3'],['Netlify','Nt','#00c7b7'],['Render','Rn','#46e3b7'],['Git','Git','#f05032'],['GitHub','GH','#a3a3a3'],['GitHub Actions','GA','#2088ff'],['Linux','Lx','#fcc624']]],
+    ['tools', id ? 'Tools & Sistem' : 'Tools & Systems', [['VS Code','VS','#0a84ff'],['Figma','Fg','#f24e1e'],['Canva','Cv','#00c4cc'],['Excel','Xl','#217346'],['Markdown','M↓','#a3a3a3'],['JSON','{ }','#cbcb41'],['Pricing Systems','Rp','#4ec9b0'],['Automation','⚙','#4ec9b0'],['Internal Tools','IT','#4ec9b0']]]
   ];
-  return '<section class="card tech-card"><h2>// Tech Stack</h2><div class="stack">'
-    + groups.map(([g, items]) => '<div><h3>' + g + '</h3><div class="tags">' + items.map(x => '<span class="tag">' + x + '</span>').join('') + '</div></div>').join('')
+  let n = 0;
+  const chip = ([name, mono, c]) => '<span class="chip" style="--c:' + c + ';--i:' + (n++) + '"><i aria-hidden="true">' + mono + '</i>' + name + '</span>';
+  const total = groups.reduce((a, g) => a + g[2].length, 0);
+  return '<section class="card tech-card"><div class="tech-head"><h2>// Tech Stack</h2><span class="tech-count">' + total + ' ' + (id ? 'teknologi' : 'technologies') + '</span></div><div class="tech-grid">'
+    + groups.map(([k, title, items]) => '<div class="tech-group"><h3><span class="tg-ic">' + G[k] + '</span>' + title + '<small>' + items.length + '</small></h3><div class="chips">' + items.map(chip).join('') + '</div></div>').join('')
     + '</div></section>';
 }
 function terminalHtml(lang){

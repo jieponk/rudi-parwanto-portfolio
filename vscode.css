@@ -613,3 +613,34 @@ body.vsc #content .t-run{color:var(--accent)}
 body.vsc #content .t-caret{display:inline-block;width:8px;height:15px;margin-left:4px;vertical-align:-2px;background:var(--caret);animation:vsc-blink 1.1s steps(1) infinite}
 @media(max-width:750px){body.vsc #content .terminal-tabs span:not(.active):not(.terminal-shell){display:none}body.vsc #content .terminal-body{font-size:12px;padding:12px}}
 @media(prefers-reduced-motion:reduce){body.vsc #content .t-caret{animation:none}}
+
+/* Tech stack: monogram chips + animation */
+body.vsc #content .tech-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px}
+body.vsc #content .tech-head h2{margin:0}
+body.vsc #content .tech-count{font:500 12px/1 var(--mono);color:var(--muted)}
+body.vsc #content .tech-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body.vsc #content .tech-group{padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--hover);transition:border-color .2s,background .2s}
+body.vsc #content .tech-group:hover{border-color:var(--border-strong)}
+body.vsc #content .tech-group h3{display:flex;align-items:center;gap:9px;margin:0 0 12px;font-size:14px}
+body.vsc #content .tech-group h3 small{margin-left:auto;font:500 11.5px/1 var(--mono);color:var(--muted)}
+body.vsc #content .tg-ic{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:var(--accent-soft);color:var(--accent)}
+body.vsc #content .tg-ic .ic{width:16px;height:16px}
+body.vsc #content .chips{display:flex;flex-wrap:wrap;gap:7px}
+body.vsc #content .chip{
+  display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 11px 0 4px;border-radius:9px;
+  border:1px solid var(--border-strong);background:var(--card);color:var(--text);font:500 12.5px/1 var(--ui);white-space:nowrap;cursor:default;
+  transition:transform .18s cubic-bezier(.2,.8,.2,1),border-color .18s,box-shadow .18s;
+  animation:chip-in .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 18ms + 80ms)
+}
+body.vsc #content .chip i{
+  min-width:22px;height:22px;padding:0 4px;display:grid;place-items:center;border-radius:6px;font:800 9.5px/1 var(--mono);font-style:normal;letter-spacing:-.02em;
+  color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 30%,transparent);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1)
+}
+body.vsc.light #content .chip i{color:color-mix(in srgb,var(--c) 75%,#000)}
+body.vsc #content .chip:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--c) 60%,var(--border-strong));
+  box-shadow:0 8px 22px -8px color-mix(in srgb,var(--c) 55%,transparent)}
+body.vsc #content .chip:hover i{transform:rotate(-8deg) scale(1.12)}
+@keyframes chip-in{from{opacity:0;transform:translateY(8px) scale(.94)}to{opacity:1;transform:none}}
+@media(max-width:980px){body.vsc #content .tech-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){body.vsc #content .chip{animation:none;transition:none}body.vsc #content .chip:hover i{transform:none}}
