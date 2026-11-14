@@ -28,7 +28,7 @@ function page({ title, description, canonical, robots, frame, body, extraCss = '
     + `<title>${title}</title><meta name="description" content="${description}">${canonical ? `<link rel="canonical" href="${canonical}">` : ''}${robots ? `<meta name="robots" content="${robots}">` : ''}`
     + `<meta name="theme-color" content="#1f1f1f">${headIcons}${og || ''}${themeBoot}`
     + `<link rel="stylesheet" href="/vscode.css?v=${V}">${extraCss}</head>${bodyOpen}${frame.head}${body}${frame.foot}`
-    + `<script src="/site-chrome.js?v=${V}"></script></body></html>\n`;
+    + `<script src="/site-chrome.js?v=${V}"></script><script src="/music.js?v=${V}"></script></body></html>\n`;
 }
 
 // ---------- /links ----------

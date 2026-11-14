@@ -65,5 +65,23 @@ function finishBoot(){
     setTimeout(()=>boot?.remove(),600);
   },wait);
 }
-if(document.readyState==='complete')finishBoot();else window.addEventListener('load',finishBoot,{once:true});
+/* With music configured, the first visit waits for an "Open" click (invitation style):
+   that click is the user gesture browsers require before audio can play. */
+function gateBoot(){
+  const music=window.SiteMusic;
+  if(!music||!music.enabled||body.classList.contains('boot-skip')||!boot){finishBoot();return}
+  const card=boot.querySelector('.boot-card');
+  boot.querySelector('.boot-bar')?.remove();
+  const id=document.documentElement.lang==='id';
+  const wrap=document.createElement('div');wrap.className='boot-actions';
+  wrap.innerHTML='<button type="button" class="boot-open"><svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><span>'+(id?'Buka Portofolio':'Open Portfolio')+'</span></button>'
+    +'<button type="button" class="boot-quiet">'+(id?'Masuk tanpa musik':'Enter without music')+'</button>';
+  card.append(wrap);
+  boot.setAttribute('aria-hidden','false');boot.setAttribute('role','dialog');boot.setAttribute('aria-label','Welcome');
+  boot.style.animation='none';
+  const open=wrap.querySelector('.boot-open');open.focus({preventScroll:true});
+  open.addEventListener('click',()=>{music.play();finishBoot()});
+  wrap.querySelector('.boot-quiet').addEventListener('click',finishBoot);
+}
+if(document.readyState==='complete')gateBoot();else window.addEventListener('load',gateBoot,{once:true});
 })();
