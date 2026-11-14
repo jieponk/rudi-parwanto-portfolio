@@ -661,3 +661,7 @@ body.vsc .sb-music.playing .eq i:nth-child(3){animation-delay:-.6s}
   body.vsc .status .sb-music .sb-music-label{display:none}
   body.vsc .status .sb-music .eq{width:14px;height:12px}
 }
+
+/* One theme toggle per layout: desktop uses the activity-bar ◐ button,
+   mobile (no activity bar) keeps the title-bar button. */
+@media(min-width:751px){body.vsc .titlebar #theme{display:none}}

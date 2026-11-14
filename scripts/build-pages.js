@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { chrome, themeBoot, bodyOpen, headIcons, OG_IMAGE, svg, siteConfigSource, siteConfigTag } = require('./chrome');
 const ROOT = path.resolve(__dirname, '..');
-const V = '20261114n';
+const V = '20261114o';
 
 const I = {
   home: '<path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/>',
