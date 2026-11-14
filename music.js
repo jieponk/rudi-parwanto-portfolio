@@ -1,9 +1,8 @@
 /* Background music shared by every page.
    Browsers block autoplay with sound until the visitor interacts, so:
-   - homepage: the boot screen shows an "Open portfolio" button (invitation-site style);
-     that click starts the music.
-   - other pages: playback resumes from the saved position; if the browser blocks it,
-     it resumes on the visitor's first click or key press.
+   - music starts on the visitor's first click / tap / key press anywhere on the page
+     (unless they switched it off with the status-bar button during this visit);
+   - on later pages it resumes from the saved position.
    Set TRACK.src to an audio file you have the rights to use. src: null disables music. */
 (()=>{
 'use strict';
@@ -28,7 +27,7 @@ const store = {
   get(){ try { return JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { return null; } },
   set(v){ try { sessionStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
 };
-let audio = null, btn = null, wantPlaying = false;
+let audio = null, btn = null, wantPlaying = false, userOff = false;
 
 function ensureAudio(){
   if (audio || !enabled) return audio;
@@ -38,13 +37,13 @@ function ensureAudio(){
   audio.addEventListener('timeupdate', () => { if (Math.floor(audio.currentTime) % 3 === 0) save(); });
   return audio;
 }
-function save(){ if (audio) store.set({ playing: wantPlaying, t: audio.currentTime, src: TRACK.src }); }
+function save(){ if (audio) store.set({ playing: wantPlaying, off: userOff, t: audio.currentTime, src: TRACK.src }); }
 async function play(){
   if (!ensureAudio()) return false;
-  wantPlaying = true;
+  wantPlaying = true; userOff = false;
   try { await audio.play(); save(); return true; } catch (e) { sync(); return false; }
 }
-function pause(){ if (!audio) return; wantPlaying = false; audio.pause(); save(); }
+function pause(){ if (!audio) return; wantPlaying = false; userOff = true; audio.pause(); save(); }
 function toggle(){ (audio && !audio.paused) ? pause() : play(); }
 
 function sync(){
@@ -74,21 +73,27 @@ if (!enabled) return;
 mountButton();
 addEventListener('pagehide', save);
 
-// Resume on later pages / reloads within the same visit.
+// Start (or resume) on the first interaction unless the visitor turned music off.
 const saved = store.get();
-if (saved && saved.src && saved.src !== TRACK.src) saved.playing = false;
-if (saved && saved.playing) {
-  ensureAudio();
-  wantPlaying = true;
-  audio.currentTime = saved.t || 0;
-  audio.play().then(sync).catch(() => {
-    const resume = (e) => {
-      removeEventListener('pointerdown', resume, true); removeEventListener('keydown', resume, true);
-      if (e && e.target && e.target.closest && e.target.closest('.sb-music')) return; // the button's own click decides
-      if (wantPlaying) play();
-    };
-    addEventListener('pointerdown', resume, true);
-    addEventListener('keydown', resume, true);
-  });
+const sameTrack = saved && saved.src === TRACK.src;
+const off = sameTrack && saved.off;
+userOff = !!off;
+function armFirstInteraction(){
+  const go = (e) => {
+    ['pointerdown','keydown','touchstart'].forEach(t => removeEventListener(t, go, true));
+    if (e && e.target && e.target.closest && e.target.closest('.sb-music')) return; // the button decides
+    play();
+  };
+  ['pointerdown','keydown','touchstart'].forEach(t => addEventListener(t, go, { capture: true, passive: true }));
+}
+if (!off) {
+  if (sameTrack && saved.playing) {
+    ensureAudio();
+    wantPlaying = true;
+    audio.currentTime = saved.t || 0;
+    audio.play().then(sync).catch(armFirstInteraction);
+  } else {
+    armFirstInteraction();
+  }
 }
 })();

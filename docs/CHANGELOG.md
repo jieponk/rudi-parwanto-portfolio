@@ -6,7 +6,7 @@
 - Tab **Projects** (urbanix.id, kalkulator marketplace) dan grup skill **Web Development**.
 - SEO: isi About di-prerender ke `index.html`, schema `Person` + `ProfilePage` lebih lengkap.
 - Template chrome bersama (`scripts/chrome.js`); `/links` dan `404` dibangun oleh `scripts/build-pages.js`.
-- Musik latar dengan layar pembuka gaya undangan; diatur dari `/admin/` → Pengaturan → Musik Latar.
+- Musik latar: mulai di klik/sentuhan pertama, tombol ♪ di status bar (juga di mobile); diatur dari `/admin/` → Pengaturan → Musik Latar.
 - `/admin/`: menu Kategori & Label (dropdown di artikel diambil dari daftar ini).
 - `/admin/` beralih dari Decap CMS ke Sveltia CMS (tampilan modern, config sama).
 - Favicon baru (`</>` gradien biru-ungu) dalam SVG/ICO/PNG + `site.webmanifest`; gambar share 1200×630 (`assets/og-image.jpg`).
