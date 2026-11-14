@@ -109,6 +109,14 @@
     {
       "name": "AI",
       "description": "Kecerdasan buatan dan dampaknya ke kerja dan konten."
+    },
+    {
+      "name": "Opini",
+      "description": "Pandangan pribadi penulis."
+    },
+    {
+      "name": "Indonesia",
+      "description": "Isu dan peristiwa di Indonesia."
     }
   ]
 }
