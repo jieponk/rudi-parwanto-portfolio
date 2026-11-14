@@ -413,20 +413,20 @@ body.vsc .dialog-close{position:absolute;top:12px;right:12px}
 
 /* Buttons */
 body.vsc #content .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-body.vsc :is(#content,.links-content,.nf) a.btn{
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn{
   display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 15px;border-radius:10px;
   border:1px solid var(--border-strong);background:var(--hover);color:var(--strong);
   font:600 13px/1 var(--ui);text-decoration:none;cursor:pointer;
   transition:transform .15s,background .15s,border-color .15s,box-shadow .15s;
 }
-body.vsc :is(#content,.links-content,.nf) a.btn .ic{width:16px;height:16px}
-body.vsc :is(#content,.links-content,.nf) a.btn:hover{text-decoration:none;transform:translateY(-1px);border-color:var(--faint);background:color-mix(in srgb,var(--strong) 9%,transparent)}
-body.vsc :is(#content,.links-content,.nf) a.btn:active{transform:translateY(0) scale(.98)}
-body.vsc :is(#content,.links-content,.nf) a.btn-primary{background:var(--accent);border-color:transparent;color:#fff;
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn .ic{width:16px;height:16px}
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn:hover{text-decoration:none;transform:translateY(-1px);border-color:var(--faint);background:color-mix(in srgb,var(--strong) 9%,transparent)}
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn:active{transform:translateY(0) scale(.98)}
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn-primary{background:var(--accent);border-color:transparent;color:#fff;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 6px 18px color-mix(in srgb,var(--accent) 35%,transparent)}
-body.vsc :is(#content,.links-content,.nf) a.btn-primary:hover{background:color-mix(in srgb,var(--accent) 88%,#fff);border-color:transparent}
-body.vsc :is(#content,.links-content,.nf) a.btn-ghost{background:transparent}
-body.vsc :is(#content,.links-content,.nf) a.btn:focus-visible,body.vsc #content .contact-row a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn-primary:hover{background:color-mix(in srgb,var(--accent) 88%,#fff);border-color:transparent}
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn-ghost{background:transparent}
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn:focus-visible,body.vsc #content .contact-row a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* Contact rows become clickable tiles */
 body.vsc #content .contact-row{
@@ -487,11 +487,11 @@ body.vsc .tab.active::before{animation:vsc-bar .25s ease both;transform-origin:l
 @media(prefers-reduced-motion:reduce){
   body.vsc .boot{display:none}
   body.vsc .window,body.vsc .swap-in,body.vsc .swap-in .card,body.vsc .tab.active::before,body.vsc .boot-card{animation:none!important;opacity:1!important}
-  body.vsc :is(#content,.links-content,.nf) a.btn,body.vsc #content .contact-row{transition:none}
+  body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn,body.vsc #content .contact-row{transition:none}
 }
 @media(max-width:750px){
   body.vsc #content .cta-row{gap:8px}
-  body.vsc :is(#content,.links-content,.nf) a.btn{height:38px;flex:1 1 auto;justify-content:center}
+  body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn{height:38px;flex:1 1 auto;justify-content:center}
 }
 body.vsc #content .contact-row small a{text-decoration:none!important}
 body.vsc #content .contact-row:hover small a{color:var(--accent)}
