@@ -2,13 +2,14 @@
 
 # Rudi Parwanto
 
-### E-Commerce Specialist · Automation · Web Development
+### E-Commerce Specialist · Marketplace Operations · Web Development
 
-Personal portfolio and blog for documenting projects, workflows, and experiments in e-commerce operations, pricing systems, and automation.
+Personal portfolio, blog and link hub — styled as a VS Code editor running on macOS.
 
 <p>
-  <a href="https://masrudi.site">Website</a> ·
+  <a href="https://masrudi.site">Portfolio</a> ·
   <a href="https://masrudi.site/blog/">Blog</a> ·
+  <a href="https://masrudi.site/links/">Links</a> ·
   <a href="https://masrudi.site/sitemap.xml">Sitemap</a>
 </p>
 
@@ -18,143 +19,107 @@ Personal portfolio and blog for documenting projects, workflows, and experiments
 
 ## About
 
-This repository contains the source code for my personal portfolio and blog. It brings together my professional profile, selected work, notes, and small tools in one place.
+Source code for [masrudi.site](https://masrudi.site): my professional profile, selected projects, notes and small tools, in one place.
 
-My main areas of interest are:
+Focus areas:
 
-- **E-commerce operations** — marketplace workflows, product data, and reporting.
-- **Pricing systems** — fee calculations, margin analysis, and pricing workflows.
-- **Automation** — reducing repetitive tasks with practical tools.
-- **Web development** — building and maintaining lightweight websites and internal utilities.
+- **E-commerce operations** — Shopee, TikTok Shop and Lazada store management, product data and reporting.
+- **Pricing** — marketplace fee calculation and margin checks.
+- **Web development** — storefronts and internal tools (e.g. [urbanix.id](https://urbanix.id)).
 
 ## Features
 
-- Responsive portfolio website.
-- Blog with category pages and content generated from JSON files.
-- Search and RSS feed.
-- Sitemap and `robots.txt` for search-engine discovery.
-- Static assets, downloadable CV, and custom 404 page.
-- Cloudflare Worker endpoints for supported site functions.
-- Browser-based blog CMS under `/admin/`.
-- Marketplace fee calculator under `/master/`.
+| Area | What it does |
+|---|---|
+| **Portfolio** (`/`) | VS Code × macOS interface: About, Experience, Projects, Skills, Education, Contact. EN/ID, dark/light theme, ⌘K search, boot animation. |
+| **Blog** (`/blog/`) | Posts from JSON, labels, featured post, RSS, comments (Utterances), copyable code blocks. |
+| **Links** (`/links/`) | Personal link hub. |
+| **CMS** (`/admin/`) | Decap CMS with GitHub login. |
+| **Calculator** (`/master/`) | Private marketplace fee & profit calculator (login required). |
+| **SEO** | Prerendered homepage content, JSON-LD (`Person`, `ProfilePage`), sitemap, robots, Open Graph. |
 
-> Some features require Cloudflare Worker configuration and secrets. A successful static build alone does not verify OAuth, API endpoints, or other server-side functionality.
+## Tech stack
 
-## Tech Stack
+HTML · CSS · vanilla JavaScript · Node.js build scripts · Cloudflare Workers (+ Wrangler) · Decap CMS · Utterances
 
-- HTML, CSS, and JavaScript
-- Node.js build scripts
-- Cloudflare Workers and Wrangler
-- GitHub for source control and deployment workflow
-- JSON files for blog content
-
-## Project Structure
+## Project structure
 
 ```text
 .
-├── admin/                  # Blog CMS interface
-├── assets/                 # Images, icons, and blog media
-├── blog/                   # Generated blog pages and category pages
+├── index.html              # Portfolio homepage (About is prerendered at build)
+├── script.js               # ✏️ Portfolio content (EN + ID) and tab rendering
+├── style.css               # Base styles (also used by /master)
+├── vscode.css              # VS Code × macOS theme shared by every page
+├── vscode-ui.js            # Homepage chrome: activity bar, minimap, boot animation
+├── site-chrome.js          # Theme, explorer, clock for /blog, /links, /master, 404
+├── menu.js / search.js     # macOS menu bar actions and ⌘K search
+├── control-language.js     # EN / ID switcher
+├── mobile-menu.js          # Mobile menu drawer
+├── blog/                   # ⚙️ Generated blog pages (+ blog.css)
+├── links/                  # ⚙️ Generated links page (+ links.css)
+├── 404.html                # ⚙️ Generated not-found page
+├── master/                 # Marketplace calculator UI
+├── admin/                  # Decap CMS config
+├── assets/                 # Profile photo and blog media
 ├── content/
-│   ├── blog/               # Blog posts stored as JSON
-│   └── settings/           # Blog configuration
-├── links/                  # Links page
-├── master/                 # Marketplace fee calculator interface
+│   ├── blog/               # ✏️ Published posts (JSON)
+│   ├── drafts/             # ✏️ Unpublished posts (ignored by the build)
+│   └── settings/           # Featured post
 ├── scripts/
-│   └── build-blog.js       # Generates blog pages, feed, and sitemap
-├── worker-data/            # Data used by Worker features
-├── index.html              # Portfolio homepage
-├── worker.js               # Cloudflare Worker logic
-├── wrangler.json           # Wrangler configuration
-├── package.json            # Project metadata and scripts
-├── sitemap.xml             # Search-engine sitemap
-├── robots.txt              # Crawler rules
-└── feed.xml                # RSS feed
+│   ├── build-blog.js       # Blog pages, feed.xml, sitemap.xml
+│   ├── build-pages.js      # /links and 404
+│   ├── prerender-home.js   # Writes About into index.html for SEO
+│   └── chrome.js           # Shared window-chrome template
+├── worker.js               # Cloudflare Worker: calculator API + CMS OAuth
+├── worker-data/            # Marketplace fee tables (not public)
+├── tests/                  # Blog renderer tests
+└── docs/                   # SETUP.md, CHANGELOG.md
 ```
 
-## Run Locally
+✏️ = edit by hand · ⚙️ = generated by `npm run build` (don't edit directly)
 
-Requirements: Node.js and npm.
+## Editing content
 
-1. Clone the repository:
+| I want to change… | Edit | Then |
+|---|---|---|
+| About, experience, projects, skills, education, contact | `script.js` (both `pages` = ID and `englishPages` = EN; projects use `projectsHtml()`) | `npm run build` |
+| A blog post | `/admin/` or `content/blog/*.json` | CMS builds automatically / `npm run build` |
+| Hide a post | Move its JSON to `content/drafts/` | `npm run build` |
+| Links page or 404 | `scripts/build-pages.js` | `npm run build` |
+| Menu bar / explorer / tabs on blog, links, 404 | `scripts/chrome.js` | `npm run build` |
+| Colours, spacing, theme | `vscode.css` | — |
 
-   ```bash
-   git clone https://github.com/jieponk/rudi-parwanto-portfolio.git
-   cd rudi-parwanto-portfolio
-   ```
+## Run locally
 
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Build the blog pages and generated files:
-
-   ```bash
-   npm run build
-   ```
-
-4. To run or test the Worker locally, configure Wrangler and the required local environment variables, then use:
-
-   ```bash
-   npx wrangler dev
-   ```
-
-The build command generates the blog pages and related files. Worker features that depend on credentials or Cloudflare bindings need additional configuration before they can be tested.
-
-## Blog Content
-
-Blog posts are stored in `content/blog/` as JSON files. After editing or adding a post, run:
+Requirements: Node.js 18+.
 
 ```bash
-npm run build
+git clone https://github.com/jieponk/rudi-parwanto-portfolio.git
+cd rudi-parwanto-portfolio
+npm install          # optional: sharp converts blog images to WebP
+npm run build        # blog, links, 404, homepage prerender
+npm test             # blog renderer tests
+npx wrangler dev     # serve the site + Worker locally
 ```
 
-Review the generated pages, `feed.xml`, and `sitemap.xml` before committing the changes.
+The calculator and CMS login need Worker secrets; see [docs/SETUP.md](docs/SETUP.md).
 
-## Cloudflare Deployment
+## Deployment
 
-The site is configured for deployment with Cloudflare Workers and Wrangler.
+Pushing to `main` triggers Cloudflare Workers Builds (`npm run build` → `npx wrangler deploy`).
+Secrets, OAuth app, comments and Cloudflare Access setup: **[docs/SETUP.md](docs/SETUP.md)**.
+`.assetsignore` keeps source, content, data, docs and the Worker out of public assets.
 
-Typical deployment commands:
+## Security notes
 
-```bash
-npm run build
-npx wrangler deploy
-```
+- Never commit passwords, OAuth secrets, session secrets or API tokens.
+- `/admin/` and `/master/` are `noindex` and disallowed in `robots.txt`; protecting `/master/` with Cloudflare Access is recommended.
+- After each release, test login, comments, the calculator and the main pages.
 
-Before deploying, confirm that `wrangler.json` points to the intended Worker and asset directory. Do not publish the repository root as public assets if it would expose source files, internal data, or `node_modules`.
+## Changelog
 
-Configure required environment variables and secrets in the Cloudflare dashboard. Names used by the Worker may include:
-
-- `MASTER_USERNAME`
-- `MASTER_PASSWORD` *(secret)*
-- `MASTER_SECRET` *(secret)*
-- `GITHUB_OAUTH_ID`
-- `GITHUB_OAUTH_SECRET` *(secret)*
-
-Use the exact variable names expected by the current Worker code. Never commit real passwords, OAuth client secrets, session secrets, API tokens, or other credentials to the repository.
-
-For GitHub OAuth, the application's callback URL must match the route implemented by the deployed Worker. Check the current Worker routes before configuring the OAuth app.
-
-## SEO
-
-The production domain is `https://masrudi.site`.
-
-- Sitemap: <https://masrudi.site/sitemap.xml>
-- Robots: <https://masrudi.site/robots.txt>
-- RSS feed: <https://masrudi.site/feed.xml>
-
-Keep canonical URLs, sitemap entries, and the sitemap reference in `robots.txt` aligned with the production domain.
-
-## Security Notes
-
-- Do not store credentials in tracked files.
-- Keep CMS and administrative routes protected.
-- Review Worker asset bindings and deployment settings before each production release.
-- Test login, blog comments, calculator endpoints, and key pages after deployment.
+See [docs/CHANGELOG.md](docs/CHANGELOG.md).
 
 ## License
 
-No license has been specified for this repository. Unless a license is added, reuse and redistribution permissions should not be assumed.
+No license has been specified. Unless one is added, reuse and redistribution rights are not granted.

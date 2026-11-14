@@ -2,12 +2,16 @@
   "name": "rudi-parwanto-portfolio",
   "private": true,
   "version": "1.0.0",
-  "description": "Static portfolio and blog build",
+  "description": "Rudi Parwanto portfolio, blog and links \u2014 static site on Cloudflare Workers",
   "dependencies": {
     "sharp": "^0.34.4"
   },
   "scripts": {
     "build": "node scripts/build-blog.js && node scripts/build-pages.js && node scripts/prerender-home.js",
+    "test": "node --test tests/blog-renderer.test.js",
     "deploy": "npx wrangler deploy"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

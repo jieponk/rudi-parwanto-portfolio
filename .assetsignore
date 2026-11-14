@@ -12,6 +12,7 @@ wrangler.json
 package.json
 package-lock.json
 .assetsignore
-README*.txt
-BLOG-*.txt
-CLOUDFLARE-SETUP.txt
+docs/
+tests/
+README.md
+.gitignore
