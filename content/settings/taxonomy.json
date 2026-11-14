@@ -31,6 +31,10 @@
     {
       "name": "Tips",
       "description": "Tips singkat dan praktis."
+    },
+    {
+      "name": "Cerita",
+      "description": "Cerita personal, nostalgia dan perjalanan."
     }
   ],
   "labels": [
@@ -93,6 +97,14 @@
     {
       "name": "Django",
       "description": ""
+    },
+    {
+      "name": "Nostalgia",
+      "description": "Kenangan internet jadul."
+    },
+    {
+      "name": "Blogging",
+      "description": "Dunia ngeblog dari dulu sampai sekarang."
     }
   ]
 }
