@@ -37,6 +37,18 @@ const put = (key, value) => {
 put('code', code);
 put('content', about.html.replace(/\n\s*/g, ' '));
 put('crumb', crumb);
+// Inline the homepage CSS so the first paint needs no extra render-blocking requests.
+const minifyCss = css => css
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/\s+/g, ' ')
+  .replace(/\s*([{};,>])\s*/g, '$1')
+  .replace(/;}/g, '}')
+  .trim();
+const inlineCss = ['style.css', 'vscode.css']
+  .map(f => minifyCss(fs.readFileSync(path.join(ROOT, f), 'utf8')))
+  .join('');
+if (/<\/style/i.test(inlineCss)) throw new Error('CSS contains </style');
+put('inline-css', `<style>${inlineCss}</style>`);
 html = html.replace(/<span id="linecount">[^<]*<\/span>/, `<span id="linecount">${lines}</span>`);
 fs.writeFileSync(file, html);
 console.log('Prerendered About into index.html');

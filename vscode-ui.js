@@ -43,7 +43,7 @@ function syncEditor(){
   code.append(map);
   const active=document.querySelector('#tabs .tab.active .tab-label');
   if(label&&active)label.textContent='cv-portfolio — '+active.textContent;
-  document.querySelector('#tabs .tab.active')?.scrollIntoView({block:'nearest',inline:'nearest'});
+  requestAnimationFrame(()=>document.querySelector('#tabs .tab.active')?.scrollIntoView({block:'nearest',inline:'nearest'}));
 }
 let first=true;
 function swap(){
