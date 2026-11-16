@@ -680,3 +680,20 @@ body.vsc .sb-music.playing .eq i:nth-child(3){animation-delay:-.6s}
 }
 body.vsc .file .filename{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 body.vsc .file{min-width:0}
+
+/* Accessible solid accent for white-on-blue controls (WCAG AA ≥ 4.5:1) */
+body.vsc{--accent-solid:#0066d6;--accent-solid-hover:#0070e0}
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn-primary{background:var(--accent-solid);color:#fff}
+body.vsc :is(#content,.links-content,.nf,.wrap,.article) a.btn-primary:hover{background:var(--accent-solid-hover)}
+body.vsc .status .sb-remote,body.vsc .status .sb-remote:hover{background:var(--accent-solid)!important}
+body.vsc.light .mobile-language-label b.on,body.vsc .post-card:hover .pc-go{background:var(--accent-solid)}
+
+/* Title bar: long file names must never push the traffic lights off-screen */
+body.vsc .titlebar{grid-template-columns:minmax(0,1fr) minmax(0,560px) minmax(0,1fr)}
+body.vsc .command-center{min-width:0}
+body.vsc .tab-label{max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:750px){
+  body.vsc .titlebar{grid-template-columns:auto minmax(0,1fr) auto}
+  body.vsc .titlebar .title-right{display:flex!important;position:static}
+  body.vsc .tab-label{max-width:150px}
+}
