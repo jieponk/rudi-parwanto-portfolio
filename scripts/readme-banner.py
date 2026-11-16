@@ -3,7 +3,16 @@ Run: python3 scripts/readme-banner.py"""
 import base64, html, os
 ROOT = os.path.join(os.path.dirname(__file__), '..')
 E = html.escape
-avatar = base64.b64encode(open('/tmp/avatar.jpg', 'rb').read()).decode() if os.path.exists('/tmp/avatar.jpg') else ''
+def load_avatar():
+    try:
+        import io
+        from PIL import Image
+        buf = io.BytesIO()
+        Image.open(os.path.join(ROOT, 'assets', 'foto-profil.webp')).convert('RGB').save(buf, 'JPEG', quality=88)
+        return base64.b64encode(buf.getvalue()).decode()
+    except Exception:
+        return ''
+avatar = load_avatar()
 
 KW, PR, ST, CM, TX, BO, LN = '#569cd6', '#9cdcfe', '#ce9178', '#6a9955', '#cccccc', '#569cd6', '#6e7681'
 code = [
