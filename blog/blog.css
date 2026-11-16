@@ -616,3 +616,14 @@ body.vsc .comments-mount:has(.utterances) .cv-loading{display:none}
   body.vsc .cv-status{margin-left:0}
 }
 @media(prefers-reduced-motion:reduce){body.vsc .cv-status i,body.vsc .cv-loading span{animation:none}}
+
+/* Featured card: show the whole 1200×630 cover instead of cropping it to the text height */
+body.vsc .fv-media{display:flex;align-items:center;min-height:0;padding:18px;background:color-mix(in srgb,var(--card) 70%,#000);border-right:1px solid var(--border)}
+body.vsc .fv-media .fv-cover{width:100%;height:auto;aspect-ratio:1200/630;object-fit:cover;border-radius:10px;box-shadow:0 10px 26px -14px rgba(0,0,0,.6)}
+body.vsc.light .fv-media{background:color-mix(in srgb,var(--card) 92%,#000)}
+/* Stack when the card is too narrow for a readable side-by-side layout */
+@media(max-width:1100px){
+  body.vsc .featured-v2{grid-template-columns:1fr}
+  body.vsc .fv-media{aspect-ratio:auto;padding:0;border-right:0;background:none}
+  body.vsc .fv-media .fv-cover{border-radius:0;box-shadow:none}
+}
