@@ -1,8 +1,8 @@
 <div align="center">
 
-# Rudi Parwanto
+<a href="https://masrudi.site"><img src="docs/readme-banner.svg" width="100%" alt="masrudi.site — Rudi Parwanto, E-Commerce Specialist. Portfolio styled as VS Code running on macOS." /></a>
 
-### E-Commerce Specialist · Marketplace Operations · Web Development
+**E-Commerce Specialist · Marketplace Operations · Web Development**
 
 Personal portfolio, blog and link hub — styled as a VS Code editor running on macOS.
 

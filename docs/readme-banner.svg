@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-label="Preview of masrudi.site — a portfolio styled as VS Code on macOS">
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a1b54"/><stop offset=".55" stop-color="#151a3d"/><stop offset="1" stop-color="#3a1640"/></linearGradient>
+  <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter>
+  <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".55"/></filter>
+  <clipPath id="winClip"><rect x="40" y="44" width="1120" height="496" rx="12"/></clipPath>
+  <clipPath id="av"><circle cx="366" cy="430" r="36"/></clipPath>
+  <linearGradient id="shine" x1="0" x2="1"><stop offset="0" stop-color="#ececec"/><stop offset=".45" stop-color="#ececec"/><stop offset=".5" stop-color="#9fd0ff"/><stop offset=".55" stop-color="#ececec"/><stop offset="1" stop-color="#ececec"/>
+    <animateTransform attributeName="gradientTransform" type="translate" values="-1 0;1 0;1 0" keyTimes="0;.4;1" dur="6s" repeatCount="indefinite"/></linearGradient>
+</defs>
+<style>
+  .mono{font-family:"SF Mono",ui-monospace,Menlo,Consolas,"Liberation Mono",monospace}
+  .sans{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif}
+  .blob{animation:drift 20s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+  .b2{animation-duration:26s;animation-delay:-8s}
+  @keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(120px,-40px) scale(1.15)}}
+  .blink{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+  .eq{animation:eq .9s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:bottom}
+  @keyframes eq{0%{transform:scaleY(.3)}100%{transform:scaleY(1.2)}}
+  .glow{animation:glow 2.4s ease-in-out infinite}@keyframes glow{50%{opacity:.35}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+
+<!-- macOS wallpaper + menu bar -->
+<rect width="1200" height="560" rx="16" fill="url(#wall)"/>
+<g filter="url(#blur)" opacity=".7"><circle class="blob" cx="200" cy="480" r="170" fill="#7c3aed"/><circle class="blob b2" cx="1000" cy="80" r="160" fill="#0a84ff"/></g>
+<rect width="1200" height="26" rx="0" fill="#000" fill-opacity=".28"/>
+<rect x="14" y="5" width="16" height="16" rx="4" fill="#5e5ce6"/><text x="22" y="17" text-anchor="middle" class="mono" font-size="9" font-weight="800" fill="#fff">&lt;/&gt;</text>
+<text x="40" y="17.5" class="sans" font-size="12.5" font-weight="700" fill="#fff">CV Studio</text>
+<text x="118" y="17.5" class="sans" font-size="12.5" fill="#fff" word-spacing="14">File Edit View Go Window Help</text>
+<text x="1184" y="17.5" text-anchor="end" class="sans" font-size="12" fill="#fff">masrudi.site</text>
+
+<!-- window -->
+<g filter="url(#shadow)"><rect x="40" y="44" width="1120" height="496" rx="12" fill="#181818"/></g>
+<g clip-path="url(#winClip)">
+  <rect x="40" y="44" width="1120" height="34" fill="#181818"/>
+  <line x1="40" y1="78" x2="1160" y2="78" stroke="#2b2b2b"/>
+  <circle cx="60" cy="61" r="6" fill="#ff5f57"/><circle cx="80" cy="61" r="6" fill="#febc2e"/><circle cx="100" cy="61" r="6" fill="#28c840"/>
+  <text x="128" y="66" class="sans" font-size="14" fill="#6e7681">‹  ›</text>
+  <rect x="400" y="50" width="400" height="22" rx="6" fill="#252527" stroke="#3c3c3c"/>
+  <text x="600" y="65" text-anchor="middle" class="sans" font-size="12" fill="#9d9d9d">⌕  cv-portfolio — about.js</text>
+
+  <!-- activity bar -->
+  <rect x="40" y="79" width="44" height="437" fill="#181818"/><line x1="84" y1="79" x2="84" y2="516" stroke="#2b2b2b"/>
+  <rect x="40" y="92" width="2" height="24" fill="#0a84ff"/>
+  <g fill="none" stroke="#cccccc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M54 96h10l4 4v14h-14z"/><path d="M58 100v-4"/>
+  </g>
+  <g fill="none" stroke="#6e7681" stroke-width="1.6" stroke-linecap="round">
+    <circle cx="61" cy="146" r="6"/><path d="M65.5 150.5l4 4"/>
+    <rect x="54" y="186" width="14" height="12" rx="2"/><path d="M54 192h14"/>
+    <path d="M61 228v10m-4-4l4 4 4-4M55 242h12"/>
+  </g>
+
+  <!-- explorer -->
+  <rect x="85" y="79" width="198" height="437" fill="#181818"/><line x1="283" y1="79" x2="283" y2="516" stroke="#2b2b2b"/>
+  <text x="100" y="102" class="sans" font-size="11" font-weight="600" fill="#9d9d9d" letter-spacing=".8">EXPLORER</text>
+  <text x="100" y="126" class="sans" font-size="11.5" font-weight="700" fill="#cccccc">⌄ CV-PORTFOLIO</text>
+  <text x="112" y="148" class="sans" font-size="12.5" fill="#cccccc">⌄ 📁 src</text>
+  <rect x="86" y="160" width="196" height="22" fill="#0a84ff" fill-opacity=".2" stroke="#0a84ff"/>
+  <g><text x="150" y="176" class="mono" font-size="8.5" font-weight="700" fill="#e8c547">JS</text><text x="168" y="177" class="sans" font-size="12.5" fill="#cccccc">about.js</text></g><g><text x="150" y="198" class="mono" font-size="8.5" font-weight="700" fill="#e8c547">JS</text><text x="168" y="199" class="sans" font-size="12.5" fill="#cccccc">experience.js</text></g><g><text x="150" y="220" class="mono" font-size="8.5" font-weight="700" fill="#e8c547">JS</text><text x="168" y="221" class="sans" font-size="12.5" fill="#cccccc">projects.js</text></g><g><text x="150" y="242" class="mono" font-size="8.5" font-weight="700" fill="#e8c547">JS</text><text x="168" y="243" class="sans" font-size="12.5" fill="#cccccc">skills.js</text></g><g><text x="150" y="264" class="mono" font-size="8.5" font-weight="700" fill="#e8c547">JS</text><text x="168" y="265" class="sans" font-size="12.5" fill="#cccccc">education.js</text></g><g><text x="150" y="286" class="mono" font-size="8.5" font-weight="700" fill="#e8c547">JS</text><text x="168" y="287" class="sans" font-size="12.5" fill="#cccccc">contact.js</text></g>
+  <text x="112" y="309" class="sans" font-size="12.5" fill="#cccccc">› 📁 blog</text>
+  <text x="112" y="331" class="sans" font-size="12.5" fill="#cccccc">› 📁 links</text>
+  <text x="100" y="375" class="sans" font-size="11.5" font-weight="700" fill="#4ec9b0">⌄ STATS</text>
+  <text x="112" y="397" class="sans" font-size="12" fill="#9d9d9d">Specialty</text>
+  <text x="270" y="397" text-anchor="end" class="mono" font-size="11.5" fill="#4ec9b0">E-Commerce</text>
+  <text x="112" y="419" class="sans" font-size="12" fill="#9d9d9d">Blog posts</text>
+  <text x="270" y="419" text-anchor="end" class="mono" font-size="11.5" fill="#4ec9b0">8</text>
+
+  <!-- editor -->
+  <rect x="284" y="79" width="876" height="437" fill="#1f1f1f"/>
+  <rect x="284" y="79" width="876" height="31" fill="#181818"/>
+  <g transform="translate(284,78)"><rect width="118" height="32" fill="#1f1f1f"/><line x1="118" y1="0" x2="118" y2="32" stroke="#2b2b2b"/><text x="14" y="20" class="mono" font-size="9" font-weight="700" fill="#e8c547">JS</text><text x="34" y="21" class="sans" font-size="12.5" fill="#ececec">about.js</text></g><g transform="translate(402,78)"><rect width="118" height="32" fill="#181818"/><line x1="118" y1="0" x2="118" y2="32" stroke="#2b2b2b"/><text x="14" y="20" class="mono" font-size="9" font-weight="700" fill="#e8c547">JS</text><text x="34" y="21" class="sans" font-size="12.5" fill="#9d9d9d">experience.js</text></g><g transform="translate(520,78)"><rect width="118" height="32" fill="#181818"/><line x1="118" y1="0" x2="118" y2="32" stroke="#2b2b2b"/><text x="14" y="20" class="mono" font-size="9" font-weight="700" fill="#e8c547">JS</text><text x="34" y="21" class="sans" font-size="12.5" fill="#9d9d9d">projects.js</text></g><g transform="translate(638,78)"><rect width="118" height="32" fill="#181818"/><line x1="118" y1="0" x2="118" y2="32" stroke="#2b2b2b"/><text x="14" y="20" class="mono" font-size="9" font-weight="700" fill="#e8c547">JS</text><text x="34" y="21" class="sans" font-size="12.5" fill="#9d9d9d">skills.js</text></g><g transform="translate(756,78)"><rect width="118" height="32" fill="#181818"/><line x1="118" y1="0" x2="118" y2="32" stroke="#2b2b2b"/><text x="14" y="20" class="mono" font-size="9" font-weight="700" fill="#e8c547">JS</text><text x="34" y="21" class="sans" font-size="12.5" fill="#9d9d9d">education.js</text></g><g transform="translate(874,78)"><rect width="118" height="32" fill="#181818"/><line x1="118" y1="0" x2="118" y2="32" stroke="#2b2b2b"/><text x="14" y="20" class="mono" font-size="9" font-weight="700" fill="#e8c547">JS</text><text x="34" y="21" class="sans" font-size="12.5" fill="#9d9d9d">contact.js</text></g>
+  <rect x="284" y="78" width="118" height="2" fill="#0a84ff"/>
+  <line x1="284" y1="110" x2="1160" y2="110" stroke="#2b2b2b"/>
+  <text x="300" y="127" class="sans" font-size="11.5" fill="#9d9d9d">cv-portfolio › src › components › <tspan fill="#cccccc">about.js</tspan></text>
+  <text x="308" y="152" class="mono" font-size="13" fill="#6e7681" text-anchor="end">1</text><text x="330" y="152" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.050;0.060;0.96;1" dur="12.0s" repeatCount="indefinite"/><tspan fill="#6a9955"># About Rudi Parwanto</tspan></text><text x="308" y="172" class="mono" font-size="13" fill="#6e7681" text-anchor="end">2</text><text x="330" y="172" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.077;0.087;0.96;1" dur="12.0s" repeatCount="indefinite"/></text><text x="308" y="192" class="mono" font-size="13" fill="#6e7681" text-anchor="end">3</text><text x="330" y="192" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.103;0.113;0.96;1" dur="12.0s" repeatCount="indefinite"/><tspan fill="#569cd6">const </tspan><tspan fill="#9cdcfe">specialist</tspan><tspan fill="#cccccc"> = {</tspan></text><text x="308" y="212" class="mono" font-size="13" fill="#6e7681" text-anchor="end">4</text><text x="330" y="212" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.130;0.140;0.96;1" dur="12.0s" repeatCount="indefinite"/><tspan fill="#cccccc">  </tspan><tspan fill="#9cdcfe">name</tspan><tspan fill="#cccccc">: </tspan><tspan fill="#ce9178">&quot;Rudi Parwanto&quot;</tspan><tspan fill="#cccccc">,</tspan></text><text x="308" y="232" class="mono" font-size="13" fill="#6e7681" text-anchor="end">5</text><text x="330" y="232" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.157;0.167;0.96;1" dur="12.0s" repeatCount="indefinite"/><tspan fill="#cccccc">  </tspan><tspan fill="#9cdcfe">role</tspan><tspan fill="#cccccc">: </tspan><tspan fill="#ce9178">&quot;E-Commerce Specialist&quot;</tspan><tspan fill="#cccccc">,</tspan></text><text x="308" y="252" class="mono" font-size="13" fill="#6e7681" text-anchor="end">6</text><text x="330" y="252" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.183;0.193;0.96;1" dur="12.0s" repeatCount="indefinite"/><tspan fill="#cccccc">  </tspan><tspan fill="#9cdcfe">location</tspan><tspan fill="#cccccc">: </tspan><tspan fill="#ce9178">&quot;Central Jakarta, Indonesia&quot;</tspan><tspan fill="#cccccc">,</tspan></text><text x="308" y="272" class="mono" font-size="13" fill="#6e7681" text-anchor="end">7</text><text x="330" y="272" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.210;0.220;0.96;1" dur="12.0s" repeatCount="indefinite"/><tspan fill="#cccccc">  </tspan><tspan fill="#9cdcfe">focus</tspan><tspan fill="#cccccc">: </tspan><tspan fill="#ce9178">&quot;Marketplace Growth &amp; Operations&quot;</tspan><tspan fill="#cccccc">,</tspan></text><text x="308" y="292" class="mono" font-size="13" fill="#6e7681" text-anchor="end">8</text><text x="330" y="292" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.237;0.247;0.96;1" dur="12.0s" repeatCount="indefinite"/><tspan fill="#cccccc">  </tspan><tspan fill="#9cdcfe">available</tspan><tspan fill="#cccccc">: </tspan><tspan fill="#569cd6">true</tspan></text><text x="308" y="312" class="mono" font-size="13" fill="#6e7681" text-anchor="end">9</text><text x="330" y="312" class="mono" font-size="13" xml:space="preserve" opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.263;0.273;0.96;1" dur="12.0s" repeatCount="indefinite"/><tspan fill="#cccccc">};</tspan></text>
+  <rect class="blink" width="2" height="16" fill="#aeafad">
+    <animate attributeName="x" values="496;332;489;520;583;653;669;465;348;348" keyTimes="0.050;0.077;0.103;0.130;0.157;0.183;0.210;0.237;0.263;1" dur="12.0s" calcMode="discrete" repeatCount="indefinite"/>
+    <animate attributeName="y" values="139;159;179;199;219;239;259;279;299;299" keyTimes="0.050;0.077;0.103;0.130;0.157;0.183;0.210;0.237;0.263;1" dur="12.0s" calcMode="discrete" repeatCount="indefinite"/>
+  </rect>
+  <!-- minimap -->
+  <g opacity=".55"><rect x="1100" y="142" width="30" height="2" fill="#6a9955"/><rect x="1100" y="147" width="0" height="2" fill="#cccccc"/><rect x="1100" y="152" width="36" height="2" fill="#569cd6"/><rect x="1100" y="157" width="44" height="2" fill="#ce9178"/><rect x="1100" y="162" width="48" height="2" fill="#ce9178"/><rect x="1100" y="167" width="52" height="2" fill="#ce9178"/><rect x="1100" y="172" width="56" height="2" fill="#ce9178"/><rect x="1100" y="177" width="34" height="2" fill="#569cd6"/><rect x="1100" y="182" width="10" height="2" fill="#cccccc"/></g>
+
+  <!-- preview card -->
+  <line x1="284" y1="324" x2="1160" y2="324" stroke="#2b2b2b"/>
+  <text x="300" y="345" class="sans" font-size="11" font-weight="600" fill="#9d9d9d" letter-spacing=".8">PREVIEW</text>
+  <g opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.313;0.323;0.96;1" dur="12.0s" repeatCount="indefinite"/>
+    <rect x="300" y="356" width="560" height="128" rx="12" fill="#252527" stroke="#2b2b2b"/>
+    <text x="320" y="376" class="mono" font-size="11" fill="#6a9955">// Profile</text>
+    <circle cx="366" cy="430" r="39" fill="none" stroke="#0a84ff" stroke-width="2.5"/>
+    <image href="data:image/jpeg;base64,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" x="330" y="394" width="72" height="72" clip-path="url(#av)" preserveAspectRatio="xMidYMid slice"/>
+    <text x="424" y="408" class="sans" font-size="20" font-weight="700" fill="url(#shine)">Rudi Parwanto</text>
+    <text x="424" y="430" class="sans" font-size="13" fill="#9d9d9d">E-Commerce Specialist · Central Jakarta</text>
+    <rect x="424" y="440" width="226" height="22" rx="11" fill="#4ec9b0" fill-opacity=".12" stroke="#4ec9b0" stroke-opacity=".6"/>
+    <circle class="glow" cx="437" cy="451" r="3.5" fill="#4ec9b0"/>
+    <text x="446" y="455" class="sans" font-size="11.5" fill="#4ec9b0">E-Commerce Systems &amp; Automation</text>
+    <rect x="664" y="440" width="96" height="22" rx="6" fill="#0066d6"/>
+    <text x="712" y="455" text-anchor="middle" class="sans" font-size="11" font-weight="700" fill="#fff">⤓ Download CV</text>
+    <rect x="766" y="440" width="80" height="22" rx="6" fill="none" stroke="#3c3c3c"/>
+    <text x="806" y="455" text-anchor="middle" class="sans" font-size="11" font-weight="600" fill="#ececec">Contact Me</text>
+  </g>
+  <g opacity="1"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.338;0.348;0.96;1" dur="12.0s" repeatCount="indefinite"/>
+    <rect x="876" y="356" width="268" height="128" rx="12" fill="#252527" stroke="#2b2b2b"/>
+    <text x="896" y="376" class="mono" font-size="11" fill="#6a9955">// Quick Facts</text>
+    <text x="896" y="402" class="sans" font-size="12" fill="#9d9d9d">Experience</text><text x="1126" y="402" text-anchor="end" class="sans" font-size="12" fill="#ececec">5+ years</text><text x="896" y="423" class="sans" font-size="12" fill="#9d9d9d">Stores</text><text x="1126" y="423" text-anchor="end" class="sans" font-size="12" fill="#ececec">Aneka Foto · Urbanix</text><text x="896" y="444" class="sans" font-size="12" fill="#9d9d9d">Platforms</text><text x="1126" y="444" text-anchor="end" class="sans" font-size="12" fill="#ececec">Shopee · TikTok Shop</text><text x="896" y="465" class="sans" font-size="12" fill="#9d9d9d">Stack</text><text x="1126" y="465" text-anchor="end" class="sans" font-size="12" fill="#ececec">JS · Workers · Django</text>
+  </g>
+
+  <!-- status bar -->
+  <rect x="40" y="516" width="1120" height="24" fill="#181818"/><line x1="40" y1="516" x2="1160" y2="516" stroke="#2b2b2b"/>
+  <rect x="40" y="516" width="34" height="24" fill="#0066d6"/>
+  <text x="57" y="532" text-anchor="middle" class="mono" font-size="11" font-weight="700" fill="#fff">&gt;&lt;</text>
+  <text x="86" y="532" class="sans" font-size="11.5" fill="#9d9d9d" xml:space="preserve">⎇ main     ⊗ 0  ⚠ 0</text>
+  <rect x="868" y="526" width="2.4" height="8" rx="1" fill="#ffffff" class="eq" style="animation-delay:-0.00s"/><rect x="872" y="526" width="2.4" height="8" rx="1" fill="#ffffff" class="eq" style="animation-delay:-0.27s"/><rect x="876" y="526" width="2.4" height="8" rx="1" fill="#ffffff" class="eq" style="animation-delay:-0.54s"/>
+  <text x="884" y="532" class="sans" font-size="11.5" fill="#9d9d9d" xml:space="preserve">Music     Ln 9, Col 3     UTF-8     { } JavaScript</text>
+</g>
+</svg>
